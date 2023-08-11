@@ -1,0 +1,1432 @@
+[
+  {
+    "property": [
+      {
+        "id": "9450fd0c-c98e-4270-872e-13381f8bc1da",
+        "name": "Cozy Cottage",
+        "description": "A charming retreat in the countryside",
+        "location": "New York City",
+        "created_at": "2023-08-10T12:04:34.459Z",
+        "updated_at": "2023-08-10T06:47:17.260Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "16931351-77e9-49b6-975b-1a8f470f23cd",
+        "name": "Modern Loft",
+        "description": "A stylish urban living space",
+        "location": "Los Angeles",
+        "created_at": "2023-08-11T03:07:09.993Z",
+        "updated_at": "2023-08-10T11:03:35.506Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "e80f3fc5-ac3f-4ef0-9834-78683b65ad69",
+        "name": "Spacious Villa",
+        "description": "A luxurious vacation rental",
+        "location": "London",
+        "created_at": "2023-08-10T19:45:32.007Z",
+        "updated_at": "2023-08-10T14:31:16.003Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "6e5ec6ae-db9a-43e2-94e0-4d829593411b",
+        "name": "Rustic Cabin",
+        "description": "A peaceful getaway surrounded by nature",
+        "location": "Paris",
+        "created_at": "2023-08-10T07:44:02.050Z",
+        "updated_at": "2023-08-10T08:08:19.028Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "71631cb3-5905-4b52-a8fb-e855a7f4fb26",
+        "name": "Luxury Penthouse",
+        "description": "An elegant high-rise apartment",
+        "location": "Tokyo",
+        "created_at": "2023-08-10T22:20:40.763Z",
+        "updated_at": "2023-08-10T11:53:48.654Z",
+        "company_id": "main_entity_pk"
+      }
+    ],
+    "booking": [
+      {
+        "id": "4043b187-0f0f-4821-8535-f1ee9fa2f3bd",
+        "start_date": "2023-08-11T00:18:16.975Z",
+        "end_date": "2023-08-10T06:35:33.473Z",
+        "created_at": "2023-08-10T17:07:55.864Z",
+        "updated_at": "2023-08-10T09:48:36.179Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "9450fd0c-c98e-4270-872e-13381f8bc1da"
+      },
+      {
+        "id": "06f9f30c-4563-4cba-81a0-b1042160ed49",
+        "start_date": "2023-08-10T19:14:16.184Z",
+        "end_date": "2023-08-10T13:20:04.942Z",
+        "created_at": "2023-08-10T14:41:05.012Z",
+        "updated_at": "2023-08-10T21:19:42.144Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "9450fd0c-c98e-4270-872e-13381f8bc1da"
+      },
+      {
+        "id": "34bdd4ac-37e0-4000-863e-599aebccab7f",
+        "start_date": "2023-08-10T10:17:23.378Z",
+        "end_date": "2023-08-11T00:07:13.388Z",
+        "created_at": "2023-08-10T08:21:53.779Z",
+        "updated_at": "2023-08-10T21:23:57.927Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "9450fd0c-c98e-4270-872e-13381f8bc1da"
+      },
+      {
+        "id": "6ca7374c-6e42-4caf-8075-ceb0bdb57303",
+        "start_date": "2023-08-11T00:27:31.045Z",
+        "end_date": "2023-08-10T16:10:25.793Z",
+        "created_at": "2023-08-10T23:08:49.361Z",
+        "updated_at": "2023-08-10T08:05:12.412Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "71631cb3-5905-4b52-a8fb-e855a7f4fb26"
+      },
+      {
+        "id": "d5bd2175-e691-4a27-9426-2ef8a8ee4fb3",
+        "start_date": "2023-08-10T06:24:37.711Z",
+        "end_date": "2023-08-10T10:34:06.512Z",
+        "created_at": "2023-08-10T23:09:27.708Z",
+        "updated_at": "2023-08-11T03:33:04.249Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "e80f3fc5-ac3f-4ef0-9834-78683b65ad69"
+      }
+    ],
+    "roqUser": [
+      {
+        "reference": "e773d824-4f12-4087-8084-7509c6ad258a",
+        "email": "Rahul82@hotmail.com",
+        "firstName": "Ezra",
+        "lastName": "Mitchell",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/969.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "8f9a1642-e94d-435a-b9af-50668ca45bab",
+        "email": "Regan_Koepp@gmail.com",
+        "firstName": "Asha",
+        "lastName": "Barrows",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/11516189",
+        "tenantId": null
+      },
+      {
+        "reference": "469ec760-a5c2-49fa-a010-267f855e59d1",
+        "email": "Beryl.Dicki45@hotmail.com",
+        "firstName": "Lauriane",
+        "lastName": "Grady",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1171.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "103bc26c-1d5e-4fc0-b412-85fb2c2f01ba",
+        "email": "Rosalind_Schaefer@yahoo.com",
+        "firstName": "Ephraim",
+        "lastName": "Emmerich",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1185.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "a8df9805-9aa9-49d9-9a79-73afadbdd6e0",
+        "email": "Jackson.Mertz44@hotmail.com",
+        "firstName": "Catharine",
+        "lastName": "Dicki",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/81396850",
+        "tenantId": null
+      }
+    ]
+  },
+  {
+    "property": [
+      {
+        "id": "1feadbea-7d30-48ff-bff4-af2c4d639eac",
+        "name": "Cozy Cottage",
+        "description": "A charming retreat in the countryside",
+        "location": "New York City",
+        "created_at": "2023-08-10T09:19:05.625Z",
+        "updated_at": "2023-08-10T09:45:38.735Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "637a6610-6d30-4fa6-b48c-8e246f044adf",
+        "name": "Modern Condo",
+        "description": "A stylish urban living space",
+        "location": "Los Angeles",
+        "created_at": "2023-08-10T19:58:06.688Z",
+        "updated_at": "2023-08-11T02:14:12.654Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "2dde3e13-7bb6-4937-b016-9ddcdf083856",
+        "name": "Spacious Villa",
+        "description": "A tranquil seaside getaway",
+        "location": "London",
+        "created_at": "2023-08-10T10:29:47.630Z",
+        "updated_at": "2023-08-10T22:23:34.847Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "19b5ad21-b160-48b5-91e3-f4937c3a87b1",
+        "name": "Rustic Cabin",
+        "description": "A cozy mountain hideaway",
+        "location": "Paris",
+        "created_at": "2023-08-10T17:39:46.375Z",
+        "updated_at": "2023-08-10T22:28:43.099Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "fedd4921-748f-4af9-a24c-3b212f311904",
+        "name": "Luxury Mansion",
+        "description": "An opulent residence with breathtaking views",
+        "location": "Tokyo",
+        "created_at": "2023-08-10T15:55:10.012Z",
+        "updated_at": "2023-08-10T22:47:31.417Z",
+        "company_id": "main_entity_pk"
+      }
+    ],
+    "booking": [
+      {
+        "id": "cd6c5b9a-661d-4adf-be76-6f1bfba6af92",
+        "start_date": "2023-08-10T04:57:25.080Z",
+        "end_date": "2023-08-11T00:43:16.789Z",
+        "created_at": "2023-08-10T05:31:38.499Z",
+        "updated_at": "2023-08-11T00:19:09.367Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "1feadbea-7d30-48ff-bff4-af2c4d639eac"
+      },
+      {
+        "id": "52c88806-61ba-453d-ba68-0813b9fdfc66",
+        "start_date": "2023-08-10T07:24:27.607Z",
+        "end_date": "2023-08-10T21:59:15.697Z",
+        "created_at": "2023-08-11T02:53:04.164Z",
+        "updated_at": "2023-08-10T21:47:48.595Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "19b5ad21-b160-48b5-91e3-f4937c3a87b1"
+      },
+      {
+        "id": "17408f05-0f19-4f34-9e91-24dcc47c63f2",
+        "start_date": "2023-08-10T17:46:15.399Z",
+        "end_date": "2023-08-10T17:04:12.453Z",
+        "created_at": "2023-08-10T06:20:22.644Z",
+        "updated_at": "2023-08-11T00:45:43.217Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "637a6610-6d30-4fa6-b48c-8e246f044adf"
+      },
+      {
+        "id": "913002e3-b827-4bdc-a54b-565fc3d51217",
+        "start_date": "2023-08-10T13:35:16.453Z",
+        "end_date": "2023-08-10T12:17:56.325Z",
+        "created_at": "2023-08-10T21:08:18.911Z",
+        "updated_at": "2023-08-10T16:17:32.360Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "1feadbea-7d30-48ff-bff4-af2c4d639eac"
+      },
+      {
+        "id": "7efa7131-2c85-41cb-9dc4-477534b09545",
+        "start_date": "2023-08-10T12:52:45.773Z",
+        "end_date": "2023-08-10T11:23:07.960Z",
+        "created_at": "2023-08-10T23:01:28.096Z",
+        "updated_at": "2023-08-10T03:56:11.323Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "fedd4921-748f-4af9-a24c-3b212f311904"
+      }
+    ],
+    "roqUser": [
+      {
+        "reference": "2ac43606-5c0c-4ea7-9e46-274485a6e4b6",
+        "email": "Nelda.Trantow@hotmail.com",
+        "firstName": "Ernesto",
+        "lastName": "Koepp",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1200.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "138b3390-5cb0-4061-9029-fc92f49cba6f",
+        "email": "Adrianna_Harvey@yahoo.com",
+        "firstName": "Francesco",
+        "lastName": "Nitzsche",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1234.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "95830eec-1544-4686-9e7b-48e332d7b953",
+        "email": "Brett_Vandervort@hotmail.com",
+        "firstName": "Rosa",
+        "lastName": "Osinski",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/436.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "a36a0acc-9b95-4235-a3f5-a75eba036c88",
+        "email": "Zula68@yahoo.com",
+        "firstName": "Dominic",
+        "lastName": "Ankunding",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/59491199",
+        "tenantId": null
+      },
+      {
+        "reference": "eb96d889-3bd4-4c0b-b45e-80672ff253b1",
+        "email": "Leonardo79@gmail.com",
+        "firstName": "Keyshawn",
+        "lastName": "Champlin",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/785.jpg",
+        "tenantId": null
+      }
+    ]
+  },
+  {
+    "property": [
+      {
+        "id": "dbc39111-0639-4342-a292-ad8b23fec352",
+        "name": "Cozy Cottage",
+        "description": "A charming retreat in the countryside",
+        "location": "New York City",
+        "created_at": "2023-08-10T07:51:37.215Z",
+        "updated_at": "2023-08-10T22:35:39.076Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "c2481cab-a281-4c4b-b44f-1dd2f10b5fc4",
+        "name": "Modern Condo",
+        "description": "A stylish urban living space",
+        "location": "Los Angeles",
+        "created_at": "2023-08-10T04:45:52.447Z",
+        "updated_at": "2023-08-10T14:36:12.749Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "af92273a-ab02-405d-ad4a-0aa8495a9553",
+        "name": "Spacious Villa",
+        "description": "A tranquil seaside getaway",
+        "location": "London",
+        "created_at": "2023-08-11T02:59:29.002Z",
+        "updated_at": "2023-08-10T03:44:01.124Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "29938377-51d7-40b4-bd57-5daadb4271e2",
+        "name": "Rustic Cabin",
+        "description": "A cozy mountain hideaway",
+        "location": "Paris",
+        "created_at": "2023-08-11T00:43:19.902Z",
+        "updated_at": "2023-08-10T08:05:30.404Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "14c2c695-c659-4b7d-b467-fd04af42264c",
+        "name": "Luxury Mansion",
+        "description": "An opulent residence with breathtaking views",
+        "location": "Tokyo",
+        "created_at": "2023-08-10T04:53:26.431Z",
+        "updated_at": "2023-08-10T10:47:32.159Z",
+        "company_id": "main_entity_pk"
+      }
+    ],
+    "booking": [
+      {
+        "id": "d81a01ea-f20d-4d2c-a8b7-870f539ac701",
+        "start_date": "2023-08-10T05:48:21.660Z",
+        "end_date": "2023-08-10T17:14:17.849Z",
+        "created_at": "2023-08-11T02:45:41.099Z",
+        "updated_at": "2023-08-11T00:33:08.580Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "29938377-51d7-40b4-bd57-5daadb4271e2"
+      },
+      {
+        "id": "cc4ade26-af58-436f-b3e8-69e78acc4043",
+        "start_date": "2023-08-10T18:51:58.127Z",
+        "end_date": "2023-08-10T10:55:15.335Z",
+        "created_at": "2023-08-11T03:28:23.304Z",
+        "updated_at": "2023-08-10T19:46:40.836Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "c2481cab-a281-4c4b-b44f-1dd2f10b5fc4"
+      },
+      {
+        "id": "dd1f637f-d612-4e78-b70c-86654c810708",
+        "start_date": "2023-08-10T04:04:35.036Z",
+        "end_date": "2023-08-11T03:05:12.545Z",
+        "created_at": "2023-08-11T01:03:20.503Z",
+        "updated_at": "2023-08-10T05:40:05.530Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "af92273a-ab02-405d-ad4a-0aa8495a9553"
+      },
+      {
+        "id": "2609c485-ced2-4b53-9262-c74c8b87deb9",
+        "start_date": "2023-08-10T17:50:50.112Z",
+        "end_date": "2023-08-10T10:58:55.065Z",
+        "created_at": "2023-08-10T09:11:15.138Z",
+        "updated_at": "2023-08-10T12:52:35.638Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "af92273a-ab02-405d-ad4a-0aa8495a9553"
+      },
+      {
+        "id": "70ad9618-0620-4ff5-878d-4a4d8deb7852",
+        "start_date": "2023-08-10T03:57:30.855Z",
+        "end_date": "2023-08-10T15:36:09.505Z",
+        "created_at": "2023-08-10T06:40:49.165Z",
+        "updated_at": "2023-08-10T13:04:20.336Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "29938377-51d7-40b4-bd57-5daadb4271e2"
+      }
+    ],
+    "roqUser": [
+      {
+        "reference": "22adf6eb-1a8d-46e1-b399-318993de9fb1",
+        "email": "Coby_Abbott41@hotmail.com",
+        "firstName": "Sarina",
+        "lastName": "Heathcote",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/737.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "232d6167-8ad2-459a-8083-93dbe9a64f4b",
+        "email": "Luella.Gislason24@yahoo.com",
+        "firstName": "Leopoldo",
+        "lastName": "Braun",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/6188478",
+        "tenantId": null
+      },
+      {
+        "reference": "5fa1a3eb-e1d4-48ef-a319-8ee242e9a70d",
+        "email": "Alia_Sanford63@gmail.com",
+        "firstName": "Greta",
+        "lastName": "Langworth",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1145.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "ab6507c1-1416-4698-800b-3b0842091f8d",
+        "email": "Bruce.Schinner99@hotmail.com",
+        "firstName": "Earl",
+        "lastName": "Windler",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/100.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "beb3d2bc-4f54-4cea-8ff9-376198bb12c0",
+        "email": "Brenden.Kertzmann77@hotmail.com",
+        "firstName": "Edison",
+        "lastName": "Conn",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/4757885",
+        "tenantId": null
+      }
+    ]
+  },
+  {
+    "property": [
+      {
+        "id": "25abaa55-0544-47dd-9373-8788ab0d323a",
+        "name": "Cozy Cottage",
+        "description": "A charming retreat in the countryside",
+        "location": "New York City",
+        "created_at": "2023-08-10T18:20:34.523Z",
+        "updated_at": "2023-08-11T02:49:27.468Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "60ca4b92-57e8-461a-b939-816f9df5d699",
+        "name": "Modern Condo",
+        "description": "A stylish urban living space",
+        "location": "Los Angeles",
+        "created_at": "2023-08-10T07:34:09.037Z",
+        "updated_at": "2023-08-11T01:11:44.402Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "2ad89268-9e06-432c-b529-be265b130aaa",
+        "name": "Spacious Villa",
+        "description": "A tranquil getaway with stunning views",
+        "location": "London",
+        "created_at": "2023-08-10T07:00:44.638Z",
+        "updated_at": "2023-08-11T02:32:11.769Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "3b33683e-8495-44cf-bda6-7bda21cac6a8",
+        "name": "Rustic Cabin",
+        "description": "A cozy hideaway surrounded by nature",
+        "location": "Paris",
+        "created_at": "2023-08-11T01:31:08.170Z",
+        "updated_at": "2023-08-10T07:00:15.835Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "496a1dde-feb0-48ad-80ef-425bfcf07d41",
+        "name": "Luxury Mansion",
+        "description": "An opulent residence with top-notch amenities",
+        "location": "Tokyo",
+        "created_at": "2023-08-10T21:19:51.221Z",
+        "updated_at": "2023-08-10T15:36:34.022Z",
+        "company_id": "main_entity_pk"
+      }
+    ],
+    "booking": [
+      {
+        "id": "6c85ac55-7af5-4bc5-ab02-e836f8ef8801",
+        "start_date": "2023-08-10T08:33:34.930Z",
+        "end_date": "2023-08-10T06:58:10.972Z",
+        "created_at": "2023-08-10T14:15:36.754Z",
+        "updated_at": "2023-08-10T21:33:51.046Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "3b33683e-8495-44cf-bda6-7bda21cac6a8"
+      },
+      {
+        "id": "e3093978-b9ca-4e9f-8363-dc8c4be039f6",
+        "start_date": "2023-08-10T13:26:28.881Z",
+        "end_date": "2023-08-10T19:16:34.639Z",
+        "created_at": "2023-08-10T04:56:17.283Z",
+        "updated_at": "2023-08-10T16:47:00.585Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "25abaa55-0544-47dd-9373-8788ab0d323a"
+      },
+      {
+        "id": "3d988803-449e-4cab-a56f-83d5bef048e2",
+        "start_date": "2023-08-10T17:47:49.751Z",
+        "end_date": "2023-08-10T06:56:41.353Z",
+        "created_at": "2023-08-10T14:29:58.343Z",
+        "updated_at": "2023-08-10T12:23:40.598Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "2ad89268-9e06-432c-b529-be265b130aaa"
+      },
+      {
+        "id": "7a15457d-5359-47d9-996d-bac548682d4a",
+        "start_date": "2023-08-10T09:57:04.190Z",
+        "end_date": "2023-08-10T22:37:21.251Z",
+        "created_at": "2023-08-10T17:25:19.239Z",
+        "updated_at": "2023-08-10T15:07:23.295Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "2ad89268-9e06-432c-b529-be265b130aaa"
+      },
+      {
+        "id": "6f04e663-732c-435d-a0ee-2e2429a5748d",
+        "start_date": "2023-08-11T03:09:30.476Z",
+        "end_date": "2023-08-10T23:11:03.652Z",
+        "created_at": "2023-08-10T19:26:37.688Z",
+        "updated_at": "2023-08-10T21:33:13.172Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "3b33683e-8495-44cf-bda6-7bda21cac6a8"
+      }
+    ],
+    "roqUser": [
+      {
+        "reference": "b50d4723-74bd-4ddb-b6ce-0d485401cedd",
+        "email": "Zoie_Baumbach14@gmail.com",
+        "firstName": "Keith",
+        "lastName": "McClure",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/65895962",
+        "tenantId": null
+      },
+      {
+        "reference": "b8b0f368-971a-4834-8718-12bc48d670fb",
+        "email": "Melisa90@yahoo.com",
+        "firstName": "Robb",
+        "lastName": "Bergnaum",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/56590482",
+        "tenantId": null
+      },
+      {
+        "reference": "eed9420c-daee-4731-9b85-d130e0df2765",
+        "email": "Jocelyn84@hotmail.com",
+        "firstName": "Brown",
+        "lastName": "Schiller",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/18148491",
+        "tenantId": null
+      },
+      {
+        "reference": "9fcd2f93-7099-4488-ba04-25967e92f314",
+        "email": "Tess_Kling24@yahoo.com",
+        "firstName": "Benedict",
+        "lastName": "Ankunding",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/11669377",
+        "tenantId": null
+      },
+      {
+        "reference": "d503fb26-8f97-4f8d-a7d6-0fb4bb860f3b",
+        "email": "Max38@hotmail.com",
+        "firstName": "Laney",
+        "lastName": "Hickle",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/83036152",
+        "tenantId": null
+      }
+    ]
+  },
+  {
+    "property": [
+      {
+        "id": "e5a01920-121c-4bb7-a50d-f3046bb4632f",
+        "name": "Cozy Cottage",
+        "description": "A charming retreat in the countryside",
+        "location": "New York City",
+        "created_at": "2023-08-10T22:12:53.330Z",
+        "updated_at": "2023-08-10T09:50:38.341Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "f2dfc78d-87a4-4965-8814-ebd9c10bf868",
+        "name": "Modern Loft",
+        "description": "A stylish urban living space",
+        "location": "Los Angeles",
+        "created_at": "2023-08-10T11:34:01.776Z",
+        "updated_at": "2023-08-10T21:50:18.233Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "76414bf3-ea84-471a-a963-c6daeeb7a4e6",
+        "name": "Spacious Villa",
+        "description": "A luxurious vacation rental",
+        "location": "London",
+        "created_at": "2023-08-10T12:11:38.969Z",
+        "updated_at": "2023-08-10T16:22:13.906Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "cf51966a-1cc4-4629-9295-4b1d396a282e",
+        "name": "Rustic Cabin",
+        "description": "A cozy hideaway in the mountains",
+        "location": "Paris",
+        "created_at": "2023-08-10T14:36:53.780Z",
+        "updated_at": "2023-08-10T16:30:51.894Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "d4f0a5f8-1e95-46c3-b138-e5475c486ad3",
+        "name": "Luxury Penthouse",
+        "description": "An elegant high-rise apartment",
+        "location": "Tokyo",
+        "created_at": "2023-08-10T04:21:58.776Z",
+        "updated_at": "2023-08-10T19:04:42.643Z",
+        "company_id": "main_entity_pk"
+      }
+    ],
+    "booking": [
+      {
+        "id": "d717d22f-6daf-416b-a939-299abd4f47db",
+        "start_date": "2023-08-10T10:58:00.764Z",
+        "end_date": "2023-08-10T04:46:19.006Z",
+        "created_at": "2023-08-11T00:44:09.541Z",
+        "updated_at": "2023-08-10T04:03:59.700Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "e5a01920-121c-4bb7-a50d-f3046bb4632f"
+      },
+      {
+        "id": "c82900e6-0c6f-46b1-8eb5-f85f8c362c68",
+        "start_date": "2023-08-10T19:36:18.345Z",
+        "end_date": "2023-08-11T01:04:05.879Z",
+        "created_at": "2023-08-10T15:36:20.352Z",
+        "updated_at": "2023-08-10T11:51:20.441Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "cf51966a-1cc4-4629-9295-4b1d396a282e"
+      },
+      {
+        "id": "bd172d4f-1c37-490a-b6ad-b82325368052",
+        "start_date": "2023-08-10T05:32:07.452Z",
+        "end_date": "2023-08-10T18:46:34.861Z",
+        "created_at": "2023-08-10T20:49:41.315Z",
+        "updated_at": "2023-08-10T08:47:46.005Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "d4f0a5f8-1e95-46c3-b138-e5475c486ad3"
+      },
+      {
+        "id": "c13ad41b-3f5a-4661-89d1-d2301c8f3c5e",
+        "start_date": "2023-08-10T14:46:43.690Z",
+        "end_date": "2023-08-10T18:00:34.081Z",
+        "created_at": "2023-08-10T17:46:33.247Z",
+        "updated_at": "2023-08-10T17:47:10.402Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "cf51966a-1cc4-4629-9295-4b1d396a282e"
+      },
+      {
+        "id": "8734c0e6-c1c6-4e4f-ad1c-518520ee7de3",
+        "start_date": "2023-08-10T22:05:32.473Z",
+        "end_date": "2023-08-10T15:48:20.158Z",
+        "created_at": "2023-08-10T23:55:32.677Z",
+        "updated_at": "2023-08-10T05:05:32.160Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "cf51966a-1cc4-4629-9295-4b1d396a282e"
+      }
+    ],
+    "roqUser": [
+      {
+        "reference": "1bcd46b9-d438-4ab8-ae2a-711b5dc32492",
+        "email": "Gwendolyn_Gorczany73@yahoo.com",
+        "firstName": "Valerie",
+        "lastName": "Haag",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/95905642",
+        "tenantId": null
+      },
+      {
+        "reference": "bd136396-70b9-42ad-a96d-ac2b55639e9e",
+        "email": "Bulah44@hotmail.com",
+        "firstName": "Florence",
+        "lastName": "Murazik",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1220.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "792ae6f2-4844-4ed7-bf31-581c079058af",
+        "email": "Stevie64@hotmail.com",
+        "firstName": "Kristoffer",
+        "lastName": "Douglas",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/36282527",
+        "tenantId": null
+      },
+      {
+        "reference": "29ca03dc-e423-46a2-92a4-8a810acd5ae7",
+        "email": "Anahi_Williamson15@yahoo.com",
+        "firstName": "Hailie",
+        "lastName": "Johns",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/49501012",
+        "tenantId": null
+      },
+      {
+        "reference": "0225e0f4-b1f4-4ef2-9a3a-92185c356ca9",
+        "email": "Hector.Cronin36@gmail.com",
+        "firstName": "Pete",
+        "lastName": "Spinka",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/46904027",
+        "tenantId": null
+      }
+    ]
+  },
+  {
+    "property": [
+      {
+        "id": "e855d9d1-f97e-4138-9834-9be60ecb253a",
+        "name": "Cozy Cottage",
+        "description": "A charming retreat in the countryside",
+        "location": "New York City",
+        "created_at": "2023-08-10T04:10:57.478Z",
+        "updated_at": "2023-08-10T12:01:33.613Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "2b834c47-cc81-43e5-9a11-4b62003a6ace",
+        "name": "Modern Condo",
+        "description": "A stylish urban living space",
+        "location": "Los Angeles",
+        "created_at": "2023-08-10T08:48:28.074Z",
+        "updated_at": "2023-08-10T05:10:05.416Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "c68aefc4-9400-410c-b4ed-27bbcab72837",
+        "name": "Spacious Villa",
+        "description": "A tranquil seaside getaway",
+        "location": "London",
+        "created_at": "2023-08-10T15:27:16.186Z",
+        "updated_at": "2023-08-10T08:23:35.617Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "fbaae8d5-6a24-4946-a431-deb92758fc94",
+        "name": "Rustic Cabin",
+        "description": "A cozy mountain hideaway",
+        "location": "Paris",
+        "created_at": "2023-08-10T14:15:43.064Z",
+        "updated_at": "2023-08-11T00:41:33.752Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "d83fb7de-ccc0-4ca5-bc01-c7ebde27b684",
+        "name": "Luxury Mansion",
+        "description": "An opulent residence with breathtaking views",
+        "location": "Tokyo",
+        "created_at": "2023-08-10T12:24:09.712Z",
+        "updated_at": "2023-08-10T20:36:24.711Z",
+        "company_id": "main_entity_pk"
+      }
+    ],
+    "booking": [
+      {
+        "id": "d89001ec-b1c9-47cc-90a2-32a1125ce2b4",
+        "start_date": "2023-08-10T19:06:09.609Z",
+        "end_date": "2023-08-10T08:32:36.778Z",
+        "created_at": "2023-08-10T15:22:54.955Z",
+        "updated_at": "2023-08-11T01:37:40.286Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "2b834c47-cc81-43e5-9a11-4b62003a6ace"
+      },
+      {
+        "id": "028974db-2767-4cbc-ab4c-8a274d38db6a",
+        "start_date": "2023-08-10T11:57:42.963Z",
+        "end_date": "2023-08-10T10:03:45.592Z",
+        "created_at": "2023-08-10T06:53:43.790Z",
+        "updated_at": "2023-08-11T02:59:50.596Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "2b834c47-cc81-43e5-9a11-4b62003a6ace"
+      },
+      {
+        "id": "9225b90a-1beb-4129-95aa-75974e665a51",
+        "start_date": "2023-08-10T06:22:02.823Z",
+        "end_date": "2023-08-10T11:35:16.448Z",
+        "created_at": "2023-08-10T03:43:24.030Z",
+        "updated_at": "2023-08-10T21:39:23.037Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "fbaae8d5-6a24-4946-a431-deb92758fc94"
+      },
+      {
+        "id": "859c1c6c-7e73-44fb-aeb1-b4c5b68942d0",
+        "start_date": "2023-08-10T12:33:38.709Z",
+        "end_date": "2023-08-11T01:12:55.803Z",
+        "created_at": "2023-08-10T12:51:47.092Z",
+        "updated_at": "2023-08-10T10:38:25.568Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "c68aefc4-9400-410c-b4ed-27bbcab72837"
+      },
+      {
+        "id": "73a1e1b2-f949-495f-9ef9-a5879aef31a5",
+        "start_date": "2023-08-10T21:13:21.661Z",
+        "end_date": "2023-08-10T18:46:08.215Z",
+        "created_at": "2023-08-10T11:09:15.570Z",
+        "updated_at": "2023-08-10T04:13:44.295Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "e855d9d1-f97e-4138-9834-9be60ecb253a"
+      }
+    ],
+    "roqUser": [
+      {
+        "reference": "2066ac1b-7bcc-4c31-9910-9d631c1b0ab3",
+        "email": "Cora.Raynor@gmail.com",
+        "firstName": "Marcelle",
+        "lastName": "Pouros",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/20782415",
+        "tenantId": null
+      },
+      {
+        "reference": "a8ee70b9-54ed-4af3-ab68-7ec967e64733",
+        "email": "Roy_Daugherty23@yahoo.com",
+        "firstName": "Delbert",
+        "lastName": "Bergstrom",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/97686037",
+        "tenantId": null
+      },
+      {
+        "reference": "18f049c9-7996-4145-a261-e9067ddaf193",
+        "email": "Jordyn_Nikolaus@yahoo.com",
+        "firstName": "Loy",
+        "lastName": "Okuneva",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/50060323",
+        "tenantId": null
+      },
+      {
+        "reference": "cef7fa33-41f9-436e-bdfe-1ce42dec843a",
+        "email": "Felicia_Braun77@yahoo.com",
+        "firstName": "Therese",
+        "lastName": "Bergstrom",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/580.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "37a8ee05-310f-47a2-904e-cf0dac7e741c",
+        "email": "Noelia_Kihn@gmail.com",
+        "firstName": "Janet",
+        "lastName": "Dach",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/37.jpg",
+        "tenantId": null
+      }
+    ]
+  },
+  {
+    "property": [
+      {
+        "id": "379f428c-5a0f-42b2-99bf-28e4f3eb9a31",
+        "name": "Cozy Cottage",
+        "description": "A charming retreat in the countryside",
+        "location": "New York City",
+        "created_at": "2023-08-10T06:28:19.183Z",
+        "updated_at": "2023-08-10T06:47:42.041Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "605b178b-dff8-4d3a-a6e3-58ddc8736e12",
+        "name": "Modern Condo",
+        "description": "A stylish urban living space",
+        "location": "Los Angeles",
+        "created_at": "2023-08-10T22:37:22.681Z",
+        "updated_at": "2023-08-10T20:00:46.222Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "7a696f78-74b1-41b1-a534-5dbcac330a31",
+        "name": "Spacious Villa",
+        "description": "A tranquil seaside getaway",
+        "location": "London",
+        "created_at": "2023-08-10T16:14:38.151Z",
+        "updated_at": "2023-08-10T06:22:06.620Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "ffe59244-9582-4a9e-8aeb-bce56bad917d",
+        "name": "Rustic Cabin",
+        "description": "A cozy mountain hideaway",
+        "location": "Paris",
+        "created_at": "2023-08-11T02:09:51.733Z",
+        "updated_at": "2023-08-10T23:49:32.169Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "4616db0f-6e37-4f09-b93c-ff14ea7d7624",
+        "name": "Luxury Mansion",
+        "description": "An opulent residence with breathtaking views",
+        "location": "Tokyo",
+        "created_at": "2023-08-10T10:46:30.961Z",
+        "updated_at": "2023-08-11T02:08:15.210Z",
+        "company_id": "main_entity_pk"
+      }
+    ],
+    "booking": [
+      {
+        "id": "0e864684-2893-41fe-9084-661df407dc73",
+        "start_date": "2023-08-10T06:12:28.048Z",
+        "end_date": "2023-08-10T13:49:30.879Z",
+        "created_at": "2023-08-11T02:11:18.538Z",
+        "updated_at": "2023-08-10T11:23:22.129Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "605b178b-dff8-4d3a-a6e3-58ddc8736e12"
+      },
+      {
+        "id": "43933066-032d-4fa7-8971-ab6604711a8a",
+        "start_date": "2023-08-10T22:56:41.220Z",
+        "end_date": "2023-08-10T12:28:23.651Z",
+        "created_at": "2023-08-10T12:12:53.280Z",
+        "updated_at": "2023-08-10T18:29:29.696Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "4616db0f-6e37-4f09-b93c-ff14ea7d7624"
+      },
+      {
+        "id": "1f45d67b-6c6a-4545-b3dc-be596ea25b42",
+        "start_date": "2023-08-11T03:40:45.640Z",
+        "end_date": "2023-08-10T09:46:42.722Z",
+        "created_at": "2023-08-10T23:43:49.460Z",
+        "updated_at": "2023-08-10T14:06:02.693Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "4616db0f-6e37-4f09-b93c-ff14ea7d7624"
+      },
+      {
+        "id": "8fc613d4-0d0a-41e4-9114-90b5d24a5d2d",
+        "start_date": "2023-08-10T08:07:53.684Z",
+        "end_date": "2023-08-10T13:03:00.793Z",
+        "created_at": "2023-08-10T19:42:39.513Z",
+        "updated_at": "2023-08-11T02:31:44.655Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "ffe59244-9582-4a9e-8aeb-bce56bad917d"
+      },
+      {
+        "id": "bb1f5e6d-94ad-4b86-b24a-1700a1f55fa8",
+        "start_date": "2023-08-10T07:12:57.613Z",
+        "end_date": "2023-08-10T05:42:05.628Z",
+        "created_at": "2023-08-11T00:20:44.770Z",
+        "updated_at": "2023-08-10T14:38:27.600Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "379f428c-5a0f-42b2-99bf-28e4f3eb9a31"
+      }
+    ],
+    "roqUser": [
+      {
+        "reference": "2f5a76dd-859c-4c58-a387-798e7911bf13",
+        "email": "Hazel_Corkery@hotmail.com",
+        "firstName": "Gregory",
+        "lastName": "Lehner",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/507.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "54617e85-0417-42e4-a8c2-42f39b151150",
+        "email": "Francisco_OKon81@hotmail.com",
+        "firstName": "Katharina",
+        "lastName": "Wuckert",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/60133452",
+        "tenantId": null
+      },
+      {
+        "reference": "618d5904-b107-405c-bf83-8064c5784d34",
+        "email": "Harley.Hodkiewicz@gmail.com",
+        "firstName": "Lindsey",
+        "lastName": "Stamm",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/56823075",
+        "tenantId": null
+      },
+      {
+        "reference": "512efe30-f380-4678-b36c-271acc328ed3",
+        "email": "Herta.Ratke@gmail.com",
+        "firstName": "Savannah",
+        "lastName": "Doyle",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/190.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "6c25540e-165c-4ed0-ab61-3b2ca53ea05d",
+        "email": "Alford10@yahoo.com",
+        "firstName": "Larue",
+        "lastName": "Kuhic",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/52734471",
+        "tenantId": null
+      }
+    ]
+  },
+  {
+    "property": [
+      {
+        "id": "cb560e81-8584-45db-9bc7-58f2e3f4a293",
+        "name": "Cozy Cottage",
+        "description": "A charming retreat in the countryside",
+        "location": "New York City",
+        "created_at": "2023-08-10T10:14:41.830Z",
+        "updated_at": "2023-08-10T04:44:34.240Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "334e958b-fa3e-468c-9fc2-7b381f3548d4",
+        "name": "Modern Loft",
+        "description": "A stylish urban living space",
+        "location": "Los Angeles",
+        "created_at": "2023-08-10T08:48:27.814Z",
+        "updated_at": "2023-08-10T17:05:17.911Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "f5bd8275-5268-49ce-bea8-5acbcfac5e0a",
+        "name": "Spacious Villa",
+        "description": "A luxurious vacation rental",
+        "location": "London",
+        "created_at": "2023-08-10T14:04:56.209Z",
+        "updated_at": "2023-08-10T15:09:01.763Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "5ebc769e-0fe9-4034-832f-25446fbdd22f",
+        "name": "Rustic Cabin",
+        "description": "A cozy hideaway in the mountains",
+        "location": "Paris",
+        "created_at": "2023-08-10T23:00:04.933Z",
+        "updated_at": "2023-08-11T01:31:41.867Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "dc2521d2-23f3-4074-862f-def1071eda4f",
+        "name": "Luxury Penthouse",
+        "description": "An elegant high-rise apartment",
+        "location": "Tokyo",
+        "created_at": "2023-08-10T15:41:59.906Z",
+        "updated_at": "2023-08-10T17:19:38.041Z",
+        "company_id": "main_entity_pk"
+      }
+    ],
+    "booking": [
+      {
+        "id": "220f5a1a-e628-4a2d-8854-3812f97b275a",
+        "start_date": "2023-08-10T19:03:34.805Z",
+        "end_date": "2023-08-10T17:57:20.978Z",
+        "created_at": "2023-08-10T07:49:06.477Z",
+        "updated_at": "2023-08-10T10:46:05.534Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "dc2521d2-23f3-4074-862f-def1071eda4f"
+      },
+      {
+        "id": "143e3a51-2e96-4fbb-8f2f-78d63fd69613",
+        "start_date": "2023-08-10T21:12:59.465Z",
+        "end_date": "2023-08-10T14:34:53.892Z",
+        "created_at": "2023-08-10T09:33:13.376Z",
+        "updated_at": "2023-08-11T01:03:42.239Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "334e958b-fa3e-468c-9fc2-7b381f3548d4"
+      },
+      {
+        "id": "0eedf8f1-2c59-4e6a-8b51-a6bb790245af",
+        "start_date": "2023-08-10T05:48:31.396Z",
+        "end_date": "2023-08-10T08:33:16.243Z",
+        "created_at": "2023-08-10T14:08:04.426Z",
+        "updated_at": "2023-08-11T03:26:36.791Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "f5bd8275-5268-49ce-bea8-5acbcfac5e0a"
+      },
+      {
+        "id": "821ee10f-58c4-4890-9bc2-b350ad337b2f",
+        "start_date": "2023-08-10T15:14:54.641Z",
+        "end_date": "2023-08-10T15:23:28.691Z",
+        "created_at": "2023-08-10T05:26:15.954Z",
+        "updated_at": "2023-08-10T14:23:39.176Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "5ebc769e-0fe9-4034-832f-25446fbdd22f"
+      },
+      {
+        "id": "e5a61777-7bb7-41f3-a27d-dca68e0906f9",
+        "start_date": "2023-08-10T13:26:19.447Z",
+        "end_date": "2023-08-11T02:04:58.484Z",
+        "created_at": "2023-08-10T16:01:31.660Z",
+        "updated_at": "2023-08-10T14:16:08.790Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "5ebc769e-0fe9-4034-832f-25446fbdd22f"
+      }
+    ],
+    "roqUser": [
+      {
+        "reference": "43bc9bbb-0275-4cc8-b4b1-940a0f48dce6",
+        "email": "Mekhi73@gmail.com",
+        "firstName": "Aurelio",
+        "lastName": "Powlowski",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/727.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "ca857b70-4bd5-4542-8470-34315b5f9e99",
+        "email": "Kendra.Batz77@hotmail.com",
+        "firstName": "Karolann",
+        "lastName": "Wisoky",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/93051346",
+        "tenantId": null
+      },
+      {
+        "reference": "82430965-bfae-47ac-b238-f4a45ad69fa5",
+        "email": "Marcelle2@hotmail.com",
+        "firstName": "Mozelle",
+        "lastName": "Metz",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/70137920",
+        "tenantId": null
+      },
+      {
+        "reference": "824113bc-cebb-458f-b7e4-4b372b80585a",
+        "email": "Santiago63@yahoo.com",
+        "firstName": "Johnathan",
+        "lastName": "Hoeger",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/742.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "721fbf2b-284c-4ff1-9005-7b0f55c0b30e",
+        "email": "Sage.Rice67@hotmail.com",
+        "firstName": "Trey",
+        "lastName": "Rohan-Murazik",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/114.jpg",
+        "tenantId": null
+      }
+    ]
+  },
+  {
+    "property": [
+      {
+        "id": "aee4e309-8fce-4791-9ed8-1dbde2b73eb9",
+        "name": "Cozy Cottage",
+        "description": "A charming retreat in the countryside",
+        "location": "New York City",
+        "created_at": "2023-08-10T06:07:36.348Z",
+        "updated_at": "2023-08-10T20:41:08.605Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "4beb036b-6ad2-4b4a-8388-0446b5270123",
+        "name": "Modern Condo",
+        "description": "A stylish urban living space",
+        "location": "Los Angeles",
+        "created_at": "2023-08-10T10:59:36.843Z",
+        "updated_at": "2023-08-10T07:08:18.446Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "754ea2ba-2837-4141-b271-cc35aa2f9700",
+        "name": "Spacious Villa",
+        "description": "A tranquil seaside getaway",
+        "location": "London",
+        "created_at": "2023-08-10T17:41:37.664Z",
+        "updated_at": "2023-08-10T17:02:49.651Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "0f599d00-1ce1-4490-b161-2e8365507196",
+        "name": "Rustic Cabin",
+        "description": "A cozy mountain hideaway",
+        "location": "Paris",
+        "created_at": "2023-08-11T02:32:58.617Z",
+        "updated_at": "2023-08-10T06:45:53.606Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "0dd76d43-3806-4eb2-9573-978441276764",
+        "name": "Luxury Mansion",
+        "description": "An opulent residence with breathtaking views",
+        "location": "Tokyo",
+        "created_at": "2023-08-10T23:28:28.688Z",
+        "updated_at": "2023-08-10T06:52:05.613Z",
+        "company_id": "main_entity_pk"
+      }
+    ],
+    "booking": [
+      {
+        "id": "7187f484-ad0e-4d67-95e8-b7bf977373ff",
+        "start_date": "2023-08-10T08:18:13.772Z",
+        "end_date": "2023-08-10T17:13:23.202Z",
+        "created_at": "2023-08-10T10:20:16.713Z",
+        "updated_at": "2023-08-10T10:19:59.986Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "0dd76d43-3806-4eb2-9573-978441276764"
+      },
+      {
+        "id": "1625331e-cf46-43e7-9aad-d60b929f0378",
+        "start_date": "2023-08-10T17:35:32.437Z",
+        "end_date": "2023-08-10T15:10:45.815Z",
+        "created_at": "2023-08-10T13:06:15.141Z",
+        "updated_at": "2023-08-10T22:41:31.510Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "0dd76d43-3806-4eb2-9573-978441276764"
+      },
+      {
+        "id": "c848ae0c-9b5f-45d8-b14e-091ff78d19bf",
+        "start_date": "2023-08-10T16:47:20.258Z",
+        "end_date": "2023-08-10T21:33:47.881Z",
+        "created_at": "2023-08-10T20:53:53.395Z",
+        "updated_at": "2023-08-10T19:38:03.243Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "0f599d00-1ce1-4490-b161-2e8365507196"
+      },
+      {
+        "id": "2ab16bc9-875d-484d-8208-a4db47d5cd7b",
+        "start_date": "2023-08-10T12:35:51.547Z",
+        "end_date": "2023-08-10T14:21:13.287Z",
+        "created_at": "2023-08-10T17:49:09.568Z",
+        "updated_at": "2023-08-10T23:22:46.122Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "754ea2ba-2837-4141-b271-cc35aa2f9700"
+      },
+      {
+        "id": "c71d4ac4-3914-4b8e-88d5-3d65126eb05b",
+        "start_date": "2023-08-10T13:09:26.130Z",
+        "end_date": "2023-08-10T14:33:11.742Z",
+        "created_at": "2023-08-10T22:34:15.429Z",
+        "updated_at": "2023-08-10T05:56:05.732Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "4beb036b-6ad2-4b4a-8388-0446b5270123"
+      }
+    ],
+    "roqUser": [
+      {
+        "reference": "6ec231a8-4f37-4db5-819f-95cee68a42f7",
+        "email": "Dimitri_Morar40@hotmail.com",
+        "firstName": "Theodora",
+        "lastName": "Flatley",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/720.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "f03ad928-c2e8-4290-bf20-3abb6b82390e",
+        "email": "Nora.Beier@yahoo.com",
+        "firstName": "Lavinia",
+        "lastName": "Mertz",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/84681633",
+        "tenantId": null
+      },
+      {
+        "reference": "f60263e9-ae0c-45ca-aae9-5454f8d27ecf",
+        "email": "Gerald.Quitzon@gmail.com",
+        "firstName": "Loy",
+        "lastName": "Marquardt",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/99174065",
+        "tenantId": null
+      },
+      {
+        "reference": "efdfd005-c705-47be-9421-d1bf511c0657",
+        "email": "Arvid16@yahoo.com",
+        "firstName": "Alison",
+        "lastName": "Wiegand",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/81920028",
+        "tenantId": null
+      },
+      {
+        "reference": "c4b3bf5b-cc9a-4254-b6f6-1669fea85dc5",
+        "email": "Nicolas68@yahoo.com",
+        "firstName": "Lexie",
+        "lastName": "Rice",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/881.jpg",
+        "tenantId": null
+      }
+    ]
+  },
+  {
+    "property": [
+      {
+        "id": "49b69085-f1c8-4029-bb2f-3de5e0e163a4",
+        "name": "Cozy Cottage",
+        "description": "A charming retreat in the countryside",
+        "location": "New York City",
+        "created_at": "2023-08-10T15:16:54.467Z",
+        "updated_at": "2023-08-11T02:37:13.466Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "09ba0a4a-9251-45fa-81b0-17c645ff9bc5",
+        "name": "Modern Condo",
+        "description": "A stylish urban living space",
+        "location": "Los Angeles",
+        "created_at": "2023-08-10T12:02:48.784Z",
+        "updated_at": "2023-08-11T02:14:40.652Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "a9786d4a-3ebe-4e4e-a3bf-f0a7e035e439",
+        "name": "Spacious Villa",
+        "description": "A tranquil getaway with stunning views",
+        "location": "London",
+        "created_at": "2023-08-10T21:28:52.740Z",
+        "updated_at": "2023-08-10T11:05:56.311Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "bacf9755-6393-4cbe-bce5-085123d55f3f",
+        "name": "Rustic Cabin",
+        "description": "A cozy hideaway surrounded by nature",
+        "location": "Paris",
+        "created_at": "2023-08-10T05:11:47.115Z",
+        "updated_at": "2023-08-10T08:57:22.668Z",
+        "company_id": "main_entity_pk"
+      },
+      {
+        "id": "fd1d9b8a-8a74-43dc-ae9e-5baeff887570",
+        "name": "Luxury Mansion",
+        "description": "An opulent residence fit for royalty",
+        "location": "Tokyo",
+        "created_at": "2023-08-11T02:05:18.646Z",
+        "updated_at": "2023-08-10T21:36:47.931Z",
+        "company_id": "main_entity_pk"
+      }
+    ],
+    "booking": [
+      {
+        "id": "bf1dcfd5-8bbb-48bf-ab3c-53d71d138e55",
+        "start_date": "2023-08-10T23:29:16.525Z",
+        "end_date": "2023-08-10T12:26:59.750Z",
+        "created_at": "2023-08-10T22:03:39.333Z",
+        "updated_at": "2023-08-10T16:23:11.003Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "09ba0a4a-9251-45fa-81b0-17c645ff9bc5"
+      },
+      {
+        "id": "8e4be365-71c2-4913-b6ab-a557abecfdbc",
+        "start_date": "2023-08-10T15:55:49.171Z",
+        "end_date": "2023-08-10T17:16:57.125Z",
+        "created_at": "2023-08-10T17:19:54.192Z",
+        "updated_at": "2023-08-10T04:40:26.348Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "09ba0a4a-9251-45fa-81b0-17c645ff9bc5"
+      },
+      {
+        "id": "cf637b99-e48b-46de-b058-67230739eb87",
+        "start_date": "2023-08-10T15:39:00.604Z",
+        "end_date": "2023-08-10T10:48:36.794Z",
+        "created_at": "2023-08-10T12:01:54.738Z",
+        "updated_at": "2023-08-11T03:15:17.923Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "49b69085-f1c8-4029-bb2f-3de5e0e163a4"
+      },
+      {
+        "id": "77b64a80-d319-4b62-8f47-41b136c21a1e",
+        "start_date": "2023-08-10T16:03:53.600Z",
+        "end_date": "2023-08-10T08:10:46.492Z",
+        "created_at": "2023-08-11T02:52:04.271Z",
+        "updated_at": "2023-08-10T10:10:07.201Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "49b69085-f1c8-4029-bb2f-3de5e0e163a4"
+      },
+      {
+        "id": "be417b53-655c-4e49-a553-29c61ce079ba",
+        "start_date": "2023-08-10T15:01:59.860Z",
+        "end_date": "2023-08-10T03:43:09.078Z",
+        "created_at": "2023-08-10T03:56:19.127Z",
+        "updated_at": "2023-08-11T00:30:56.020Z",
+        "guest_id": "user_entity_pk",
+        "property_id": "fd1d9b8a-8a74-43dc-ae9e-5baeff887570"
+      }
+    ],
+    "roqUser": [
+      {
+        "reference": "398f04f4-da09-461e-9b2a-bfef68fe6abf",
+        "email": "Nathan37@gmail.com",
+        "firstName": "Celestino",
+        "lastName": "Quitzon",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/1736635",
+        "tenantId": null
+      },
+      {
+        "reference": "2982d1bb-3f20-46da-850a-991c5055b6fd",
+        "email": "Era_Rau57@yahoo.com",
+        "firstName": "Angus",
+        "lastName": "Tromp",
+        "active": true,
+        "avatarUrl": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/451.jpg",
+        "tenantId": null
+      },
+      {
+        "reference": "45a3816f-139f-4174-93f4-a1194f6abb59",
+        "email": "Donnie_Will28@hotmail.com",
+        "firstName": "Jettie",
+        "lastName": "McKenzie",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/21194803",
+        "tenantId": null
+      },
+      {
+        "reference": "7754177c-fa3f-485b-b3c8-3eeef6236fc4",
+        "email": "Eloy50@yahoo.com",
+        "firstName": "Frances",
+        "lastName": "Bins",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/80416584",
+        "tenantId": null
+      },
+      {
+        "reference": "a9f9e86d-e978-49eb-9e00-68bd31d452f8",
+        "email": "Griffin_Schmidt@gmail.com",
+        "firstName": "Garnet",
+        "lastName": "Veum",
+        "active": true,
+        "avatarUrl": "https://avatars.githubusercontent.com/u/3214520",
+        "tenantId": null
+      }
+    ]
+  }
+]
