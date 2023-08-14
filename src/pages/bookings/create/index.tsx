@@ -9,45 +9,54 @@ import {
   FormErrorMessage,
   Switch,
   Flex,
-} from '@chakra-ui/react';
-import Breadcrumbs from 'components/breadcrumb';
-import DatePicker from 'components/date-picker';
-import { Error } from 'components/error';
-import { FormWrapper } from 'components/form-wrapper';
-import { NumberInput } from 'components/number-input';
-import { SelectInput } from 'components/select-input';
-import { AsyncSelect } from 'components/async-select';
-import { TextInput } from 'components/text-input';
-import AppLayout from 'layout/app-layout';
-import { FormikHelpers, useFormik } from 'formik';
-import { useRouter } from 'next/router';
-import { FunctionComponent, useState } from 'react';
-import * as yup from 'yup';
-import { AccessOperationEnum, AccessServiceEnum, requireNextAuth, withAuthorization } from '@roq/nextjs';
-import { compose } from 'lib/compose';
+} from "@chakra-ui/react";
+import Breadcrumbs from "components/breadcrumb";
+import DatePicker from "components/date-picker";
+import { Error } from "components/error";
+import { FormWrapper } from "components/form-wrapper";
+import { NumberInput } from "components/number-input";
+import { SelectInput } from "components/select-input";
+import { AsyncSelect } from "components/async-select";
+import { TextInput } from "components/text-input";
+import AppLayout from "layout/app-layout";
+import { FormikHelpers, useFormik } from "formik";
+import { useRouter } from "next/router";
+import { FunctionComponent, useState } from "react";
+import * as yup from "yup";
+import {
+  AccessOperationEnum,
+  AccessServiceEnum,
+  requireNextAuth,
+  withAuthorization,
+} from "@roq/nextjs";
+import { compose } from "lib/compose";
 
-import { createBooking } from 'apiSdk/bookings';
-import { bookingValidationSchema } from 'validationSchema/bookings';
-import { UserInterface } from 'interfaces/user';
-import { PropertyInterface } from 'interfaces/property';
-import { getUsers } from 'apiSdk/users';
-import { getProperties } from 'apiSdk/properties';
-import { BookingInterface } from 'interfaces/booking';
+import { createBooking } from "apiSdk/bookings";
+import { bookingValidationSchema } from "validationSchema/bookings";
+import { UserInterface } from "interfaces/user";
+import { PropertyInterface } from "interfaces/property";
+import { getUsers } from "apiSdk/users";
+import { getProperties } from "apiSdk/properties";
+import { BookingInterface } from "interfaces/booking";
 
 function BookingCreatePage() {
   const router = useRouter();
   const [error, setError] = useState(null);
 
-  const handleSubmit = async (values: BookingInterface, { resetForm }: FormikHelpers<any>) => {
+  const handleSubmit = async (
+    values: BookingInterface,
+    { resetForm }: FormikHelpers<any>
+  ) => {
     setError(null);
     try {
       await createBooking(values);
       resetForm();
-      router.push('/bookings');
+      router.push("/bookings");
     } catch (error) {
       setError(error);
     }
   };
+  console.log("router", router.query);
 
   const formik = useFormik<BookingInterface>({
     initialValues: {
@@ -69,11 +78,11 @@ function BookingCreatePage() {
         <Breadcrumbs
           items={[
             {
-              label: 'Bookings',
-              link: '/bookings',
+              label: "Bookings",
+              link: "/bookings",
             },
             {
-              label: 'Create Booking',
+              label: "Create Booking",
               isCurrent: true,
             },
           ]}
@@ -82,7 +91,12 @@ function BookingCreatePage() {
     >
       <Box rounded="md">
         <Box mb={4}>
-          <Text as="h1" fontSize={{ base: '1.5rem', md: '1.875rem' }} fontWeight="bold" color="base.content">
+          <Text
+            as="h1"
+            fontSize={{ base: "1.5rem", md: "1.875rem" }}
+            fontWeight="bold"
+            color="base.content"
+          >
             Create Booking
           </Text>
         </Box>
@@ -97,8 +111,14 @@ function BookingCreatePage() {
               Start Date
             </FormLabel>
             <DatePicker
-              selected={formik.values?.start_date ? new Date(formik.values?.start_date) : null}
-              onChange={(value: Date) => formik.setFieldValue('start_date', value)}
+              selected={
+                formik.values?.start_date
+                  ? new Date(formik.values?.start_date)
+                  : null
+              }
+              onChange={(value: Date) =>
+                formik.setFieldValue("start_date", value)
+              }
             />
           </FormControl>
           <FormControl id="end_date" mb="4">
@@ -106,27 +126,33 @@ function BookingCreatePage() {
               End Date
             </FormLabel>
             <DatePicker
-              selected={formik.values?.end_date ? new Date(formik.values?.end_date) : null}
-              onChange={(value: Date) => formik.setFieldValue('end_date', value)}
+              selected={
+                formik.values?.end_date
+                  ? new Date(formik.values?.end_date)
+                  : null
+              }
+              onChange={(value: Date) =>
+                formik.setFieldValue("end_date", value)
+              }
             />
           </FormControl>
           <AsyncSelect<UserInterface>
             formik={formik}
-            name={'guest_id'}
-            label={'Select User'}
-            placeholder={'Select User'}
+            name={"guest_id"}
+            label={"Select User"}
+            placeholder={"Select User"}
             fetcher={getUsers}
-            labelField={'email'}
+            labelField={"email"}
           />
           <AsyncSelect<PropertyInterface>
             formik={formik}
-            name={'property_id'}
-            label={'Select Property'}
-            placeholder={'Select Property'}
+            name={"property_id"}
+            label={"Select Property"}
+            placeholder={"Select Property"}
             fetcher={getProperties}
-            labelField={'name'}
+            labelField={"name"}
           />
-          <Flex justifyContent={'flex-start'}>
+          <Flex justifyContent={"flex-start"}>
             <Button
               isDisabled={formik?.isSubmitting}
               bg="state.info.main"
@@ -140,8 +166,8 @@ function BookingCreatePage() {
               gap="0.5rem"
               mr="4"
               _hover={{
-                bg: 'state.info.main',
-                color: 'base.100',
+                bg: "state.info.main",
+                color: "base.100",
               }}
             >
               Submit
@@ -157,10 +183,10 @@ function BookingCreatePage() {
               alignItems="center"
               gap="0.5rem"
               mr="4"
-              onClick={() => router.push('/bookings')}
+              onClick={() => router.push("/bookings")}
               _hover={{
-                bg: 'neutral.transparent',
-                color: 'neutral.main',
+                bg: "neutral.transparent",
+                color: "neutral.main",
               }}
             >
               Cancel
@@ -174,11 +200,11 @@ function BookingCreatePage() {
 
 export default compose(
   requireNextAuth({
-    redirectTo: '/',
+    redirectTo: "/",
   }),
   withAuthorization({
     service: AccessServiceEnum.PROJECT,
-    entity: 'booking',
+    entity: "booking",
     operation: AccessOperationEnum.CREATE,
-  }),
+  })
 )(BookingCreatePage);

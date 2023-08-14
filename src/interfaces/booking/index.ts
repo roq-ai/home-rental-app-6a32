@@ -6,6 +6,9 @@ export interface BookingInterface {
   id?: string;
   start_date: any;
   end_date: any;
+  num_of_guest:string
+  num_of_night:string
+  total_price:string
   guest_id?: string;
   property_id?: string;
   created_at?: any;

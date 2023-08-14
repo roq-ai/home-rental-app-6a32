@@ -15,7 +15,7 @@ import {
   useDisclosure,
   Icon,
   Link as ChakraLink,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 import {
   ChatMessageBell,
   NotificationBell,
@@ -25,36 +25,36 @@ import {
   AccessServiceEnum,
   RoqResourceEnum,
   AccessOperationEnum,
-} from '@roq/nextjs';
-import ConfigureCodeBanner from 'components/configure-code-banner';
-import { useBanner } from 'lib/hooks/use-banner';
-import { HelpBox } from 'components/help-box';
-import { PoweredBy } from 'components/powered-by';
-import React, { ReactNode, useCallback, useEffect } from 'react';
-import { useColorModeValue } from '@chakra-ui/react';
-import { GithubIcon } from 'icons/github-icon';
-import { SlackIcon } from 'icons/slack-icon';
-import { TwitterIcon } from 'icons/twitter-icon';
-import { YoutubeIcon } from 'icons/youtube-icon';
-import { AppLogo } from 'layout/app-logo';
-import Link from 'next/link';
-import { IconType } from 'react-icons';
-import * as inflection from 'inflection';
+} from "@roq/nextjs";
+import ConfigureCodeBanner from "components/configure-code-banner";
+import { useBanner } from "lib/hooks/use-banner";
+import { HelpBox } from "components/help-box";
+import { PoweredBy } from "components/powered-by";
+import React, { ReactNode, useCallback, useEffect, useState } from "react";
+import { useColorModeValue } from "@chakra-ui/react";
+import { GithubIcon } from "icons/github-icon";
+import { SlackIcon } from "icons/slack-icon";
+import { TwitterIcon } from "icons/twitter-icon";
+import { YoutubeIcon } from "icons/youtube-icon";
+import { AppLogo } from "layout/app-logo";
+import Link from "next/link";
+import { IconType } from "react-icons";
+import * as inflection from "inflection";
 
-import { ChatIcon } from 'icons/chat-icon';
-import { CustomerIcon } from 'icons/customer-icon';
-import { HamburgerIcon } from 'icons/hamburger-icon';
-import { HomeIcon } from 'icons/home-icon';
-import { InviteMemberIcon } from 'icons/invite-member-icon';
-import { LogoIcon } from 'icons/logo-icon';
-import { NotificationIcon } from 'icons/notification-icon';
-import { ReservationIcon } from 'icons/reservation-icon';
-import { RestaurantIcon } from 'icons/restaurant-icon';
-import { TableIcon } from 'icons/table-icon';
-import { UserIcon } from 'icons/user-icon';
-import { useRouter } from 'next/router';
-import { routes } from 'routes';
-import useSWR from 'swr';
+import { ChatIcon } from "icons/chat-icon";
+import { CustomerIcon } from "icons/customer-icon";
+import { HamburgerIcon } from "icons/hamburger-icon";
+import { HomeIcon } from "icons/home-icon";
+import { InviteMemberIcon } from "icons/invite-member-icon";
+import { LogoIcon } from "icons/logo-icon";
+import { NotificationIcon } from "icons/notification-icon";
+import { ReservationIcon } from "icons/reservation-icon";
+import { RestaurantIcon } from "icons/restaurant-icon";
+import { TableIcon } from "icons/table-icon";
+import { UserIcon } from "icons/user-icon";
+import { useRouter } from "next/router";
+import { routes } from "routes";
+import useSWR from "swr";
 import {
   FiMail,
   FiUsers,
@@ -66,10 +66,12 @@ import {
   FiCalendar,
   FiBriefcase,
   FiHome,
-} from 'react-icons/fi';
+} from "react-icons/fi";
 
-import { CompanyInterface } from 'interfaces/company';
-import { getCompanies } from 'apiSdk/companies';
+import { CompanyInterface } from "interfaces/company";
+import { getCompanies } from "apiSdk/companies";
+import { SearchInput } from "components/SearchInput";
+import FormModal from "components/FilterModal";
 
 interface LinkItemProps {
   name: string;
@@ -93,10 +95,13 @@ interface AppLayoutProps {
 }
 
 const sidebarFooterLinks = [
-  { Icon: TwitterIcon, url: 'https://twitter.com/roqtechnology' },
-  { Icon: GithubIcon, url: 'https://github.com/roqtech' },
-  { Icon: YoutubeIcon, url: 'https://www.youtube.com/@roq-tech' },
-  { Icon: SlackIcon, url: 'https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ' },
+  { Icon: TwitterIcon, url: "https://twitter.com/roqtechnology" },
+  { Icon: GithubIcon, url: "https://github.com/roqtech" },
+  { Icon: YoutubeIcon, url: "https://www.youtube.com/@roq-tech" },
+  {
+    Icon: SlackIcon,
+    url: "https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ",
+  },
 ];
 
 export default function AppLayout({ children, breadcrumbs }: AppLayoutProps) {
@@ -111,14 +116,17 @@ export default function AppLayout({ children, breadcrumbs }: AppLayoutProps) {
   }, [isMd, isOpen, onClose]);
 
   return (
-    <Box h={isBannerVisible ? 'calc(100vh - 40px)' : '100vh'} bg={'base.100'}>
-      <ConfigureCodeBanner isBannerVisible={isBannerVisible} setIsBannerVisible={setIsBannerVisible} />
+    <Box h={isBannerVisible ? "calc(100vh - 40px)" : "100vh"} bg={"base.100"}>
+      <ConfigureCodeBanner
+        isBannerVisible={isBannerVisible}
+        setIsBannerVisible={setIsBannerVisible}
+      />
       <HelpBox />
       <SidebarContent
         transition="none"
-        h={isBannerVisible ? 'calc(100vh - 40px)' : '100vh'}
+        h={isBannerVisible ? "calc(100vh - 40px)" : "100vh"}
         onClose={() => onClose}
-        display={{ base: 'none', md: 'block' }}
+        display={{ base: "none", md: "block" }}
       />
       <Drawer
         autoFocus={false}
@@ -130,7 +138,10 @@ export default function AppLayout({ children, breadcrumbs }: AppLayoutProps) {
         size="xs"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} display={{ base: 'block', md: 'none' }} />
+          <SidebarContent
+            onClose={onClose}
+            display={{ base: "block", md: "none" }}
+          />
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
@@ -156,39 +167,60 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const { session } = useSession();
   const { hasAccess } = useAuthorizationApi();
   const router = useRouter();
+  const currentUser = session.user.roles?.[0];
 
   const isActiveRoute = useCallback(
     (path: string) => {
-      const basePath = path.split('/').filter(Boolean)[0];
-      const currentBasePath = router.pathname.split('/').filter(Boolean)[0];
+      const basePath = path.split("/").filter(Boolean)[0];
+      const currentBasePath = router.pathname.split("/").filter(Boolean)[0];
       return basePath === currentBasePath;
     },
-    [router],
+    [router]
   );
 
-  const tenantRoles = ['host', 'guest'];
-  const isTenantUser = tenantRoles.some((role) => session?.user?.roles?.includes(role));
+  const tenantRoles = ["host", "guest"];
+  const isTenantUser = tenantRoles.some((role) =>
+    session?.user?.roles?.includes(role)
+  );
   const { data, error, isLoading } = useSWR<CompanyInterface[]>(
     () => (isTenantUser && session?.user?.tenantId ? `/companies` : null),
-    () => getCompanies({ tenant_id: session?.user?.tenantId }).then(({ data }) => data),
+    () =>
+      getCompanies({ tenant_id: session?.user?.tenantId }).then(
+        ({ data }) => data
+      )
   );
   loading = isLoading;
 
   const MockedLinkItems: Array<NavItemPropsInterface> = [
-    { name: 'Users', icon: FiUsers, path: '/users', entity: 'user', service: AccessServiceEnum.PROJECT },
+    // { name: 'Users', icon: FiUsers, path: '/users', entity: 'user', service: AccessServiceEnum.PROJECT },
+
+    // {
+    //   name: 'Companies',
+    //   path: isTenantUser ? `/companies/view/${data?.[0]?.id}` : '/companies',
+    //   entity: 'company',
+    //   service: AccessServiceEnum.PROJECT,
+    //   icon: FiBriefcase,
+    // },
 
     {
-      name: 'Companies',
-      path: isTenantUser ? `/companies/view/${data?.[0]?.id}` : '/companies',
-      entity: 'company',
+      name: currentUser === "host" ? "Bookings" : "My Bookings",
+      path: "/bookings",
+      entity: "booking",
       service: AccessServiceEnum.PROJECT,
-      icon: FiBriefcase,
+      icon: FiCalendar,
     },
-    { name: 'Bookings', path: '/bookings', entity: 'booking', service: AccessServiceEnum.PROJECT, icon: FiCalendar },
-    { name: 'Properties', path: '/properties', entity: 'property', service: AccessServiceEnum.PROJECT, icon: FiHome },
+    {
+      name: currentUser === "host" ? "My Properties" : "Properties",
+      path: "/properties",
+      entity: "property",
+      service: AccessServiceEnum.PROJECT,
+      icon: FiHome,
+    },
 
     /** Add navigation item here **/
-  ].filter((e) => hasAccess(e.entity, AccessOperationEnum.READ, AccessServiceEnum.PROJECT));
+  ].filter((e) =>
+    hasAccess(e.entity, AccessOperationEnum.READ, AccessServiceEnum.PROJECT)
+  );
 
   return (
     <Box
@@ -196,43 +228,75 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       bgColor="base.200"
       borderColor="base.300 !important"
       borderRight="1px solid"
-      w={{ base: 'full', md: 60 }}
+      w={{ base: "full", md: 60 }}
       pos="fixed"
       h="full"
       {...rest}
     >
-      <Flex pos="fixed" left="240px" right={0} h="20" alignItems="center" justifyContent="center">
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+      <Flex
+        pos="fixed"
+        left="240px"
+        right={0}
+        h="20"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       <Flex flexDirection="column" h="full" overflowY="auto">
         {/* Mock link items */}
-        <Flex alignItems="center" justifyContent="flex-start" px="8" height="80px" flex="0 0 auto">
+        <Flex
+          alignItems="center"
+          justifyContent="flex-start"
+          px="8"
+          height="80px"
+          flex="0 0 auto"
+        >
           <LogoIcon width="24px" height="24px" fill="base.content" />
-          <Box sx={{ ml: '10px' }}>
+          <Box sx={{ ml: "10px" }}>
             <AppLogo />
           </Box>
         </Flex>
         <Box className="main-nav">
-          <NavItem key="dashboard" icon={HomeIcon} path={'/dashboard'} isActive={isActiveRoute('/dashboard')}>
+          <NavItem
+            key="dashboard"
+            icon={HomeIcon}
+            path={"/dashboard"}
+            isActive={isActiveRoute("/dashboard")}
+          >
             Dashboard
           </NavItem>
           {MockedLinkItems.map((link) => (
-            <NavItem key={link.name} icon={link.icon} path={link.path} isActive={isActiveRoute(link.path)}>
+            <NavItem
+              key={link.name}
+              icon={link.icon}
+              path={link.path}
+              isActive={isActiveRoute(link.path)}
+            >
               {link.name}
             </NavItem>
           ))}
         </Box>
         <Box mt="auto" px={8} pb={4}>
-          <Link href={routes.frontend.invites.index} style={{ textDecoration: 'none' }}>
+          <Link
+            href={routes.frontend.invites.index}
+            style={{ textDecoration: "none" }}
+          >
             <Button
               className="nav-userInvite"
               width="100%"
-              bgColor="secondary.main"
+              bgColor="pink.500"
               color="secondary.content"
-              _hover={{ bg: 'secondary.focus' }}
+              _hover={{ bg: "secondary.focus" }}
               borderRadius="100px"
               size="sm"
-              rightIcon={<InviteMemberIcon color="secondary.content" width="17px" height="17px" />}
+              rightIcon={
+                <InviteMemberIcon
+                  color="secondary.content"
+                  width="17px"
+                  height="17px"
+                />
+              }
               boxShadow={`
               0px 3px 5px -1px #74748526,
               0px 6px 10px 0px #7474851A,
@@ -246,9 +310,18 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <Box px={8} py={4} borderTop="1px solid" borderColor="base.300">
           <Flex mb={1}>
             {sidebarFooterLinks.map(({ Icon, url }, index) => (
-              <Box key={index} mr={3} cursor={'pointer'}>
-                <ChakraLink isExternal href={url} style={{ textDecoration: 'none' }}>
-                  <Icon fill="base.content" width="18px" height="18px" opacity="0.6" />
+              <Box key={index} mr={3} cursor={"pointer"}>
+                <ChakraLink
+                  isExternal
+                  href={url}
+                  style={{ textDecoration: "none" }}
+                >
+                  <Icon
+                    fill="base.content"
+                    width="18px"
+                    height="18px"
+                    opacity="0.6"
+                  />
                 </ChakraLink>
               </Box>
             ))}
@@ -269,9 +342,15 @@ interface NavItemProps extends FlexProps {
   isActive?: boolean;
 }
 
-const NavItem = ({ icon: NavIcon, children, path, isActive, ...rest }: NavItemProps) => {
+const NavItem = ({
+  icon: NavIcon,
+  children,
+  path,
+  isActive,
+  ...rest
+}: NavItemProps) => {
   return (
-    <Link href={path} style={{ textDecoration: 'none' }}>
+    <Link href={path} style={{ textDecoration: "none" }}>
       <Flex
         align="center"
         px="8"
@@ -286,7 +365,14 @@ const NavItem = ({ icon: NavIcon, children, path, isActive, ...rest }: NavItemPr
         {...rest}
       >
         {NavIcon && (
-          <Box width="18px" height="18px" display="flex" alignItems="center" justifyContent="center" mr="4">
+          <Box
+            width="18px"
+            height="18px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            mr="4"
+          >
             <Icon as={NavIcon} color="neutral.main" boxSize="18px" />
           </Box>
         )}
@@ -304,72 +390,100 @@ const MobileNav = ({ onOpen, isBannerVisible, ...rest }: MobileProps) => {
   const { session } = useSession();
   const router = useRouter();
   const { hasAccess } = useAuthorizationApi();
-
+  const {
+    isOpen: isFilterOpen,
+    onOpen: onFilterOpen,
+    onClose: onFilterClose,
+  } = useDisclosure();
+  const [filteredValue, setFilteredValue] = useState("");
   return (
     <Flex
       px={{ base: 4, md: 8 }}
       height="20"
       alignItems="center"
-      bg={'base.100'}
+      bg={"base.100"}
       borderBottomWidth="1px"
-      borderBottomColor={'base.300'}
-      justifyContent={{ base: 'space-between' }}
+      borderBottomColor={"base.300"}
+      justifyContent={{ base: "space-between" }}
       position="sticky"
       top={{
-        base: isBannerVisible ? '3rem' : 0,
-        md: isBannerVisible ? '2.5rem' : 0,
+        base: isBannerVisible ? "3rem" : 0,
+        md: isBannerVisible ? "2.5rem" : 0,
       }}
       zIndex={1000}
       {...rest}
     >
       <HStack maxW="50%">
-        <Box w="full" display={{ base: 'flex', md: 'none' }} alignItems="center">
+        <Box
+          w="full"
+          display={{ base: "flex", md: "none" }}
+          alignItems="center"
+        >
           <IconButton
             mr="3"
             p="0"
             onClick={onOpen}
             variant="outline"
             aria-label="open menu"
-            sx={{ border: 'none' }}
-            icon={<HamburgerIcon color="base.content" width="21px" height="14px" />}
+            sx={{ border: "none" }}
+            icon={
+              <HamburgerIcon color="base.content" width="21px" height="14px" />
+            }
           />
           <AppLogo />
         </Box>
       </HStack>
-      <Box display={{ base: 'none', md: 'flex' }} w="full" justifyContent="flex-start">
-        <AppLogo />
-      </Box>
-      <HStack spacing={0}>
-        {session?.roqUserId && (
-          <Text
-            display={{ base: 'none', md: 'flex' }}
-            position="relative"
-            fontSize="14px"
-            lineHeight="20px"
-            color="neutral.main"
-            mr={2}
-            p={2}
-          >{`${session.user?.roles.map((e) => inflection.humanize(e))?.join(', ')}`}</Text>
-        )}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        w="full"
+      >
+        <Box display={{ base: "none", md: "flex" }} justifyContent="flex-start">
+          <AppLogo />
+        </Box>
+        <Box
+          display={{ base: "none", md: "flex" }}
+          justifyContent="center"
+          mt={3}
+        >
+          <SearchInput setFilteredValue={setFilteredValue} />
+        </Box>
+        <FormModal />
+        <HStack spacing={0}>
+          {hasAccess(
+            RoqResourceEnum.CONVERSATION,
+            AccessOperationEnum.READ,
+            AccessServiceEnum.PLATFORM
+          ) && (
+            <Box className="nav-conversation" p={2}>
+              <ChatMessageBell
+                onClick={() => router.push(routes.frontend.chat.index)}
+                icon={
+                  <ChatIcon color="base.content" width="20px" height="20px" />
+                }
+              />
+            </Box>
+          )}
 
-        {hasAccess(RoqResourceEnum.CONVERSATION, AccessOperationEnum.READ, AccessServiceEnum.PLATFORM) && (
-          <Box className="nav-conversation" p={2}>
-            <ChatMessageBell
-              onClick={() => router.push(routes.frontend.chat.index)}
-              icon={<ChatIcon color="base.content" width="20px" height="20px" />}
+          <Box className="layout-notification-bell" p={2}>
+            <NotificationBell
+              icon={
+                <NotificationIcon
+                  color="base.content"
+                  width="16px"
+                  height="20px"
+                />
+              }
             />
           </Box>
-        )}
-
-        <Box className="layout-notification-bell" p={2}>
-          <NotificationBell icon={<NotificationIcon color="base.content" width="16px" height="20px" />} />
-        </Box>
-        <Flex alignItems={'center'}>
-          <Box className="layout-user-profile" p={2}>
-            {session?.roqUserId && <UserAccountDropdown />}
-          </Box>
-        </Flex>
-      </HStack>
+          <Flex alignItems={"center"}>
+            <Box className="layout-user-profile" p={2}>
+              {session?.roqUserId && <UserAccountDropdown />}
+            </Box>
+          </Flex>
+        </HStack>
+      </Box>
     </Flex>
   );
 };
