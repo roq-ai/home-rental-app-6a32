@@ -46,6 +46,7 @@ import MapWithMarkers from "components/LocationForm";
 import Map from "components/Mapping/Map";
 import { BiMapPin } from "react-icons/bi";
 import AddLocation from "components/AddLocation";
+import ListMap from "components/mapbox/ListMap";
 
 type ColumnType = ColumnDef<PropertyInterface, unknown>;
 
@@ -453,29 +454,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
             </PropertyGrid>
           )}
         </Flex>
-        <Box>
-          {showMap && (
-            <Map width="400" height="400" center={[45.4, -75.7]} zoom={8}>
-              {({ TileLayer, Marker, Popup }: any) => (
-                <>
-                  <TileLayer
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />
-                  {parkData.features.map((park) => (
-                    <Marker
-                      key={park.properties.PARK_ID}
-                      position={[
-                        park.geometry.coordinates[1],
-                        park.geometry.coordinates[0],
-                      ]}
-                    />
-                  ))}
-                </>
-              )}
-            </Map>
-          )}
-        </Box>
+        <Box>{showMap && <ListMap locations={filteredData} />}</Box>
       </Flex>
 
       <Flex direction="column" align="center" mt={4}>
