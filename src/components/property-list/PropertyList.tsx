@@ -17,9 +17,9 @@ import { PriceTag } from "./PriceTag";
 import { Gallery } from "components/image-carousel/Gallery";
 import { images } from "components/image-carousel/_data";
 
-export default function PropertyCard({ data }) {
+export default function PropertyCard({ data }: any) {
   return (
-    <Center>
+    <Box>
       <Box
         maxW={"300px"}
         w={"full"}
@@ -42,13 +42,12 @@ export default function PropertyCard({ data }) {
           </Box>
         </Box>
 
-        {/* Check-in and Check-out section */}
         <NextLink href={`/properties/view/${data.id}`} key={data.id}>
           <Stack direction={"row"} spacing={4} align={"center"}>
             <Stack direction={"column"} textAlign={"center"} fontSize={"sm"}>
               <Text
-                fontSize="sm"
-                fontWeight="normal"
+                fontSize="md"
+                fontWeight="bold"
                 color={useColorModeValue("gray.700", "gray.400")}
               >
                 {data.name}
@@ -58,6 +57,6 @@ export default function PropertyCard({ data }) {
           </Stack>
         </NextLink>
       </Box>
-    </Center>
+    </Box>
   );
 }

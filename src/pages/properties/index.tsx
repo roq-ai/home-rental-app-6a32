@@ -15,6 +15,7 @@ import {
   Text,
   TextProps,
 } from "@chakra-ui/react";
+import * as parkData from "../../components/data.json";
 import { ColumnDef } from "@tanstack/react-table";
 import { Error } from "components/error";
 import { SearchInput } from "components/search-input";
@@ -41,6 +42,9 @@ import { PropertyInterface } from "interfaces/property";
 import { PropertyGrid } from "components/property-list/PropertyGrid";
 import PropertyCard from "components/property-list/PropertyList";
 import { FilterProvider, useFilter } from "context/FilterContext";
+import MapWithMarkers from "components/LocationForm";
+import Map from "components/Mapping/Map";
+import { BiMapPin } from "react-icons/bi";
 
 type ColumnType = ColumnDef<PropertyInterface, unknown>;
 
@@ -85,6 +89,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
       },
     ],
   });
+
   const fetcher = useCallback(
     async () =>
       getProperties({
@@ -112,6 +117,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
   const { data, error, isLoading, mutate } = useSWR<
     PaginatedInterface<PropertyInterface>
   >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
+  const [showMap, setShowMap] = useState(false);
   const {
     filteredValue,
     selectedAmenities,
@@ -120,6 +126,8 @@ export function PropertyListPage(props: PropertyListPageProps) {
     selectedPropertyType,
     minValue,
     maxValue,
+    FilterNumber,
+    setFilterNumber,
   } = useFilter();
   const filterIsEmpty =
     !filteredValue &&
@@ -203,6 +211,9 @@ export function PropertyListPage(props: PropertyListPageProps) {
   console.log({ filteredData });
   const router = useRouter();
   const [deleteError, setDeleteError] = useState(null);
+  useEffect(() => {
+    setFilterNumber(filteredData?.length as unknown as string);
+  }, [filteredData, setFilterNumber]);
 
   const handleDelete = async (id: string) => {
     setDeleteError(null);
@@ -213,7 +224,15 @@ export function PropertyListPage(props: PropertyListPageProps) {
       setDeleteError(error);
     }
   };
-
+  const DEFAULT_CENTER = [38.907132, -77.036546];
+  const mapContainerStyles = {
+    position: "relative",
+    width: "100%",
+    height: "400px",
+    transition: "opacity 0.3s ease, visibility 0.3s ease",
+    opacity: showMap ? 1 : 0,
+    visibility: showMap ? "visible" : "hidden",
+  };
   const handleView = (row: PropertyInterface) => {
     if (
       hasAccess("property", AccessOperationEnum.READ, AccessServiceEnum.PROJECT)
@@ -363,9 +382,21 @@ export function PropertyListPage(props: PropertyListPageProps) {
     <Box
       maxW="7xl"
       mx="auto"
-      px={{ base: "4", md: "8", lg: "12" }}
-      py={{ base: "6", md: "8", lg: "12" }}
+      px={{ base: "4", md: "6", lg: "6" }}
+      py={{ base: "6", md: "6", lg: "6" }}
     >
+      <Flex alignItems="center" gap={1}>
+        <Text
+          as="h1"
+          fontSize="1.875rem"
+          fontWeight="bold"
+          color="base.content"
+          pb={{ base: "2", md: "2", lg: "2" }}
+          {...titleProps}
+        >
+          Properties
+        </Text>
+      </Flex>
       {hasAccess(
         "property",
         AccessOperationEnum.CREATE,
@@ -404,20 +435,72 @@ export function PropertyListPage(props: PropertyListPageProps) {
           </NextLink>
         ))}
       </PropertyGrid> */}
-
-      <PropertyGrid>
-        {filteredData?.length === 0 ? (
-          <Text color="gray.500" textAlign="center" fontSize="lg" mt="8">
-            No properties found.
-          </Text>
-        ) : (
-          <PropertyGrid>
-            {filteredData?.map((item) => (
-              <PropertyCard data={item} key={item.id} />
-            ))}
-          </PropertyGrid>
-        )}
-      </PropertyGrid>
+      <Flex direction="row" gap={2}>
+        <Flex>
+          {filteredData?.length === 0 ? (
+            <Text color="gray.500" textAlign="center" fontSize="lg" mt="8">
+              No properties found.
+            </Text>
+          ) : (
+            <PropertyGrid>
+              {filteredData?.map((item) => (
+                <PropertyCard data={item} key={item.id} />
+              ))}
+            </PropertyGrid>
+          )}
+        </Flex>
+        <Box>
+          {showMap && (
+            <Map width="800" height="400" center={[45.4, -75.7]} zoom={8}>
+              {({ TileLayer, Marker, Popup }: any) => (
+                <>
+                  <TileLayer
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  />
+                  {parkData.features.map((park) => (
+                    <Marker
+                      key={park.properties.PARK_ID}
+                      position={[
+                        park.geometry.coordinates[1],
+                        park.geometry.coordinates[0],
+                      ]}
+                    />
+                  ))}
+                </>
+              )}
+            </Map>
+          )}
+        </Box>
+      </Flex>
+      <Flex direction="column" align="center" mt={4}>
+        <Box
+          position="fixed"
+          bottom="1rem"
+          left="50%"
+          transform="translateX(-50%)"
+        >
+          <Button
+            leftIcon={<BiMapPin />}
+            onClick={() => setShowMap(!showMap)}
+            zIndex={900002}
+            fontSize="1rem"
+            fontWeight="bold"
+            background="black"
+            color="white"
+            backgroundColor="black"
+            borderRadius="3xl"
+            _hover={{
+              backgroundColor: "black",
+            }}
+            _active={{
+              backgroundColor: "black",
+            }}
+          >
+            {showMap ? "Hide Map" : "Show Map"}
+          </Button>
+        </Box>
+      </Flex>
     </Box>
   );
 }

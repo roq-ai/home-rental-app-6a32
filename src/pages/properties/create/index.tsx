@@ -16,6 +16,7 @@ import {
   Stack,
   CheckboxGroup,
   Checkbox,
+  Textarea,
 } from "@chakra-ui/react";
 import Breadcrumbs from "components/breadcrumb";
 import DatePicker from "components/date-picker";
@@ -50,6 +51,8 @@ import {
   CheckboxFilterPopover,
 } from "components/check-box/CheckBox";
 import useSWR from "swr";
+import SearchInput from "components/MapSearchInput";
+import LocationForm from "components/LocationForm";
 
 function PropertyCreatePage() {
   const router = useRouter();
@@ -57,10 +60,11 @@ function PropertyCreatePage() {
   const [error, setError] = useState(null);
   const [images, setImages] = useState([]);
   const amenitiesOptions = [
-    { value: "wifi", label: "Wi-Fi" },
-    { value: "pool", label: "Pool" },
-    { value: "gym", label: "Gym" },
-    // Add other amenity options
+    { value: "Wi-Fi", name: "Wi-Fi" },
+    { value: "Swimming Pool", name: "Swimming Pool" },
+    { value: "Gym", name: "Gym" },
+    { value: "Spa", name: "Spa" },
+    { value: "Parking", name: "Parking" },
   ];
   const handleSubmit = async (
     values: PropertyInterface,
@@ -159,17 +163,14 @@ function PropertyCreatePage() {
             }}
           />
 
-          <TextInput
-            error={formik.errors.description}
-            label={"Description"}
-            props={{
-              name: "description",
-              placeholder: "Description",
-              value: formik.values?.description,
-              onChange: formik.handleChange,
-            }}
+          <FormLabel htmlFor="description">Description</FormLabel>
+          <Textarea
+            id="description"
+            name="description"
+            placeholder="Description"
+            value={formik.values?.description}
+            onChange={formik.handleChange}
           />
-
           <TextInput
             error={formik.errors.num_of_guest}
             label={"Max Guest"}
@@ -190,7 +191,7 @@ function PropertyCreatePage() {
               onChange: formik.handleChange,
             }}
           />
-
+          {/* <LocationForm /> */}
           <TextInput
             error={formik.errors.num_of_beds}
             label={"Number of Beds"}
@@ -211,16 +212,18 @@ function PropertyCreatePage() {
               onChange: formik.handleChange,
             }}
           />
-          <TextInput
-            error={formik.errors.type}
+          <FormLabel htmlFor="type">Type</FormLabel>
+          <Select
             label={"Type"}
-            props={{
-              name: "type",
-              placeholder: "Type",
-              value: formik.values?.type,
-              onChange: formik.handleChange,
-            }}
-          />
+            name="type"
+            placeholder="Select Type"
+            value={formik.values?.type}
+            onChange={formik.handleChange}
+          >
+            <option value="Apartment">Apartment</option>
+            <option value="House">House</option>
+            <option value="Guest House">Guest House</option>
+          </Select>
           <TextInput
             error={formik.errors.location}
             label={"Location"}
@@ -243,7 +246,7 @@ function PropertyCreatePage() {
             <Stack direction="column">
               {amenitiesOptions.map((amenity) => (
                 <Checkbox key={amenity.value} value={amenity.value}>
-                  {amenity.label}
+                  {amenity.name}
                 </Checkbox>
               ))}
             </Stack>

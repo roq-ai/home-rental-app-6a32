@@ -26,6 +26,7 @@ const LocationList = ({ locations, inputWidth, onLocationSelect }: any) => {
     () => getProperties()
   );
   const uniqueLocations = Array.from(new Set(locations)) as string[];
+  console.log({ uniqueLocations });
   return (
     <Box
       p="3"
@@ -44,7 +45,9 @@ const LocationList = ({ locations, inputWidth, onLocationSelect }: any) => {
           py="2"
           cursor="pointer"
           _hover={{ bg: "gray.100", borderRadius: "md", p: "1" }}
-          onClick={() => onLocationSelect(location)}
+          onClick={() => {
+            onLocationSelect(location);
+          }}
         >
           <Icon as={FaMapMarkerAlt} color="#FD5B61" mr="2" />
           {location}
@@ -120,7 +123,6 @@ export const SearchInput = () => {
     );
 
   // Join the filtered locations array into a single string
-  const joinedFilteredLocations = filteredLocations.join(", "); // You can adjust the separator as needed
   const handleInputChange = (e: any) => {
     const inputValue = e.target.value;
     setSearchInput(inputValue);
@@ -129,7 +131,7 @@ export const SearchInput = () => {
 
     // Join the filtered locations array into a single string
     const joinedFilteredLocations = filteredLocations.join(", "); // You can adjust the separator as needed
-    setFilteredValue(joinedFilteredLocations);
+    setFilteredValue(inputValue);
   };
   // console.log({ filteredLocations });
   return (
@@ -171,7 +173,7 @@ export const SearchInput = () => {
                 <Icon as={RiSearchLine} color="gray.500" fontSize="lg" />
               </InputLeftElement>
               <Input
-                onChange={handleInputChange} // Use onChange instead of onClick
+                onChange={handleInputChange}
                 value={searchInput}
                 focusBorderColor="#FD5B61"
                 borderRadius={"20rem"}

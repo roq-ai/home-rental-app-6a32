@@ -32,3 +32,7 @@ export const deletePropertyById = async (id: string) => {
   const response = await axios.delete(`/api/properties/${id}`);
   return response.data;
 };
+export const searchJobs = async (query?: PropertyInterface) => {
+  const response = await axios.get(`/api/properties/search${query ? `?${queryString.stringify(query)}` : ''}`);
+  return response.data;
+};

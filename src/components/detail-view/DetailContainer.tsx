@@ -11,6 +11,7 @@ import {
   StackProps,
   Text,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import { FiClock, FiHeart } from "react-icons/fi";
 import { RiRulerLine } from "react-icons/ri";
@@ -72,14 +73,19 @@ export const DetailContainer = (props: any) => {
       // Handle loading or error states
       return false;
     }
+
     const propertyId = data?.id;
-    return existingBookings.data.some(
+    const bookingsForProperty = existingBookings.data.filter(
       (booking) => booking.property_id === propertyId
     );
+
+    return bookingsForProperty.every((booking) => {
+      const bookingStartDate = new Date(booking.start_date);
+      const bookingEndDate = new Date(booking.end_date);
+
+      return startDate >= bookingStartDate && startDate >= bookingEndDate;
+    });
   };
-  console.log("property_id", data?.id);
-  console.log("current user", session.user);
-  console.log("data", fetchedData);
 
   const handleSelect = (ranges: any) => {
     setStartDate(ranges.selection.startDate);
@@ -95,10 +101,23 @@ export const DetailContainer = (props: any) => {
     const totalPrice = data?.price * numDays;
     return { numDays, totalPrice };
   };
-
+  const toast = useToast();
   const { numDays, totalPrice } = calculateTotalPrice();
   const handleReserveClick = async () => {
     try {
+      if (!isPropertyReserved()) {
+        toast({
+          title: "Property Already Reserved",
+          description:
+            "This property is already reserved for the selected dates.",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
+        return;
+      }
+
       const bookingData = {
         start_date: startDate,
         end_date: endDate,
@@ -250,7 +269,6 @@ export const DetailContainer = (props: any) => {
                 size="md"
                 width="base"
                 onClick={handleReserveClick}
-                isDisabled={isPropertyReserved()}
               >
                 Reserve
               </Button>

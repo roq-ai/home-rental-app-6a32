@@ -39,6 +39,7 @@ import { AccessInfo } from "components/access-info";
 import { getBookings, deleteBookingById } from "apiSdk/bookings";
 import { BookingInterface } from "interfaces/booking";
 import BookingCard from "components/BookingCard";
+import { PropertyGrid } from "components/property-list/PropertyGrid";
 
 type ColumnType = ColumnDef<BookingInterface, unknown>;
 
@@ -368,7 +369,7 @@ export function BookingListPage(props: BookingListPageProps) {
           <Error error={deleteError} />{" "}
         </Box>
       )}
-      <Flex justify="space-between" flexWrap="wrap" gap={3}>
+      <PropertyGrid>
         {data?.data?.length === 0 ? (
           <Text color="gray.500" textAlign="center" fontSize="lg" mt="8">
             No bookings available yet.
@@ -380,7 +381,7 @@ export function BookingListPage(props: BookingListPageProps) {
             </NextLink>
           ))
         )}
-      </Flex>
+      </PropertyGrid>
     </Box>
   );
 }

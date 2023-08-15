@@ -7,10 +7,10 @@ export const PropertyGrid = (props: SimpleGridProps) => {
       isValidElement
     ).length;
     return {
-      base: Math.min(2, count),
-      md: Math.min(2, count),
-      lg: Math.min(2, count),
-      xl: Math.min(3, count),
+      base: Math.min(1, count),
+      md: Math.min(1, count),
+      lg: Math.min(1, count),
+      xl: Math.min(2, count),
     };
   }, [props.children]);
 

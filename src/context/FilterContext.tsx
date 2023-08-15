@@ -15,6 +15,8 @@ type FilterContextType = {
   setMinValue: React.Dispatch<React.SetStateAction<string>>;
   maxValue: string;
   setMaxValue: React.Dispatch<React.SetStateAction<string>>;
+  FilterNumber: string;
+  setFilterNumber: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const FilterContext = createContext<FilterContextType | undefined>(undefined);
@@ -35,6 +37,7 @@ export const FilterProvider = ({ children }: any) => {
   const [selectedPropertyType, setSelectedPropertyType] = useState<string>("");
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
+  const [FilterNumber, setFilterNumber] = useState("");
 
   return (
     <FilterContext.Provider
@@ -53,6 +56,8 @@ export const FilterProvider = ({ children }: any) => {
         setMinValue,
         maxValue,
         setMaxValue,
+        FilterNumber,
+        setFilterNumber,
       }}
     >
       {children}

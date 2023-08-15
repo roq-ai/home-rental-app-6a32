@@ -27,7 +27,7 @@ export default function BookingCard({ data }: any) {
     day: "numeric",
   }).format(new Date(data.end_date));
   return (
-    <Center>
+    <Box>
       <Box
         maxW={"300px"}
         w={"full"}
@@ -85,6 +85,6 @@ export default function BookingCard({ data }: any) {
           </Text>
         </Flex>
       </Box>
-    </Center>
+    </Box>
   );
 }
