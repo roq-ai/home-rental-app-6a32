@@ -40,6 +40,7 @@ import { PropertyInterface } from "interfaces/property";
 import { BookingListPage } from "pages/bookings";
 import { DetailContainer } from "components/detail-view/DetailContainer";
 import { products } from "components/detail-view/_data";
+import LocationMap from "components/mapbox/LocationMap";
 
 function PropertyViewPage() {
   const { hasAccess } = useAuthorizationApi();
@@ -74,7 +75,7 @@ function PropertyViewPage() {
     >
       <DetailContainer data={data} />
       <Box borderWidth="2px" minH="480px" rounded="xl" borderStyle="dashed">
-        <Box px="350">Map</Box>
+        <LocationMap latitude={data.latitude} longitude={data.longitude} />
       </Box>
     </AppLayout>
   );

@@ -17,6 +17,12 @@ type FilterContextType = {
   setMaxValue: React.Dispatch<React.SetStateAction<string>>;
   FilterNumber: string;
   setFilterNumber: React.Dispatch<React.SetStateAction<string>>;
+  location: string;
+  setLocation: React.Dispatch<React.SetStateAction<string>>;
+  latitude: string;
+  setLatitude: React.Dispatch<React.SetStateAction<string>>;
+  longitude: string;
+  setLongitude: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const FilterContext = createContext<FilterContextType | undefined>(undefined);
@@ -38,6 +44,9 @@ export const FilterProvider = ({ children }: any) => {
   const [minValue, setMinValue] = useState("");
   const [maxValue, setMaxValue] = useState("");
   const [FilterNumber, setFilterNumber] = useState("");
+  const [location, setLocation] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const [latitude, setLatitude] = useState("");
 
   return (
     <FilterContext.Provider
@@ -58,6 +67,12 @@ export const FilterProvider = ({ children }: any) => {
         setMaxValue,
         FilterNumber,
         setFilterNumber,
+        latitude,
+        location,
+        longitude,
+        setLatitude,
+        setLocation,
+        setLongitude,
       }}
     >
       {children}

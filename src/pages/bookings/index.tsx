@@ -40,6 +40,7 @@ import { getBookings, deleteBookingById } from "apiSdk/bookings";
 import { BookingInterface } from "interfaces/booking";
 import BookingCard from "components/BookingCard";
 import { PropertyGrid } from "components/property-list/PropertyGrid";
+import { BookingGrid } from "components/BookingGrid";
 
 type ColumnType = ColumnDef<BookingInterface, unknown>;
 
@@ -369,7 +370,7 @@ export function BookingListPage(props: BookingListPageProps) {
           <Error error={deleteError} />{" "}
         </Box>
       )}
-      <PropertyGrid>
+      <BookingGrid>
         {data?.data?.length === 0 ? (
           <Text color="gray.500" textAlign="center" fontSize="lg" mt="8">
             No bookings available yet.
@@ -381,7 +382,7 @@ export function BookingListPage(props: BookingListPageProps) {
             </NextLink>
           ))
         )}
-      </PropertyGrid>
+      </BookingGrid>
     </Box>
   );
 }

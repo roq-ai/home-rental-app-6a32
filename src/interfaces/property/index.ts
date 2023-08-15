@@ -14,6 +14,8 @@ export interface PropertyInterface {
   num_of_baths:string
   image_urls?:string[]
   location: string;
+  longitude:string
+  latitude:string
   company_id?: string;
   created_at?: any;
   updated_at?: any;

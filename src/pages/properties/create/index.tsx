@@ -16,7 +16,6 @@ import {
   Stack,
   CheckboxGroup,
   Checkbox,
-  Textarea,
 } from "@chakra-ui/react";
 import Breadcrumbs from "components/breadcrumb";
 import DatePicker from "components/date-picker";
@@ -51,8 +50,7 @@ import {
   CheckboxFilterPopover,
 } from "components/check-box/CheckBox";
 import useSWR from "swr";
-import SearchInput from "components/MapSearchInput";
-import LocationForm from "components/LocationForm";
+import Map from "components/mapbox/Map";
 
 function PropertyCreatePage() {
   const router = useRouter();
@@ -60,11 +58,10 @@ function PropertyCreatePage() {
   const [error, setError] = useState(null);
   const [images, setImages] = useState([]);
   const amenitiesOptions = [
-    { value: "Wi-Fi", name: "Wi-Fi" },
-    { value: "Swimming Pool", name: "Swimming Pool" },
-    { value: "Gym", name: "Gym" },
-    { value: "Spa", name: "Spa" },
-    { value: "Parking", name: "Parking" },
+    { value: "wifi", label: "Wi-Fi" },
+    { value: "pool", label: "Pool" },
+    { value: "gym", label: "Gym" },
+    // Add other amenity options
   ];
   const handleSubmit = async (
     values: PropertyInterface,
@@ -73,6 +70,7 @@ function PropertyCreatePage() {
     setError(null);
     try {
       const propertyData = { ...values, image_urls: images };
+      console.log("property :", propertyData);
       await createProperty(propertyData);
       resetForm();
       router.push("/properties");
@@ -108,6 +106,8 @@ function PropertyCreatePage() {
       image_urls: [],
       type: "",
       location: "",
+      latitude: "",
+      longitude: "",
       company_id: companyData?.[0]?.id,
     },
     validationSchema: propertyValidationSchema,
@@ -163,14 +163,17 @@ function PropertyCreatePage() {
             }}
           />
 
-          <FormLabel htmlFor="description">Description</FormLabel>
-          <Textarea
-            id="description"
-            name="description"
-            placeholder="Description"
-            value={formik.values?.description}
-            onChange={formik.handleChange}
+          <TextInput
+            error={formik.errors.description}
+            label={"Description"}
+            props={{
+              name: "description",
+              placeholder: "Description",
+              value: formik.values?.description,
+              onChange: formik.handleChange,
+            }}
           />
+
           <TextInput
             error={formik.errors.num_of_guest}
             label={"Max Guest"}
@@ -191,7 +194,7 @@ function PropertyCreatePage() {
               onChange: formik.handleChange,
             }}
           />
-          {/* <LocationForm /> */}
+
           <TextInput
             error={formik.errors.num_of_beds}
             label={"Number of Beds"}
@@ -212,19 +215,17 @@ function PropertyCreatePage() {
               onChange: formik.handleChange,
             }}
           />
-          <FormLabel htmlFor="type">Type</FormLabel>
-          <Select
-            label={"Type"}
-            name="type"
-            placeholder="Select Type"
-            value={formik.values?.type}
-            onChange={formik.handleChange}
-          >
-            <option value="Apartment">Apartment</option>
-            <option value="House">House</option>
-            <option value="Guest House">Guest House</option>
-          </Select>
           <TextInput
+            error={formik.errors.type}
+            label={"Type"}
+            props={{
+              name: "type",
+              placeholder: "Type",
+              value: formik.values?.type,
+              onChange: formik.handleChange,
+            }}
+          />
+          {/* <TextInput
             error={formik.errors.location}
             label={"Location"}
             props={{
@@ -232,6 +233,13 @@ function PropertyCreatePage() {
               placeholder: "Location",
               value: formik.values?.location,
               onChange: formik.handleChange,
+            }}
+          /> */}
+          <Map
+            onLocationSelect={({ name, longitude, latitude }) => {
+              formik.setFieldValue("location", name);
+              formik.setFieldValue("longitude", String(longitude));
+              formik.setFieldValue("latitude", String(latitude));
             }}
           />
           {/* <FormLabel mb="-3">Amenitites</FormLabel> */}
@@ -246,7 +254,7 @@ function PropertyCreatePage() {
             <Stack direction="column">
               {amenitiesOptions.map((amenity) => (
                 <Checkbox key={amenity.value} value={amenity.value}>
-                  {amenity.name}
+                  {amenity.label}
                 </Checkbox>
               ))}
             </Stack>

@@ -38,6 +38,7 @@ import { FiEdit2 } from "react-icons/fi";
 import { getBookingById } from "apiSdk/bookings";
 import { BookingInterface } from "interfaces/booking";
 import BookingDetailCard from "components/BookingDetailCard";
+import LocationMap from "components/mapbox/LocationMap";
 
 function BookingViewPage() {
   const { hasAccess } = useAuthorizationApi();
@@ -157,7 +158,10 @@ function BookingViewPage() {
                     rounded="xl"
                     borderStyle="dashed"
                   >
-                    <Box px="250">Map</Box>
+                    <LocationMap
+                      latitude={data.property.latitude}
+                      longitude={data.property.longitude}
+                    />
                   </Box>
                 </Stack>
               </Box>

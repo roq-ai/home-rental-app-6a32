@@ -45,6 +45,7 @@ import { FilterProvider, useFilter } from "context/FilterContext";
 import MapWithMarkers from "components/LocationForm";
 import Map from "components/Mapping/Map";
 import { BiMapPin } from "react-icons/bi";
+import AddLocation from "components/AddLocation";
 
 type ColumnType = ColumnDef<PropertyInterface, unknown>;
 
@@ -436,7 +437,10 @@ export function PropertyListPage(props: PropertyListPageProps) {
         ))}
       </PropertyGrid> */}
       <Flex direction="row" gap={2}>
-        <Flex>
+        <Flex
+          flex={showMap ? 1 : "auto"} // Use flex 1 when map is shown, otherwise use auto
+          flexBasis={0} // Set the flex basis to 0 to allow the flex property to take effect
+        >
           {filteredData?.length === 0 ? (
             <Text color="gray.500" textAlign="center" fontSize="lg" mt="8">
               No properties found.
@@ -451,7 +455,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
         </Flex>
         <Box>
           {showMap && (
-            <Map width="800" height="400" center={[45.4, -75.7]} zoom={8}>
+            <Map width="400" height="400" center={[45.4, -75.7]} zoom={8}>
               {({ TileLayer, Marker, Popup }: any) => (
                 <>
                   <TileLayer
@@ -473,6 +477,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
           )}
         </Box>
       </Flex>
+
       <Flex direction="column" align="center" mt={4}>
         <Box
           position="fixed"
@@ -501,6 +506,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
           </Button>
         </Box>
       </Flex>
+      <AddLocation />
     </Box>
   );
 }
