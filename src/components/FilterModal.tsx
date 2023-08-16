@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Modal,
@@ -7,26 +7,18 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  FormControl,
-  FormLabel,
-  Input,
   useDisclosure,
   ModalFooter,
   Box,
-  HStack,
   Grid,
   Text,
   Divider,
-  useColorModeValue,
-  Container,
   Badge,
-  Tooltip,
 } from "@chakra-ui/react";
 import { Checkbox, VStack, Heading } from "@chakra-ui/react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { FiFilter } from "react-icons/fi";
-import { QuantityPicker } from "./detail-view/QuantityPicker";
 import Picker from "./Picker";
 import PriceRangeSlider from "./PriceRange";
 import TypeCard from "./TypeCard";

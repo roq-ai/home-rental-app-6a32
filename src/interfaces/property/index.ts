@@ -13,7 +13,7 @@ export interface PropertyInterface {
   num_of_beds:string
   num_of_baths:string
   image_urls?:string[]
-  location: string;
+  location?: string;
   longitude:string
   latitude:string
   company_id?: string;

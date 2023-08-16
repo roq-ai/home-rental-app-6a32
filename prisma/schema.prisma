@@ -47,7 +47,7 @@ model property {
   amenities    String[]  @db.VarChar(255)
   image_urls   String[]
   type         String    @db.VarChar(255)
-  location     String    @db.VarChar(255)
+  location     String?   @db.VarChar(255)
   longitude    String    @db.VarChar(255)
   latitude     String    @db.VarChar(255)
   company_id   String?   @db.Uuid

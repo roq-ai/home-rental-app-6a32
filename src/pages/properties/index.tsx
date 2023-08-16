@@ -15,20 +15,12 @@ import {
   Text,
   TextProps,
 } from "@chakra-ui/react";
-import * as parkData from "../../components/data.json";
 import { ColumnDef } from "@tanstack/react-table";
-import { Error } from "components/error";
-import { SearchInput } from "components/search-input";
 import Table from "components/table";
 import {
   useDataTableParams,
   ListDataFiltersType,
 } from "components/table/hook/use-data-table-params.hook";
-import { DATE_TIME_FORMAT } from "const";
-import d from "dayjs";
-import parseISO from "date-fns/parseISO";
-import format from "date-fns/format";
-import AppLayout from "layout/app-layout";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
@@ -36,16 +28,12 @@ import { FiEdit2, FiPlus, FiTrash } from "react-icons/fi";
 import useSWR from "swr";
 import { PaginatedInterface } from "interfaces";
 import { withAppLayout } from "lib/hocs/with-app-layout.hoc";
-import { AccessInfo } from "components/access-info";
 import { getProperties, deletePropertyById } from "apiSdk/properties";
 import { PropertyInterface } from "interfaces/property";
 import { PropertyGrid } from "components/property-list/PropertyGrid";
 import PropertyCard from "components/property-list/PropertyList";
-import { FilterProvider, useFilter } from "context/FilterContext";
-import MapWithMarkers from "components/LocationForm";
-import Map from "components/Mapping/Map";
+import { useFilter } from "context/FilterContext";
 import { BiMapPin } from "react-icons/bi";
-import AddLocation from "components/AddLocation";
 import ListMap from "components/mapbox/ListMap";
 
 type ColumnType = ColumnDef<PropertyInterface, unknown>;
@@ -156,11 +144,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
     maxValue,
   });
   const filterMatches = (item: PropertyInterface) => {
-    // Filter based on location
-    if (filteredValue && !filteredValue.includes(item.location)) {
-      return false;
-    }
-
     // Filter based on amenities
     if (
       selectedAmenities.length > 0 &&
@@ -190,7 +173,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
       (Number(maxValue) === 4000 || item.price <= maxValue);
     // Combine all filter criteria
     return (
-      (!filteredValue || filteredValue.includes(item.location)) &&
       amenitiesMatch &&
       bedsMatch &&
       bathsMatch &&
@@ -200,7 +182,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
   };
 
   const filteredData =
-    filteredValue ||
     selectedAmenities.length > 0 ||
     selectedBeds ||
     selectedBaths ||
@@ -209,6 +190,9 @@ export function PropertyListPage(props: PropertyListPageProps) {
     maxValue
       ? data?.data.filter(filterMatches)
       : data?.data;
+  useEffect(() => {
+    setFilterNumber(filteredData?.length as unknown as string);
+  }, [filteredData, setFilterNumber]);
 
   console.log({ filteredData });
   const router = useRouter();
@@ -226,6 +210,10 @@ export function PropertyListPage(props: PropertyListPageProps) {
       setDeleteError(error);
     }
   };
+  const searchInput = data?.data.filter((item) =>
+    filteredValue ? item.location.includes(filteredValue) : true
+  );
+
   const DEFAULT_CENTER = [38.907132, -77.036546];
   const mapContainerStyles = {
     position: "relative",
@@ -438,24 +426,36 @@ export function PropertyListPage(props: PropertyListPageProps) {
         ))}
       </PropertyGrid> */}
       <Flex direction="row" gap={2}>
-        <Flex
-          flex={showMap ? 1 : "auto"} // Use flex 1 when map is shown, otherwise use auto
-          flexBasis={0} // Set the flex basis to 0 to allow the flex property to take effect
-        >
-          {filteredData?.length === 0 ? (
-            <Text color="gray.500" textAlign="center" fontSize="lg" mt="8">
-              No properties found.
-            </Text>
-          ) : (
-            <PropertyGrid>
-              {filteredData?.map((item) => (
-                <PropertyCard data={item} key={item.id} />
-              ))}
-            </PropertyGrid>
-          )}
-        </Flex>
-        <Box>{showMap && <ListMap locations={filteredData} />}</Box>
+        {!showMap && (
+          <Flex
+            flex={showMap ? 1 : "auto"} // Use flex 1 when map is shown, otherwise use auto
+            flexBasis={0} // Set the flex basis to 0 to allow the flex property to take effect
+          >
+            {filteredData?.length === 0 ? (
+              <Text color="gray.500" textAlign="center" fontSize="lg" mt="8">
+                No properties found.
+              </Text>
+            ) : filteredValue ? (
+              <PropertyGrid>
+                {searchInput?.map((item) => (
+                  <PropertyCard data={item} key={item.id} />
+                ))}
+              </PropertyGrid>
+            ) : (
+              <PropertyGrid>
+                {filteredData?.map((item) => (
+                  <PropertyCard data={item} key={item.id} />
+                ))}
+              </PropertyGrid>
+            )}
+          </Flex>
+        )}
       </Flex>
+      {showMap && (
+        <Box flex={1} flexBasis={0} height={500}>
+          <ListMap locations={filteredData} />
+        </Box>
+      )}
 
       <Flex direction="column" align="center" mt={4}>
         <Box
@@ -485,7 +485,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
           </Button>
         </Box>
       </Flex>
-      <AddLocation />
     </Box>
   );
 }

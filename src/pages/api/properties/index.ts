@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { roqClient } from 'server/roq';
 import { prisma } from 'server/db';
 import { authorizationValidationMiddleware, errorHandlerMiddleware } from 'server/middlewares';
 import { propertyValidationSchema } from 'validationSchema/properties';
@@ -59,6 +58,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const data = await prisma.property.create({
       data: body,
     });
+    
     return res.status(200).json(data);
   }
 }

@@ -1,35 +1,23 @@
 import {
-  FormControl,
   FormLabel,
-  Input,
   Button,
   Text,
   Box,
-  Spinner,
-  FormErrorMessage,
-  Switch,
   Flex,
   Select,
-  Tag,
-  TagLabel,
-  TagCloseButton,
   Stack,
   CheckboxGroup,
   Checkbox,
+  Textarea,
 } from "@chakra-ui/react";
 import Breadcrumbs from "components/breadcrumb";
-import DatePicker from "components/date-picker";
 import { Error } from "components/error";
 import { FormWrapper } from "components/form-wrapper";
-import { NumberInput } from "components/number-input";
-import { SelectInput } from "components/select-input";
-import { AsyncSelect } from "components/async-select";
 import { TextInput } from "components/text-input";
 import AppLayout from "layout/app-layout";
 import { FormikHelpers, useFormik } from "formik";
 import { useRouter } from "next/router";
-import { FunctionComponent, useState } from "react";
-import * as yup from "yup";
+import { useState } from "react";
 import {
   AccessOperationEnum,
   AccessServiceEnum,
@@ -45,10 +33,6 @@ import { propertyValidationSchema } from "validationSchema/properties";
 import { CompanyInterface } from "interfaces/company";
 import { getCompanies } from "apiSdk/companies";
 import { PropertyInterface } from "interfaces/property";
-import {
-  CheckboxFilter,
-  CheckboxFilterPopover,
-} from "components/check-box/CheckBox";
 import useSWR from "swr";
 import Map from "components/mapbox/Map";
 
@@ -58,11 +42,14 @@ function PropertyCreatePage() {
   const [error, setError] = useState(null);
   const [images, setImages] = useState([]);
   const amenitiesOptions = [
-    { value: "wifi", label: "Wi-Fi" },
-    { value: "pool", label: "Pool" },
-    { value: "gym", label: "Gym" },
-    // Add other amenity options
+    { value: "Wi-Fi", name: "Wi-Fi" },
+    { value: "Swimming Pool", name: "Swimming Pool" },
+    { value: "Gym", name: "Gym" },
+    { value: "Spa", name: "Spa" },
+    { value: "Parking", name: "Parking" },
   ];
+  const [longitude, setLongitude] = useState("");
+  const [latitude, setLatitude] = useState("");
   const handleSubmit = async (
     values: PropertyInterface,
     { resetForm }: FormikHelpers<any>
@@ -135,7 +122,7 @@ function PropertyCreatePage() {
         />
       }
     >
-      <Box rounded="md">
+      <Box rounded="md" width="900">
         <Box mb={4}>
           <Text
             as="h1"
@@ -163,15 +150,13 @@ function PropertyCreatePage() {
             }}
           />
 
-          <TextInput
-            error={formik.errors.description}
-            label={"Description"}
-            props={{
-              name: "description",
-              placeholder: "Description",
-              value: formik.values?.description,
-              onChange: formik.handleChange,
-            }}
+          <FormLabel htmlFor="description">Description</FormLabel>
+          <Textarea
+            id="description"
+            name="description"
+            placeholder="Description"
+            value={formik.values?.description}
+            onChange={formik.handleChange}
           />
 
           <TextInput
@@ -215,35 +200,49 @@ function PropertyCreatePage() {
               onChange: formik.handleChange,
             }}
           />
+          <FormLabel htmlFor="type">Type</FormLabel>
+          <Select
+            name="type"
+            placeholder="Select Type"
+            value={formik.values?.type}
+            onChange={formik.handleChange}
+          >
+            <option value="Apartment">Apartment</option>
+            <option value="House">House</option>
+            <option value="Guest House">Guest House</option>
+          </Select>
           <TextInput
-            error={formik.errors.type}
-            label={"Type"}
+            error={formik.errors.latitude}
+            label={"Latitude"}
             props={{
-              name: "type",
-              placeholder: "Type",
-              value: formik.values?.type,
+              name: "latitude",
+              placeholder: "Latitude",
+              value: formik.values?.latitude,
               onChange: formik.handleChange,
             }}
           />
-          {/* <TextInput
-            error={formik.errors.location}
-            label={"Location"}
+          <TextInput
+            error={formik.errors.longitude}
+            label={"Longitude"}
             props={{
-              name: "location",
-              placeholder: "Location",
-              value: formik.values?.location,
+              name: "longitude",
+              placeholder: "Longitude",
+              value: formik.values?.longitude,
               onChange: formik.handleChange,
             }}
-          /> */}
+          />
           <Map
-            onLocationSelect={({ name, longitude, latitude }) => {
-              formik.setFieldValue("location", name);
-              formik.setFieldValue("longitude", String(longitude));
-              formik.setFieldValue("latitude", String(latitude));
+            longitude={longitude}
+            latitude={latitude}
+            setLongitude={setLongitude}
+            setLatitude={setLatitude}
+            onLocationSelect={({ name, longitude, latitude }: any) => {
+              formik.setFieldValue("location", name ?? "");
+              formik.setFieldValue("longitude", longitude);
+              formik.setFieldValue("latitude", latitude);
             }}
           />
-          {/* <FormLabel mb="-3">Amenitites</FormLabel> */}
-          {/* <CheckboxFilterPopover /> */}
+
           <CheckboxGroup
             value={formik.values.amenities}
             onChange={(selectedAmenities) =>
@@ -254,25 +253,17 @@ function PropertyCreatePage() {
             <Stack direction="column">
               {amenitiesOptions.map((amenity) => (
                 <Checkbox key={amenity.value} value={amenity.value}>
-                  {amenity.label}
+                  {amenity.name}
                 </Checkbox>
               ))}
             </Stack>
           </CheckboxGroup>
-          {/* <AsyncSelect<CompanyInterface>
-            formik={formik}
-            name={"company_id"}
-            label={"Select Company"}
-            placeholder={"Select Company"}
-            fetcher={getCompanies}
-            labelField={"name"}
-          /> */}
+
           <FileUpload
             accept={["image/*"]}
             fileCategory="USER_FILES"
             onUploadSuccess={handleUploadSuccess}
           />
-          {/* {formik.errors.attachement && <FormErrorMessage>{formik.errors?.attachement}</FormErrorMessage>} */}
           <Flex justifyContent={"flex-start"}>
             <Button
               isDisabled={formik?.isSubmitting}

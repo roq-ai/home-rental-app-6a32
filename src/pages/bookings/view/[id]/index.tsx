@@ -159,6 +159,7 @@ function BookingViewPage() {
                     borderStyle="dashed"
                   >
                     <LocationMap
+                      width={"550"}
                       latitude={data.property.latitude}
                       longitude={data.property.longitude}
                     />

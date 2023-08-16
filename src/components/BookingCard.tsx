@@ -1,19 +1,12 @@
-import Image from "next/image";
 import {
   Box,
-  Center,
-  Heading,
   Text,
   Stack,
-  Avatar,
   useColorModeValue,
   Divider,
   Flex,
 } from "@chakra-ui/react";
-import { BiMessageAdd } from "react-icons/bi";
-import { IoLocation } from "react-icons/io5";
 import { Gallery } from "./image-carousel/Gallery";
-import { images } from "./image-carousel/_data";
 
 export default function BookingCard({ data }: any) {
   const checkIn = new Intl.DateTimeFormat("en-US", {

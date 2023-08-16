@@ -1694,7 +1694,15 @@
 "@types/lodash@*", "@types/lodash@^4.14.175":
   version "4.14.197"
 
-"@types/mapbox-gl@>=1.0.0":
+"@types/mapbox__mapbox-gl-geocoder@^4.7.4":
+  version "4.7.4"
+  resolved "https://registry.npmjs.org/@types/mapbox__mapbox-gl-geocoder/-/mapbox__mapbox-gl-geocoder-4.7.4.tgz"
+  integrity sha512-5werS8OKI1H3T9sjuOkM3Yi0aN2LLR6ymAERevQmCdtr3aYCjpqRNtGfhtK7GpmZgjzh9Vr/s46E2QeQh4Rd2g==
+  dependencies:
+    "@types/geojson" "*"
+    "@types/mapbox-gl" "*"
+
+"@types/mapbox-gl@*", "@types/mapbox-gl@>=1.0.0":
   version "2.7.13"
   resolved "https://registry.npmjs.org/@types/mapbox-gl/-/mapbox-gl-2.7.13.tgz"
   integrity sha512-qNffhTdYkeFl8QG9Q1zPPJmcs8PvHgmLa1PcwP1rxvcfMsIgcFr/FnrCttG0ZnH7Kzdd7xfECSRNTWSr4jC3PQ==
