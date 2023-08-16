@@ -8,15 +8,14 @@ import {
   Button,
   Text,
 } from "@chakra-ui/react";
-import { SyntheticEvent, useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
-import DatePicker from "./date-picker";
-import { Calendar, DateRangePicker } from "react-date-range";
+import { DateRangePicker } from "react-date-range";
 
-import "react-date-range/dist/styles.css"; // main css file
-import "react-date-range/dist/theme/default.css"; // theme css file
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 import useSWR from "swr";
 import { getProperties, searchProperties } from "apiSdk/properties";
 import { useFilter } from "context/FilterContext";
@@ -168,12 +167,10 @@ export const SearchInput = () => {
     PaginatedInterface<PropertyInterface>
   >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
 
-  const properties = data?.data || []; // Extracting properties from data
-
-  // ... (other parts of the component)
+  const properties = data?.data || [];
 
   const filteredLocations = properties
-    .map((property: any) => property.location) // Extracting locations from properties
+    .map((property: any) => property.location)
     .filter((location: string) =>
       location.toLowerCase().includes(searchInput.toLowerCase())
     );
@@ -188,7 +185,25 @@ export const SearchInput = () => {
     }
     setFilteredValue(inputValue);
   };
-  console.log({ filteredValue });
+  // Inside SearchInput component
+  const datePickerRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (
+        datePickerRef.current &&
+        !datePickerRef.current.contains(event.target)
+      ) {
+        setDatePickerVisible(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
     <Box position="relative" pb="3">
       <Flex align="center">
@@ -288,6 +303,7 @@ export const SearchInput = () => {
             </Button>
             {isDatePickerVisible && (
               <Box
+                ref={datePickerRef}
                 position="absolute"
                 top="70%"
                 left="30%"
@@ -307,10 +323,15 @@ export const SearchInput = () => {
               </Box>
             )}
             <Button
-              colorScheme="pink"
+              background="#ff385c"
+              color="white"
               variant="solid"
               marginLeft="3rem"
               borderRadius={"20rem"}
+              _hover={{
+                background: "#ff385c",
+                color: "white",
+              }}
               onClick={() => mutate(searchFromBE(filteredValue))}
             >
               <FiSearch size="md" />

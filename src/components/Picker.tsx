@@ -80,9 +80,9 @@ const PickerButton = (props: PickerButtonProps) => {
           color: useColorModeValue("black", "white"),
           bg: useColorModeValue(
             "white.50",
-            transparentize("pink.200", 0.12)(theme)
+            transparentize("#ff385c", 0.12)(theme)
           ),
-          borderColor: useColorModeValue("black", "pink.200"),
+          borderColor: useColorModeValue("black", "#ff385c"),
           borderWidth: "2px",
         }}
         _focus={{ boxShadow: "none" }}

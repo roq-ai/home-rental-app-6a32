@@ -285,7 +285,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             <Button
               className="nav-userInvite"
               width="100%"
-              bgColor="pink.500"
+              bgColor="#ff385c"
               color="secondary.content"
               _hover={{ bg: "secondary.focus" }}
               borderRadius="100px"
@@ -389,6 +389,7 @@ interface MobileProps extends FlexProps {
 const MobileNav = ({ onOpen, isBannerVisible, ...rest }: MobileProps) => {
   const { session } = useSession();
   const router = useRouter();
+  const shouldShowSearchInput = router.pathname === "/properties";
   const { hasAccess } = useAuthorizationApi();
   const {
     isOpen: isFilterOpen,
@@ -442,14 +443,19 @@ const MobileNav = ({ onOpen, isBannerVisible, ...rest }: MobileProps) => {
         <Box display={{ base: "none", md: "flex" }} justifyContent="flex-start">
           <AppLogo />
         </Box>
-        <Box
-          display={{ base: "none", md: "flex" }}
-          justifyContent="center"
-          mt={3}
-        >
-          <SearchInput setFilteredValue={setFilteredValue} />
-        </Box>
-        <FormModal />
+        {shouldShowSearchInput && (
+          <>
+            <Box
+              display={{ base: "none", md: "flex" }}
+              justifyContent="center"
+              mt={3}
+            >
+              <SearchInput />
+            </Box>
+            <FormModal />
+          </>
+        )}
+
         <HStack spacing={0}>
           {hasAccess(
             RoqResourceEnum.CONVERSATION,

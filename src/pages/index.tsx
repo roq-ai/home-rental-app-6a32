@@ -1,11 +1,11 @@
-import { signIn, signUp, requireNextAuth } from '@roq/nextjs';
-import HomeLayout from 'layout/home-layout';
-import { Box, Heading, Text, Stack, Image, Link } from '@chakra-ui/react';
-import { FC } from 'react';
-import { CustomButton } from 'components/custom-button';
-import Head from 'next/head';
-import { PoweredBy } from 'components/powered-by';
-import { HelpBox } from 'components/help-box';
+import { signIn, signUp, requireNextAuth } from "@roq/nextjs";
+import HomeLayout from "layout/home-layout";
+import { Box, Heading, Text, Stack, Image, Link } from "@chakra-ui/react";
+import { FC } from "react";
+import { CustomButton } from "components/custom-button";
+import Head from "next/head";
+import { PoweredBy } from "components/powered-by";
+import { HelpBox } from "components/help-box";
 
 const Card: FC<{
   userTypeName: string;
@@ -13,9 +13,9 @@ const Card: FC<{
   onLogin?: () => void;
   rootClass?: string;
   type?: string;
-}> = ({ userTypeName, rootClass = '', type = '' }) => (
+}> = ({ userTypeName, rootClass = "", type = "" }) => (
   <Box
-    width={{ md: '310px' }}
+    width={{ md: "310px" }}
     bgColor="base.200"
     p="18px"
     border="1px solid"
@@ -27,10 +27,20 @@ const Card: FC<{
       {userTypeName}
     </Text>
     <Box display="flex">
-      <CustomButton flex={1} weight="primary" _hover={{ bg: 'primary.focus' }} onClick={() => signUp(type)}>
+      <CustomButton
+        flex={1}
+        weight="primary"
+        _hover={{ bg: "primary.focus" }}
+        onClick={() => signUp(type)}
+      >
         Signup
       </CustomButton>
-      <CustomButton onClick={() => signIn(type)} flex={{ base: 1, lg: '0 0 131px' }} weight="secondary" ml="12px">
+      <CustomButton
+        onClick={() => signIn(type)}
+        flex={{ base: 1, lg: "0 0 131px" }}
+        weight="secondary"
+        ml="12px"
+      >
         Login
       </CustomButton>
     </Box>
@@ -49,25 +59,36 @@ function HomePage() {
         />
       </Head>
       <HomeLayout>
-        <Box position="relative" display="flex" flex={{ lg: '0 0 485px' }} height={{ base: '180px', lg: 'auto' }}>
+        <Box
+          position="relative"
+          display="flex"
+          flex={{ lg: "0 0 485px" }}
+          height={{ base: "180px", lg: "auto" }}
+        >
           <Image
             flex="1"
             src={
-              'https://images.unsplash.com/photo-1522444195799-478538b28823?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NjA3NjB8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVudGFsfGVufDB8fHx8MTY5MTY2NDU1M3ww&ixlib=rb-4.0.3&q=80&w=1080'
+              "https://images.unsplash.com/photo-1522444195799-478538b28823?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NjA3NjB8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVudGFsfGVufDB8fHx8MTY5MTY2NDU1M3ww&ixlib=rb-4.0.3&q=80&w=1080"
             }
             alt="Dinner"
             objectFit="cover"
             objectPosition="center"
           />
-          <Box position="absolute" top="0" backgroundColor="rgba(0,0,0,0.6)" width="100%" py="2">
+          <Box
+            position="absolute"
+            top="0"
+            backgroundColor="rgba(0,0,0,0.6)"
+            width="100%"
+            py="2"
+          >
             <Text align="center" fontSize="sm" color="white">
-              Photo by{' '}
+              Photo by{" "}
               <Link
                 href="https://unsplash.com/@brina_blum?utm_source=roq-generator&utm_medium=referral"
                 isExternal
                 color="teal.200"
-              >{`Brina Blum`}</Link>{' '}
-              on{' '}
+              >{`Brina Blum`}</Link>{" "}
+              on{" "}
               <Link
                 href="https://unsplash.com/?utm_source=roq-generator&utm_medium=referral"
                 isExternal
@@ -82,21 +103,26 @@ function HomePage() {
           display="flex"
           flexDirection="column"
           justifyContent="space-between"
-          padding={{ base: '32px 16px', lg: '32px 64px', xl: '64px 128px' }}
+          padding={{ base: "32px 16px", lg: "32px 64px", xl: "64px 128px" }}
           overflow="auto"
         >
           <Box>
-            <Heading mb={{ base: '12px', lg: '20px' }} size="2xl">
+            <Heading mb={{ base: "12px", lg: "20px" }} size="2xl">
               {`Home Rental App`}
             </Heading>
-            <Text size="2xl" mb={{ base: '32px', lg: '48px' }} color="base.content" opacity="0.6">
+            <Text
+              size="2xl"
+              mb={{ base: "32px", lg: "48px" }}
+              color="base.content"
+              opacity="0.6"
+            >
               {`Experience seamless home rentals with Home Rental App - your ultimate platform for easy search, detailed listings, efficient booking, and effective communication for both guests and hosts.`}
             </Text>
             <Box
               className="roles-container"
-              display={'flex'}
-              flexDirection={'column'}
-              w={{ base: '100%', md: 'fit-content' }}
+              display={"flex"}
+              flexDirection={"column"}
+              w={{ base: "100%", md: "fit-content" }}
             >
               <Stack direction="column" spacing={6}>
                 <Card userTypeName="Host" type="host" />
@@ -117,5 +143,5 @@ function HomePage() {
 
 export default requireNextAuth({
   redirectIfAuthenticated: true,
-  redirectTo: '/dashboard',
+  redirectTo: "/properties",
 })(HomePage);

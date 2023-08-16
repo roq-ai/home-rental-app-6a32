@@ -104,12 +104,12 @@ const FormModal = () => {
       <Button
         leftIcon={<FiFilter />}
         variant="solid"
-        background="pink.500"
+        background="#ff385c"
         color="white"
         borderRadius="2xl"
         onClick={onOpen}
         _hover={{
-          background: "pink.600",
+          background: "#ff385c",
           color: "white",
         }}
       >
@@ -154,7 +154,12 @@ const FormModal = () => {
                     <QuantityPicker defaultValue={1} max={5} label="Number of beds" />
                     <QuantityPicker defaultValue={1} max={5} label="Number of baths" />
                   </Grid> */}
-                  <Divider color="black" size="md" colorScheme="pink" mb="2" />
+                  <Divider
+                    color="black"
+                    size="md"
+                    colorScheme="#ff385c"
+                    mb="2"
+                  />
                   <VStack align="start" spacing={2}>
                     <Heading size="lg" fontSize="2xl">
                       Select Amenities
@@ -185,7 +190,7 @@ const FormModal = () => {
                   <Divider
                     color="black"
                     size="md"
-                    colorScheme="pink"
+                    colorScheme="#ff385c"
                     mb="3"
                     mt="3"
                   />
@@ -229,7 +234,7 @@ const FormModal = () => {
                   <Divider
                     color="black"
                     size="md"
-                    colorScheme="pink"
+                    colorScheme="#ff385c"
                     mt="3"
                     mb="3"
                   />
@@ -240,7 +245,7 @@ const FormModal = () => {
                   <Divider
                     color="black"
                     size="md"
-                    colorScheme="pink"
+                    colorScheme="#ff385c"
                     mt="3"
                     mb="3"
                   />
@@ -259,7 +264,7 @@ const FormModal = () => {
                   <Divider
                     color="black"
                     size="md"
-                    colorScheme="pink"
+                    colorScheme="#ff385c"
                     mt="3"
                     mb="3"
                   />

@@ -38,7 +38,7 @@ export default function PropertyCard({ data }: any) {
           pos={"relative"}
         >
           <Box mx="auto">
-            <Gallery images={data.image_urls} />
+            <Gallery images={data.image_urls} data={data} />
           </Box>
         </Box>
 

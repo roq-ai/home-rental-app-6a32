@@ -11,6 +11,7 @@ import {
   StackProps,
   useColorModeValue,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import * as React from "react";
 import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 import { Carousel, CarouselSlide, useCarousel } from "./Carousel";
@@ -23,7 +24,7 @@ interface GalleryProps {
 }
 
 export const Gallery = (props: any) => {
-  const { images, aspectRatio = 4 / 3, rootProps } = props;
+  const { images, aspectRatio = 4 / 3, data, rootProps } = props;
   const [currentSlide, setCurrentSlide] = React.useState(0);
 
   const [ref, slider] = useCarousel({
@@ -45,25 +46,27 @@ export const Gallery = (props: any) => {
           },
         }}
       >
-        <Carousel ref={ref} width="300px">
-          {images?.map((image, i) => (
-            <CarouselSlide key={i}>
-              <AspectRatio
-                ratio={aspectRatio}
-                transition="all 200ms"
-                opacity={currentSlide === i ? 1 : 0.4}
-                _hover={{ opacity: 1 }}
-              >
-                <Image
-                  src={image}
-                  objectFit="cover"
-                  alt={image.alt}
-                  fallback={<Skeleton />}
-                />
-              </AspectRatio>
-            </CarouselSlide>
-          ))}
-        </Carousel>
+        <NextLink href={`/properties/view/${data?.id}`} key={data?.id}>
+          <Carousel ref={ref} width="300px">
+            {images?.map((image, i) => (
+              <CarouselSlide key={i}>
+                <AspectRatio
+                  ratio={aspectRatio}
+                  transition="all 200ms"
+                  opacity={currentSlide === i ? 1 : 0.4}
+                  _hover={{ opacity: 1 }}
+                >
+                  <Image
+                    src={image}
+                    objectFit="cover"
+                    alt={image.alt}
+                    fallback={<Skeleton />}
+                  />
+                </AspectRatio>
+              </CarouselSlide>
+            ))}
+          </Carousel>
+        </NextLink>
         {hasPrevious && (
           <CarouselIconButton
             pos="absolute"

@@ -5,6 +5,7 @@ import { Box } from "@chakra-ui/react";
 const ListMap = ({ locations }: any) => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
+  const markersRef = useRef([]);
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;
@@ -29,44 +30,19 @@ const ListMap = ({ locations }: any) => {
       return marker;
     });
 
+    markersRef.current = markers;
+
     return () => {
       markers.forEach((marker: { remove: () => any }) => marker.remove());
       map.remove();
     };
   }, [locations]);
 
-  useEffect(() => {
-    if (mapRef.current) {
-      const map = mapRef.current;
-
-      locations.forEach((location: { longitude: number; latitude: number }) => {
-        const marker = new mapboxgl.Marker().setLngLat([
-          location.longitude,
-          location.latitude,
-        ]);
-
-        const markerEl = marker.getElement();
-
-        // Calculate the offset based on the marker's size
-        const offsetX = -markerEl.offsetWidth / 2;
-        const offsetY = -markerEl.offsetHeight / 2;
-
-        // Project the LatLng coordinates to pixel coordinates
-        const pos = map.project(marker.getLngLat());
-
-        // Adjust the pixel coordinates based on the offset
-        const adjustedPos = pos.add(new mapboxgl.Point(offsetX, offsetY));
-
-        // Convert the adjusted pixel coordinates back to LatLng
-        const adjustedLatLng = map.unproject(adjustedPos);
-
-        marker.setLngLat(adjustedLatLng);
-      });
-    }
-  }, [locations]);
-
   return (
-    <Box ref={mapContainerRef} style={{ width: "auto", height: "500px" }} />
+    <Box
+      ref={mapContainerRef}
+      style={{ width: "auto", height: "500px", overflow: "hidden" }}
+    />
   );
 };
 

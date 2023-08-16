@@ -132,19 +132,19 @@ export const DetailContainer = (props: any) => {
       router.push("/bookings");
     } catch (error) {}
   };
-  // const handleDocumentClick = (event: MouseEvent) => {
-  //   const target = event.target as HTMLElement;
-  //   if (!target.closest("#date-picker-container")) {
-  //     setDatePickerVisible(false); // Hide date picker if clicked outside
-  //   }
-  // };
+  const handleDocumentClick = (event: MouseEvent) => {
+    const target = event.target as HTMLElement;
+    if (!target.closest("#date-picker-container")) {
+      setDatePickerVisible(false); // Hide date picker if clicked outside
+    }
+  };
 
-  // useEffect(() => {
-  //   document.addEventListener("click", handleDocumentClick);
-  //   return () => {
-  //     document.removeEventListener("click", handleDocumentClick);
-  //   };
-  // }, []);
+  useEffect(() => {
+    document.addEventListener("click", handleDocumentClick);
+    return () => {
+      document.removeEventListener("click", handleDocumentClick);
+    };
+  }, []);
 
   return (
     <>
@@ -264,9 +264,11 @@ export const DetailContainer = (props: any) => {
               </HStack>
 
               <Button
-                colorScheme="pink"
+                colorScheme="#ff385c"
                 size="md"
                 width="base"
+                background="#ff385c"
+                color="white"
                 onClick={handleReserveClick}
               >
                 Reserve

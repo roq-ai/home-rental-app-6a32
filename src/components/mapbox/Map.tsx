@@ -68,11 +68,11 @@ const Map = ({
         markerRef.current.setLngLat([longitude, latitude]);
       }
 
-      map.flyTo({
-        center: e.result.geometry.coordinates,
-        essential: true,
-        zoom: 5,
-      });
+      // map.flyTo({
+      //   center: e.result.geometry.coordinates,
+      //   essential: true,
+      //   zoom: 5,
+      // });
     });
 
     return () => {
@@ -107,4 +107,4 @@ const Map = ({
   );
 };
 
-export default Map;
+export default React.memo(Map);

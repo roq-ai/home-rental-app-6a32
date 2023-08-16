@@ -433,7 +433,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
             padding="0rem 0.75rem"
             fontSize={"0.875rem"}
             fontWeight={600}
-            bg="pink.500"
+            bg="#ff385c"
             borderRadius={"6px"}
             color="base.100"
             _hover={{
@@ -490,35 +490,36 @@ export function PropertyListPage(props: PropertyListPageProps) {
           <ListMap locations={filteredData} />
         </Box>
       )}
-
-      <Flex direction="column" align="center" mt={4}>
-        <Box
-          position="fixed"
-          bottom="1rem"
-          left="50%"
-          transform="translateX(-50%)"
-        >
-          <Button
-            leftIcon={<BiMapPin />}
-            onClick={() => setShowMap(!showMap)}
-            zIndex={900002}
-            fontSize="1rem"
-            fontWeight="bold"
-            background="black"
-            color="white"
-            backgroundColor="black"
-            borderRadius="3xl"
-            _hover={{
-              backgroundColor: "black",
-            }}
-            _active={{
-              backgroundColor: "black",
-            }}
+      {currentUser === "guest" && (
+        <Flex direction="column" align="center" mt={4}>
+          <Box
+            position="fixed"
+            bottom="1rem"
+            left="50%"
+            transform="translateX(-50%)"
           >
-            {showMap ? "Hide Map" : "Show Map"}
-          </Button>
-        </Box>
-      </Flex>
+            <Button
+              leftIcon={<BiMapPin />}
+              onClick={() => setShowMap(!showMap)}
+              zIndex={900002}
+              fontSize="1rem"
+              fontWeight="bold"
+              background="black"
+              color="white"
+              backgroundColor="black"
+              borderRadius="3xl"
+              _hover={{
+                backgroundColor: "black",
+              }}
+              _active={{
+                backgroundColor: "black",
+              }}
+            >
+              {showMap ? "Hide Map" : "Show Map"}
+            </Button>
+          </Box>
+        </Flex>
+      )}
     </Box>
   );
 }
