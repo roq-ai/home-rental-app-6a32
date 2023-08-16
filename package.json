@@ -30,6 +30,7 @@
     "eslint-config-next": "13.1.1",
     "formik": "^2.2.9",
     "framer-motion": "^10.12.4",
+    "geolib": "^3.3.4",
     "google-map-react": "^2.2.1",
     "inflection": "^2.0.1",
     "javascript-time-ago": "^2.5.9",
