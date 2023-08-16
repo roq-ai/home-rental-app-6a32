@@ -8,7 +8,7 @@ import {
   Button,
   Text,
 } from "@chakra-ui/react";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useCallback, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
@@ -18,8 +18,11 @@ import { Calendar, DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import useSWR from "swr";
-import { getProperties } from "apiSdk/properties";
+import { getProperties, searchProperties } from "apiSdk/properties";
 import { useFilter } from "context/FilterContext";
+import { useDataTableParams } from "./table/hook/use-data-table-params.hook";
+import { PaginatedInterface } from "interfaces";
+import { PropertyInterface } from "interfaces/property";
 const LocationList = ({ locations, inputWidth, onLocationSelect }: any) => {
   const { data, error, isLoading, mutate } = useSWR(
     () => "/properties",
@@ -64,7 +67,7 @@ export const SearchInput = () => {
   const [showLocationList, setShowLocationList] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [date, setDate] = useState(null);
-  const { filteredValue, setFilteredValue } = useFilter();
+  const { filteredValue, setFilteredValue, setSearchResult } = useFilter();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
@@ -73,6 +76,20 @@ export const SearchInput = () => {
     endDate: endDate,
     key: "selection",
   };
+  const searchFromBE = async (query: string) => {
+    console.log("Searching with query:", query);
+
+    try {
+      const propertiesOnSearch = await searchProperties({
+        location: query,
+      });
+      setSearchResult(propertiesOnSearch);
+      console.log("Fetched properties from searchInput:", propertiesOnSearch);
+    } catch (error) {
+      console.error("Error fetching properties:", error);
+    }
+  };
+
   const handleSelect = (ranges: any) => {
     setStartDate(ranges.selection.startDate);
     setEndDate(ranges.selection.endDate);
@@ -87,10 +104,11 @@ export const SearchInput = () => {
   };
   const handleLocationSelect = (location: string) => {
     setSelectedLocation(location);
-    setShowLocationList(false);
     setSearchInput(location);
+    setShowLocationList(false);
     setFilteredValue(location);
   };
+
   const handleCollpaseSearch = () => {
     setExpanded(false);
   };
@@ -106,11 +124,49 @@ export const SearchInput = () => {
   const handleWhoOutClick = () => {
     // Handle Who dropdown select
   };
+  const {
+    onFiltersChange,
+    onSearchTermChange,
+    params,
+    onPageChange,
+    onPageSizeChange,
+    setParams,
+  } = useDataTableParams({
+    searchTerm: "",
+    order: [
+      {
+        desc: true,
+        id: "created_at",
+      },
+    ],
+  });
+  const fetcher = useCallback(
+    async () =>
+      getProperties({
+        relations: ["company", "booking.count"],
+        limit: params.pageSize,
+        offset: params.pageNumber * params.pageSize,
+        searchTerm: params.searchTerm,
+        order: params.order,
+        searchTermKeys: [
+          "name.contains",
+          "description.contains",
+          "location.contains",
+        ],
 
-  const { data, error, isLoading, mutate } = useSWR(
-    () => "/properties",
-    () => getProperties()
+        ...(params.filters || {}),
+      }),
+    [
+      params.filters,
+      params.order,
+      params.pageNumber,
+      params.pageSize,
+      params.searchTerm,
+    ]
   );
+  const { data, error, isLoading, mutate } = useSWR<
+    PaginatedInterface<PropertyInterface>
+  >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
 
   const properties = data?.data || []; // Extracting properties from data
 
@@ -122,18 +178,17 @@ export const SearchInput = () => {
       location.toLowerCase().includes(searchInput.toLowerCase())
     );
 
-  // Join the filtered locations array into a single string
   const handleInputChange = (e: any) => {
     const inputValue = e.target.value;
     setSearchInput(inputValue);
     setShowLocationList(true);
     setExpanded(true);
-
-    // Join the filtered locations array into a single string
-    const joinedFilteredLocations = filteredLocations.join(", "); // You can adjust the separator as needed
+    if (inputValue === "") {
+      setSearchResult([]);
+    }
     setFilteredValue(inputValue);
   };
-  // console.log({ filteredLocations });
+  console.log({ filteredValue });
   return (
     <Box position="relative" pb="3">
       <Flex align="center">
@@ -256,7 +311,7 @@ export const SearchInput = () => {
               variant="solid"
               marginLeft="3rem"
               borderRadius={"20rem"}
-              onClick={handleCollpaseSearch}
+              onClick={() => mutate(searchFromBE(filteredValue))}
             >
               <FiSearch size="md" />
             </Button>

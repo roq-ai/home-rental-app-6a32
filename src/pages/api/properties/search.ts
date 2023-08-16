@@ -8,13 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         OR: [
           {
             location: {
-              contains: req.query.q as string,
-              mode: 'insensitive',
-            },
-          },
-          {
-            name: {
-              contains: req.query.q as string,
+              contains: req.query.location as string,
               mode: 'insensitive',
             },
           },

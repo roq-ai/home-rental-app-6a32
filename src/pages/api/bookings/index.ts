@@ -47,15 +47,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   async function createBooking() {
     await bookingValidationSchema.validate(req.body);
     const body = { ...req.body };
-    const property = await prisma.property.findFirst({})
-    const conversationId = await roqClient.asUser(roqUserId).createConversation({
-      conversation: {
-        title: job.title,
-        ownerId: roqUserId,
-        memberIds: [roqUserId, ...usersId],
-        isGroup: true,
-      },
-    });
+   
     const data = await prisma.booking.create({
       data: body,
     });

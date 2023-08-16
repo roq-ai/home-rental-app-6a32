@@ -82,7 +82,6 @@ export const DetailContainer = (props: any) => {
     return bookingsForProperty.every((booking) => {
       const bookingStartDate = new Date(booking.start_date);
       const bookingEndDate = new Date(booking.end_date);
-
       return startDate >= bookingStartDate && startDate >= bookingEndDate;
     });
   };

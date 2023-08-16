@@ -4,6 +4,7 @@ import {
   requireNextAuth,
   withAuthorization,
   useAuthorizationApi,
+  useSession,
 } from "@roq/nextjs";
 import { compose } from "lib/compose";
 import {
@@ -11,6 +12,7 @@ import {
   Button,
   Flex,
   IconButton,
+  Input,
   Link,
   Text,
   TextProps,
@@ -28,13 +30,19 @@ import { FiEdit2, FiPlus, FiTrash } from "react-icons/fi";
 import useSWR from "swr";
 import { PaginatedInterface } from "interfaces";
 import { withAppLayout } from "lib/hocs/with-app-layout.hoc";
-import { getProperties, deletePropertyById } from "apiSdk/properties";
+import {
+  getProperties,
+  deletePropertyById,
+  getPropertyById,
+  searchProperties,
+} from "apiSdk/properties";
 import { PropertyInterface } from "interfaces/property";
 import { PropertyGrid } from "components/property-list/PropertyGrid";
 import PropertyCard from "components/property-list/PropertyList";
 import { useFilter } from "context/FilterContext";
 import { BiMapPin } from "react-icons/bi";
 import ListMap from "components/mapbox/ListMap";
+import { getCompanyById } from "apiSdk/companies";
 
 type ColumnType = ColumnDef<PropertyInterface, unknown>;
 
@@ -104,10 +112,14 @@ export function PropertyListPage(props: PropertyListPageProps) {
       params.filters,
     ]
   );
+  const { session } = useSession();
   const { data, error, isLoading, mutate } = useSWR<
     PaginatedInterface<PropertyInterface>
   >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
+
+  const currentUser = session.user.roles?.[0];
   const [showMap, setShowMap] = useState(false);
+  // const [searchResult, setSearchResult] = useState([]);
   const {
     filteredValue,
     selectedAmenities,
@@ -118,6 +130,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
     maxValue,
     FilterNumber,
     setFilterNumber,
+    searchResult,
   } = useFilter();
   const filterIsEmpty =
     !filteredValue &&
@@ -210,7 +223,8 @@ export function PropertyListPage(props: PropertyListPageProps) {
       setDeleteError(error);
     }
   };
-  const searchInput = data?.data.filter((item) =>
+  const [input, setInput] = useState("");
+  const searchInput = data?.data?.filter((item) =>
     filteredValue ? item.location.includes(filteredValue) : true
   );
 
@@ -367,6 +381,20 @@ export function PropertyListPage(props: PropertyListPageProps) {
   if (tableOnly) {
     return table;
   }
+  // const searchFromBE = async (query: string) => {
+  //   console.log("Searching with query:", query);
+
+  //   try {
+  //     const propertiesOnSearch = await searchProperties({
+  //       location: query,
+  //     });
+  //     setSearchResult(propertiesOnSearch);
+  //     console.log("Fetched properties:", propertiesOnSearch);
+  //     // Handle properties data here
+  //   } catch (error) {
+  //     console.error("Error fetching properties:", error);
+  //   }
+  // };
 
   return (
     <Box
@@ -376,6 +404,12 @@ export function PropertyListPage(props: PropertyListPageProps) {
       py={{ base: "6", md: "6", lg: "6" }}
     >
       <Flex alignItems="center" gap={1}>
+        {/* <Input
+          placeholder="search"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <Button onClick={() => mutate(searchFromBE(input))}>Search</Button> */}
         <Text
           as="h1"
           fontSize="1.875rem"
@@ -435,9 +469,9 @@ export function PropertyListPage(props: PropertyListPageProps) {
               <Text color="gray.500" textAlign="center" fontSize="lg" mt="8">
                 No properties found.
               </Text>
-            ) : filteredValue ? (
+            ) : searchResult.length !== 0 ? (
               <PropertyGrid>
-                {searchInput?.map((item) => (
+                {searchResult?.map((item) => (
                   <PropertyCard data={item} key={item.id} />
                 ))}
               </PropertyGrid>

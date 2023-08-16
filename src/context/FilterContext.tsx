@@ -1,3 +1,4 @@
+import { PropertyInterface } from "interfaces/property";
 import React, { createContext, useContext, useState } from "react";
 
 type FilterContextType = {
@@ -23,6 +24,8 @@ type FilterContextType = {
   setLatitude: React.Dispatch<React.SetStateAction<string>>;
   longitude: string;
   setLongitude: React.Dispatch<React.SetStateAction<string>>;
+  searchResult: PropertyInterface[];
+  setSearchResult: React.Dispatch<React.SetStateAction<PropertyInterface[]>>;
 };
 
 const FilterContext = createContext<FilterContextType | undefined>(undefined);
@@ -47,6 +50,7 @@ export const FilterProvider = ({ children }: any) => {
   const [location, setLocation] = useState("");
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
 
   return (
     <FilterContext.Provider
@@ -73,6 +77,8 @@ export const FilterProvider = ({ children }: any) => {
         setLatitude,
         setLocation,
         setLongitude,
+        searchResult,
+        setSearchResult,
       }}
     >
       {children}
