@@ -45,7 +45,7 @@ function PropertyViewPage() {
       }
     >
       <DetailContainer data={data} />
-      <Box borderWidth="2px" minH="480px" rounded="xl" borderStyle="dashed">
+      <Box borderWidth="2px" width="-webkit-max-content" minH="480px" rounded="xl" borderStyle="dashed">
         <LocationMap latitude={data.latitude} longitude={data.longitude} />
       </Box>
     </AppLayout>

@@ -6,6 +6,7 @@ import "styles/globals.css";
 import { ThemeProvider } from "styles/provider/theme-provider";
 import Script from "next/script";
 import { FilterProvider } from "context/FilterContext";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

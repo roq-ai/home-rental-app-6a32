@@ -35,8 +35,11 @@ import { getCompanies } from "apiSdk/companies";
 import { PropertyInterface } from "interfaces/property";
 import useSWR from "swr";
 import Map from "components/mapbox/Map";
+import { AddressAutofill, AddressMinimap } from "@mapbox/search-js-react";
+import { features } from "process";
 
 function PropertyCreatePage() {
+  const TOKEN = process.env.NEXT_PUBLIC_MAP_TOKEN;
   const router = useRouter();
   const { session } = useSession();
   const [error, setError] = useState(null);
@@ -79,8 +82,6 @@ function PropertyCreatePage() {
     formik.setFieldValue("image_urls", images);
   };
 
-  console.log({ images });
-  console.log({ session });
   const formik = useFormik<PropertyInterface>({
     initialValues: {
       name: "",
@@ -211,14 +212,15 @@ function PropertyCreatePage() {
             <option value="House">House</option>
             <option value="Guest House">Guest House</option>
           </Select>
-          <TextInput
-            error={formik.errors.latitude}
-            label={"Latitude"}
-            props={{
-              name: "latitude",
-              placeholder: "Latitude",
-              value: formik.values?.latitude,
-              onChange: formik.handleChange,
+          <Map
+            longitude={longitude}
+            latitude={latitude}
+            setLongitude={setLongitude}
+            setLatitude={setLatitude}
+            onLocationSelect={({ name, longitude, latitude }: any) => {
+              formik.setFieldValue("location", name ?? "");
+              formik.setFieldValue("longitude", longitude);
+              formik.setFieldValue("latitude", latitude);
             }}
           />
           <TextInput
@@ -231,18 +233,16 @@ function PropertyCreatePage() {
               onChange: formik.handleChange,
             }}
           />
-          <Map
-            longitude={longitude}
-            latitude={latitude}
-            setLongitude={setLongitude}
-            setLatitude={setLatitude}
-            onLocationSelect={({ name, longitude, latitude }: any) => {
-              formik.setFieldValue("location", name ?? "");
-              formik.setFieldValue("longitude", longitude);
-              formik.setFieldValue("latitude", latitude);
+          <TextInput
+            error={formik.errors.latitude}
+            label={"Latitude"}
+            props={{
+              name: "latitude",
+              placeholder: "Latitude",
+              value: formik.values?.latitude,
+              onChange: formik.handleChange,
             }}
           />
-
           <CheckboxGroup
             value={formik.values.amenities}
             onChange={(selectedAmenities) =>

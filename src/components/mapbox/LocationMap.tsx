@@ -23,8 +23,9 @@ const LocationMap = ({ latitude, longitude, width = "950" }: any) => {
 
   return (
     <Box
+      minW={{base:'200px', md:'300px', lg:'550px'}}
       ref={mapContainerRef}
-      style={{ width: `${width}px`, height: "500px" }}
+      style={{ height: "100%" }}
     />
   );
 };

@@ -1,11 +1,15 @@
 import React, { useRef, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import { Box } from "@chakra-ui/react";
-
+import { getCenter } from "geolib";
 const ListMap = ({ locations }: any) => {
   const mapContainerRef = useRef(null);
-  const mapRef = useRef(null);
-  const markersRef = useRef([]);
+
+  const coordinates = locations.map((location: any) => ({
+    longitude: location.longitude,
+    latitude: location.latitude,
+  }));
+  const mapCenter = getCenter(coordinates);
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;
@@ -13,30 +17,21 @@ const ListMap = ({ locations }: any) => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [locations[0]?.longitude, locations[0]?.latitude],
-      zoom: 12.5,
+      center: [mapCenter?.latitude, mapCenter?.longitude],
+      zoom: 1,
     });
 
-    mapRef.current = map;
+    locations.map((location: any) =>
+      new mapboxgl.Marker()
+        .setLngLat([location.longitude, location.latitude])
+        .addTo(map)
+    );
 
-    const markers = locations.map((location: any) => {
-      const marker = new mapboxgl.Marker().setLngLat([
-        location.longitude,
-        location.latitude,
-      ]);
+    map.addControl(new mapboxgl.NavigationControl(), "top-right");
 
-      marker.addTo(map);
-
-      return marker;
-    });
-
-    markersRef.current = markers;
-
-    return () => {
-      markers.forEach((marker: { remove: () => any }) => marker.remove());
-      map.remove();
-    };
-  }, [locations]);
+    // Clean up on unmount
+    return () => map.remove();
+  });
 
   return (
     <Box

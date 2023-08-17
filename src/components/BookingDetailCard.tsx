@@ -23,12 +23,13 @@ export default function BookingDetailCard({ data }: any) {
     day: "numeric",
   }).format(new Date(data.end_date));
   return (
-    <Center>
+    // <Center>
       <Box
         maxW={"300px"}
         w={"full"}
         bg={useColorModeValue("white", "gray.900")}
-        boxShadow={"2xl"}
+        // boxShadow={"2xl"}
+        // border="1px lightgray solid"
         rounded={"md"}
         p={6}
         overflow={"hidden"}
@@ -62,7 +63,6 @@ export default function BookingDetailCard({ data }: any) {
           <Stack
             direction={"column"}
             spacing={1}
-            textAlign={"center"}
             fontSize={"sm"}
           >
             <Text fontWeight={600}>Check-out</Text>
@@ -74,19 +74,19 @@ export default function BookingDetailCard({ data }: any) {
         <Stack direction={"row"} spacing={4} align={"center"} mt={3}>
           <BiMessageAdd />
           <Flex direction="column">
-            <Text>Message For Host</Text>
-            <Text fontSize="sm">host</Text>
+            {/* <Text>Message For Host</Text> */}
+            <Text fontSize="md">Message for host</Text>
           </Flex>
         </Stack>
         <Divider mt="3" />
         <Stack direction={"row"} spacing={4} align={"center"} mt={3}>
           <IoLocation />
           <Flex direction="column">
-            <Text>Your Place</Text>
-            <Text fontSize="sm">place</Text>
+            {/* <Text>Your Place</Text> */}
+            <Text fontSize="sm">{data?.property.location}</Text>
           </Flex>
         </Stack>
       </Box>
-    </Center>
+   
   );
 }

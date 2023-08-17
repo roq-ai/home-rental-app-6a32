@@ -1,21 +1,30 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { roqClient } from 'server/roq';
-import { prisma } from 'server/db';
-import { authorizationValidationMiddleware, errorHandlerMiddleware } from 'server/middlewares';
-import { bookingValidationSchema } from 'validationSchema/bookings';
-import { convertQueryToPrismaUtil, getOrderByOptions, parseQueryParams } from 'server/utils';
-import { getServerSession } from '@roq/nextjs';
-import { GetManyQueryOptions } from 'interfaces';
+import type { NextApiRequest, NextApiResponse } from "next";
+import { roqClient } from "server/roq";
+import { prisma } from "server/db";
+import {
+  authorizationValidationMiddleware,
+  errorHandlerMiddleware,
+} from "server/middlewares";
+import { bookingValidationSchema } from "validationSchema/bookings";
+import {
+  convertQueryToPrismaUtil,
+  getOrderByOptions,
+  parseQueryParams,
+} from "server/utils";
+import { getServerSession } from "@roq/nextjs";
+import { GetManyQueryOptions } from "interfaces";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { roqUserId, user } = await getServerSession(req);
   switch (req.method) {
-    case 'GET':
+    case "GET":
       return getBookings();
-    case 'POST':
+    case "POST":
       return createBooking();
     default:
-      return res.status(405).json({ message: `Method ${req.method} not allowed` });
+      return res
+        .status(405)
+        .json({ message: `Method ${req.method} not allowed` });
   }
 
   async function getBookings() {
@@ -34,7 +43,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         roles: user.roles,
       })
       .findManyPaginated({
-        ...convertQueryToPrismaUtil(query, 'booking'),
+        ...convertQueryToPrismaUtil(query, "booking"),
         take: limit,
         skip: offset,
         ...(order?.length && {
@@ -47,14 +56,44 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   async function createBooking() {
     await bookingValidationSchema.validate(req.body);
     const body = { ...req.body };
-   
+    const property = await prisma.property.findFirst({
+      where: { id: body.property_id },
+      include: { company: true },
+    });
+    const company = await prisma.company.findFirst({
+      where: { id: body.company_id },
+    });
+    const usersOfcompany = await roqClient
+      .asSuperAdmin()
+      .users({ filter: { tenantId: { equalTo: company.tenant_id } } });
+    const usersId = usersOfcompany.users.data.map((user) => user.id);
+    console.log("property", { property });
+    const conversationId = await roqClient
+      .asUser(roqUserId)
+      .createConversation({
+        conversation: {
+          title: property.name,
+          ownerId: roqUserId,
+          memberIds: [roqUserId, ...usersId],
+          isGroup: true,
+          tags: ["test"],
+        },
+      });
+    console.log("conversatoin", conversationId.createConversation);
+
+    console.log({ property });
+    console.log({ company });
+
     const data = await prisma.booking.create({
-      data: body,
+      data: {...body, roqConversationId:conversationId.createConversation.id}
     });
     return res.status(200).json(data);
   }
 }
 
 export default function apiHandler(req: NextApiRequest, res: NextApiResponse) {
-  return errorHandlerMiddleware(authorizationValidationMiddleware(handler))(req, res);
+  return errorHandlerMiddleware(authorizationValidationMiddleware(handler))(
+    req,
+    res
+  );
 }
