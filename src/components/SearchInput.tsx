@@ -312,6 +312,7 @@ export const SearchInput = () => {
             </Button>
             {isDatePickerVisible && (
               <Box
+                ref={datePickerRef}
                 position="absolute"
                 top="70%"
                 left="30%"

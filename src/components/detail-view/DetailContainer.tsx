@@ -90,9 +90,7 @@ export const DetailContainer = (props: any) => {
     setStartDate(ranges.selection.startDate);
     setEndDate(ranges.selection.endDate);
   };
-  const handlePickDateClick = () => {
-    setDatePickerVisible(!isDatePickerVisible);
-  };
+
   const calculateTotalPrice = () => {
     const oneDay = 24 * 60 * 60 * 1000;
     const numDays =
@@ -132,23 +130,25 @@ export const DetailContainer = (props: any) => {
       router.push("/bookings");
     } catch (error) {}
   };
-  const datePickerRef = useRef<HTMLDivElement | null>(null);
+  const datePickerRef = useRef(null);
 
-  const handleDocumentClick = (event: MouseEvent) => {
-    const target = event.target as HTMLElement;
-    if (datePickerRef.current && !datePickerRef.current.contains(target)) {
-      setDatePickerVisible(false); // Hide date picker if clicked outside
+  const handlePickDateClick = () => {
+    setDatePickerVisible(!isDatePickerVisible);
+  };
+
+  const handleClickOutside = (event) => {
+    if (
+      datePickerRef.current &&
+      !datePickerRef.current.contains(event.target)
+    ) {
+      setDatePickerVisible(false);
     }
   };
 
-  const handleDateInputClick = (input: "startDate" | "endDate") => {
-    setDatePickerVisible(true);
-  };
-
   useEffect(() => {
-    document.addEventListener("click", handleDocumentClick);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("click", handleDocumentClick);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -240,6 +240,7 @@ export const DetailContainer = (props: any) => {
 
                 {isDatePickerVisible && (
                   <Box
+                    ref={datePickerRef}
                     position="relative"
                     top="100%"
                     zIndex={1}
