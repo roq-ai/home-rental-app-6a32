@@ -16,7 +16,7 @@ model booking {
   num_of_guest      String    @db.VarChar(255)
   num_of_night      String    @db.VarChar(255)
   total_price       String    @db.VarChar(255)
-  roqConversationId String    @db.Uuid
+  roqConversationId String?    @db.Uuid
   guest_id          String?   @db.Uuid
   property_id       String?   @db.Uuid
   created_at        DateTime  @default(now()) @db.Timestamp(6)
