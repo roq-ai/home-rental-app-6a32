@@ -22,6 +22,7 @@ import { useFilter } from "context/FilterContext";
 import { useDataTableParams } from "./table/hook/use-data-table-params.hook";
 import { PaginatedInterface } from "interfaces";
 import { PropertyInterface } from "interfaces/property";
+import { QuantityPicker } from "./detail-view/QuantityPicker";
 const LocationList = ({ locations, inputWidth, onLocationSelect }: any) => {
   const { data, error, isLoading, mutate } = useSWR(
     () => "/properties",
@@ -66,10 +67,12 @@ export const SearchInput = () => {
   const [showLocationList, setShowLocationList] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [date, setDate] = useState(null);
-  const { filteredValue, setFilteredValue, setSearchResult } = useFilter();
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const { filteredValue, setFilteredValue, setSearchResult, setGuest, guest } =
+    useFilter();
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
+  const [isWhoVisible, setWhoVisible] = useState(false);
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
@@ -93,9 +96,12 @@ export const SearchInput = () => {
     setStartDate(ranges.selection.startDate);
     setEndDate(ranges.selection.endDate);
   };
-  const handlePickDateClick = () => {
-    setDatePickerVisible(!isDatePickerVisible);
-  };
+  // const handlePickDateClick = () => {
+  //   setDatePickerVisible(!isDatePickerVisible);
+  // };
+  // const handleWhoClick = () => {
+  //   setWhoVisible(!isWhoVisible);
+  // };
   const handleInputClick = () => {
     setShowDatePicker(true);
     setShowLocationList(true);
@@ -185,22 +191,39 @@ export const SearchInput = () => {
     }
     setFilteredValue(inputValue);
   };
-  // Inside SearchInput component
   const datePickerRef = useRef(null);
+  const quantityPickerRef = useRef(null);
+
+  const handlePickDateClick = () => {
+    setDatePickerVisible(!isDatePickerVisible);
+    setWhoVisible(false); // Close QuantityPicker when opening DatePicker
+  };
+
+  const handleWhoClick = () => {
+    setWhoVisible(!isWhoVisible);
+    setDatePickerVisible(false); // Close DatePicker when opening QuantityPicker
+  };
+
+  const handleClickOutside = (event) => {
+    if (
+      datePickerRef.current &&
+      !datePickerRef.current.contains(event.target)
+    ) {
+      setDatePickerVisible(false);
+    }
+
+    if (
+      quantityPickerRef.current &&
+      !quantityPickerRef.current.contains(event.target)
+    ) {
+      setWhoVisible(false);
+    }
+  };
+
   useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (
-        datePickerRef.current &&
-        !datePickerRef.current.contains(event.target)
-      ) {
-        setDatePickerVisible(false);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -270,7 +293,7 @@ export const SearchInput = () => {
             >
               Check In
               <Text fontSize="xs" fontWeight="normal">
-                Add Dates
+                {startDate ? startDate.toLocaleDateString() : "Add Date"}
               </Text>
             </Button>
             <Button
@@ -284,12 +307,31 @@ export const SearchInput = () => {
             >
               Check Out
               <Text fontSize="xs" fontWeight="normal">
-                Add Dates
+                {endDate ? endDate.toLocaleDateString() : "Add Date"}
               </Text>
-              {/* <Calendar onChange={(item) => setDate(item)} date={new Date()} /> */}
             </Button>
+            {isDatePickerVisible && (
+              <Box
+                position="absolute"
+                top="70%"
+                left="30%"
+                zIndex={1}
+                boxShadow="2xl"
+                bg="white"
+                borderRadius="lg"
+              >
+                <DateRangePicker
+                  showMonthAndYearPickers={false}
+                  // editableDateInputs={true}
+                  ranges={[selectionRange]}
+                  minDate={new Date()}
+                  onChange={handleSelect}
+                  rangeColors={["#FD5B61"]}
+                />
+              </Box>
+            )}
             <Button
-              onClick={handleWhoOutClick}
+              onClick={handleWhoClick}
               size="sm"
               px={5}
               ml={5}
@@ -301,27 +343,29 @@ export const SearchInput = () => {
                 Add Guest
               </Text>
             </Button>
-            {isDatePickerVisible && (
-              <Box
-                ref={datePickerRef}
-                position="absolute"
-                top="70%"
-                left="30%"
-                zIndex={1}
-                boxShadow="2xl"
-                bg="white"
-                borderRadius="lg"
-              >
-                <DateRangePicker
-                  showMonthAndYearPickers={false}
-                  editableDateInputs={true}
-                  ranges={[selectionRange]}
-                  minDate={new Date()}
-                  onChange={handleSelect}
-                  rangeColors={["#FD5B61"]}
-                />
-              </Box>
+            {isWhoVisible && (
+              <>
+                <Box
+                  ref={quantityPickerRef}
+                  position="absolute"
+                  top="70%"
+                  left="75%"
+                  zIndex={1}
+                  boxShadow="2xl"
+                  bg="white"
+                  borderRadius="lg"
+                  border="none"
+                >
+                  <QuantityPicker
+                    defaultValue={1}
+                    max={10}
+                    label="Add Guest"
+                    setGuest={setGuest}
+                  />
+                </Box>
+              </>
             )}
+
             <Button
               background="#ff385c"
               color="white"

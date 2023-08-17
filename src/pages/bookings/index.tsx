@@ -15,6 +15,8 @@ import {
   Text,
   TextProps,
 } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
+
 import { ColumnDef } from "@tanstack/react-table";
 import { Error } from "components/error";
 import { SearchInput } from "components/search-input";
@@ -296,7 +298,13 @@ export function BookingListPage(props: BookingListPageProps) {
   if (tableOnly) {
     return table;
   }
-
+  if (isLoading) {
+    return (
+      <Flex align="center" justify="center" w="100%" h="100%">
+        <Spinner size="lg" color="black" />
+      </Flex>
+    );
+  }
   return (
     <Box p={4} rounded="md" shadow="none">
       <Flex justifyContent="space-between" mb={4}>
@@ -311,37 +319,6 @@ export function BookingListPage(props: BookingListPageProps) {
             Bookings
           </Text>
         </Flex>
-
-        {/* {hasAccess(
-          "booking",
-          AccessOperationEnum.CREATE,
-          AccessServiceEnum.PROJECT
-        ) && (
-          <NextLink href={`/bookings/create`} passHref legacyBehavior>
-            <Button
-              onClick={(e) => e.stopPropagation()}
-              height={"2rem"}
-              padding="0rem 0.75rem"
-              fontSize={"0.875rem"}
-              fontWeight={600}
-              bg="state.info.main"
-              borderRadius={"6px"}
-              color="base.100"
-              _hover={{
-                bg: "state.info.focus",
-              }}
-              mr="4"
-              as="a"
-            >
-              <FiPlus
-                size={16}
-                color="state.info.content"
-                style={{ marginRight: "0.25rem" }}
-              />
-              Create
-            </Button>
-          </NextLink>
-        )} */}
       </Flex>
       {showSearchFilter && (
         <Flex

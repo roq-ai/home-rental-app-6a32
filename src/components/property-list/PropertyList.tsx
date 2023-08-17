@@ -44,10 +44,18 @@ export default function PropertyCard({ data }: any) {
 
         <NextLink href={`/properties/view/${data.id}`} key={data.id}>
           <Stack direction={"row"} spacing={4} align={"center"}>
-            <Stack direction={"column"} textAlign={"center"} fontSize={"sm"}>
+            <Stack direction={"column"} fontSize={"sm"}>
+              <Text
+                fontSize="sm"
+                fontWeight="bold"
+                color={useColorModeValue("gray.700", "gray.400")}
+              >
+                {data.location.split(",")[0]}
+              </Text>
+
               <Text
                 fontSize="md"
-                fontWeight="bold"
+                fontWeight="normal"
                 color={useColorModeValue("gray.700", "gray.400")}
               >
                 {data.name}

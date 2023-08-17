@@ -7,8 +7,7 @@ const LocationMap = ({ latitude, longitude, width = "950" }: any) => {
   const mapContainerRef = useRef(null);
 
   useEffect(() => {
-    mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN; // Replace with your Mapbox access token
-
+    mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
@@ -23,7 +22,7 @@ const LocationMap = ({ latitude, longitude, width = "950" }: any) => {
 
   return (
     <Box
-      minW={{base:'200px', md:'300px', lg:'550px'}}
+      minW={{ base: "200px", md: "300px", lg: "550px", xl: "500px" }}
       ref={mapContainerRef}
       style={{ height: "100%" }}
     />

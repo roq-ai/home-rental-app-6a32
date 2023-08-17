@@ -1,4 +1,4 @@
-import { signIn, signUp, requireNextAuth } from "@roq/nextjs";
+import { signIn, signUp, requireNextAuth, useSession } from "@roq/nextjs";
 import HomeLayout from "layout/home-layout";
 import { Box, Heading, Text, Stack, Image, Link } from "@chakra-ui/react";
 import { FC } from "react";
@@ -143,5 +143,5 @@ function HomePage() {
 
 export default requireNextAuth({
   redirectIfAuthenticated: true,
-  redirectTo: "/properties",
+  redirectTo: "/dashboard",
 })(HomePage);

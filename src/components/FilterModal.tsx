@@ -161,7 +161,7 @@ const FormModal = () => {
                     mb="2"
                   />
                   <VStack align="start" spacing={2}>
-                    <Heading size="lg" fontSize="2xl">
+                    <Heading size="md" fontSize="lg">
                       Select Amenities
                     </Heading>
                     <Grid templateColumns="repeat(2, 1fr)" gap={4} p={4}>
@@ -169,23 +169,19 @@ const FormModal = () => {
                         <Box key={amenity.id} p={2}>
                           <Checkbox
                             colorScheme="gray"
-                            size="lg" // Increase checkbox size
+                            size="md" // Increase checkbox size
                             iconSize="1.5em" // Increase icon size
                             borderColor="black"
                             isChecked={selectedAmenities.includes(amenity.name)}
                             onChange={() => toggleAmenity(amenity.name)}
                           >
-                            <Text fontSize="lg" fontWeight="medium">
+                            <Text fontSize="md" fontWeight="medium">
                               {amenity.name}
                             </Text>
                           </Checkbox>
                         </Box>
                       ))}
                     </Grid>
-
-                    <Button variant="link" mt="2">
-                      Show More
-                    </Button>
                   </VStack>
                   <Divider
                     color="black"

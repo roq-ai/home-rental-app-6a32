@@ -211,7 +211,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     },
     {
       name: currentUser === "host" ? "My Properties" : "Properties",
-      path: "/properties",
+      path: currentUser === "guest" ? "/properties" : "/my-properties",
       entity: "property",
       service: AccessServiceEnum.PROJECT,
       icon: FiHome,
@@ -389,7 +389,8 @@ interface MobileProps extends FlexProps {
 const MobileNav = ({ onOpen, isBannerVisible, ...rest }: MobileProps) => {
   const { session } = useSession();
   const router = useRouter();
-  const shouldShowSearchInput = router.pathname === "/properties";
+  const shouldShowSearchInput =
+    router.pathname === "/properties" || router.pathname === "/my-properties";
   const { hasAccess } = useAuthorizationApi();
   const {
     isOpen: isFilterOpen,

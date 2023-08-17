@@ -29,7 +29,6 @@ const ListMap = ({ locations }: any) => {
 
     map.addControl(new mapboxgl.NavigationControl(), "top-right");
 
-    // Clean up on unmount
     return () => map.remove();
   });
 

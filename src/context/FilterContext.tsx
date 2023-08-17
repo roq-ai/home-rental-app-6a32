@@ -26,6 +26,8 @@ type FilterContextType = {
   setLongitude: React.Dispatch<React.SetStateAction<string>>;
   searchResult: PropertyInterface[];
   setSearchResult: React.Dispatch<React.SetStateAction<PropertyInterface[]>>;
+  guest: string;
+  setGuest: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const FilterContext = createContext<FilterContextType | undefined>(undefined);
@@ -51,6 +53,7 @@ export const FilterProvider = ({ children }: any) => {
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
   const [searchResult, setSearchResult] = useState([]);
+  const [guest, setGuest] = useState("");
 
   return (
     <FilterContext.Provider
@@ -79,6 +82,8 @@ export const FilterProvider = ({ children }: any) => {
         setLongitude,
         searchResult,
         setSearchResult,
+        guest,
+        setGuest,
       }}
     >
       {children}

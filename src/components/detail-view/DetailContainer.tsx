@@ -22,7 +22,7 @@ import { Product } from "./_data";
 import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Promos } from "./Promos";
 import { createBooking, getBookings } from "apiSdk/bookings";
 import { useRouter } from "next/router";
@@ -132,11 +132,17 @@ export const DetailContainer = (props: any) => {
       router.push("/bookings");
     } catch (error) {}
   };
+  const datePickerRef = useRef<HTMLDivElement | null>(null);
+
   const handleDocumentClick = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
-    if (!target.closest("#date-picker-container")) {
+    if (datePickerRef.current && !datePickerRef.current.contains(target)) {
       setDatePickerVisible(false); // Hide date picker if clicked outside
     }
+  };
+
+  const handleDateInputClick = (input: "startDate" | "endDate") => {
+    setDatePickerVisible(true);
   };
 
   useEffect(() => {

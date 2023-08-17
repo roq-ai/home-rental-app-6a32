@@ -9,30 +9,52 @@ import {
   Text,
   useControllableState,
   UseControllableStateProps,
-} from '@chakra-ui/react';
-import * as React from 'react';
-import { FiMinus, FiPlus } from 'react-icons/fi';
+} from "@chakra-ui/react";
+import * as React from "react";
+import { FiMinus, FiPlus } from "react-icons/fi";
 
 interface QuantityPickerProps extends UseControllableStateProps<number> {
   max?: number;
   min?: number;
   label?: string;
   rootProps?: FormControlProps;
+  setGuest?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const QuantityPicker = (props: QuantityPickerProps) => {
-  const { min = 0, max, rootProps, label, ...rest } = props;
+  const { min = 0, max, rootProps, label, setGuest, ...rest } = props;
 
   const [value, setValue] = useControllableState(rest);
-  const handleDecrement = () => setValue(value === min ? value : value - 1);
-  const handleIncrement = () => setValue(value === max ? value : value + 1);
+  const handleDecrement = () => {
+    if (value > min) {
+      setValue(value - 1);
+      if (setGuest) {
+        setGuest(String(value));
+      }
+    }
+  };
+
+  const handleIncrement = () => {
+    if (max === undefined || value < max) {
+      setValue(value + 1);
+      if (setGuest) {
+        setGuest(String(value));
+      }
+    }
+  };
 
   return (
     <FormControl {...rootProps}>
       <FormLabel fontSize="sm" fontWeight="medium">
-        {label ? label : 'Guests'}
+        {label ? label : "Guests"}
       </FormLabel>
-      <Flex borderRadius="base" px="2" py="0.4375rem" borderWidth="1px" justifyContent="space-between">
+      <Flex
+        borderRadius="base"
+        px="2"
+        py="0.4375rem"
+        borderWidth="1px"
+        justifyContent="space-between"
+      >
         <QuantityPickerButton
           onClick={handleDecrement}
           icon={<FiMinus />}
@@ -59,8 +81,8 @@ const QuantityPickerButton = (props: IconButtonProps) => (
   <IconButton
     size="sm"
     fontSize="md"
-    _focus={{ boxShadow: 'none' }}
-    _focusVisible={{ boxShadow: 'outline' }}
+    _focus={{ boxShadow: "none" }}
+    _focusVisible={{ boxShadow: "outline" }}
     {...props}
   />
 );
