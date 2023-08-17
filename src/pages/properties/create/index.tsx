@@ -34,7 +34,7 @@ import { CompanyInterface } from "interfaces/company";
 import { getCompanies } from "apiSdk/companies";
 import { PropertyInterface } from "interfaces/property";
 import useSWR from "swr";
-import Map from "components/mapbox/Map";sd
+import Map from "components/mapbox/Map";
 
 function PropertyCreatePage() {
   const TOKEN = process.env.NEXT_PUBLIC_MAP_TOKEN;
