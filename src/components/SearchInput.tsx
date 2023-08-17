@@ -91,52 +91,7 @@ export const SearchInput = () => {
       console.error("Error fetching properties:", error);
     }
   };
-
-  const handleSelect = (ranges: any) => {
-    setStartDate(ranges.selection.startDate);
-    setEndDate(ranges.selection.endDate);
-  };
-  // const handlePickDateClick = () => {
-  //   setDatePickerVisible(!isDatePickerVisible);
-  // };
-  // const handleWhoClick = () => {
-  //   setWhoVisible(!isWhoVisible);
-  // };
-  const handleInputClick = () => {
-    setShowDatePicker(true);
-    setShowLocationList(true);
-    setExpanded(true);
-  };
-  const handleLocationSelect = (location: string) => {
-    setSelectedLocation(location);
-    setSearchInput(location);
-    setShowLocationList(false);
-    setFilteredValue(location);
-  };
-
-  const handleCollpaseSearch = () => {
-    setExpanded(false);
-  };
-
-  const handleCheckInClick = () => {
-    // Handle Check In button click
-  };
-
-  const handleCheckOutClick = () => {
-    // Handle Check Out button click
-  };
-
-  const handleWhoOutClick = () => {
-    // Handle Who dropdown select
-  };
-  const {
-    onFiltersChange,
-    onSearchTermChange,
-    params,
-    onPageChange,
-    onPageSizeChange,
-    setParams,
-  } = useDataTableParams({
+  const { params } = useDataTableParams({
     searchTerm: "",
     order: [
       {
@@ -145,6 +100,7 @@ export const SearchInput = () => {
       },
     ],
   });
+
   const fetcher = useCallback(
     async () =>
       getProperties({
@@ -181,6 +137,27 @@ export const SearchInput = () => {
       location.toLowerCase().includes(searchInput.toLowerCase())
     );
 
+  const handleSelect = (ranges: any) => {
+    setStartDate(ranges.selection.startDate);
+    setEndDate(ranges.selection.endDate);
+  };
+
+  const handleInputClick = () => {
+    setShowDatePicker(true);
+    setShowLocationList(true);
+    setExpanded(true);
+  };
+  const handleLocationSelect = (location: string) => {
+    setSelectedLocation(location);
+    setSearchInput(location);
+    setShowLocationList(false);
+    setFilteredValue(location);
+  };
+
+  const handleCollpaseSearch = () => {
+    setExpanded(false);
+  };
+
   const handleInputChange = (e: any) => {
     const inputValue = e.target.value;
     setSearchInput(inputValue);
@@ -196,15 +173,15 @@ export const SearchInput = () => {
 
   const handlePickDateClick = () => {
     setDatePickerVisible(!isDatePickerVisible);
-    setWhoVisible(false); // Close QuantityPicker when opening DatePicker
+    setWhoVisible(false);
   };
 
   const handleWhoClick = () => {
     setWhoVisible(!isWhoVisible);
-    setDatePickerVisible(false); // Close DatePicker when opening QuantityPicker
+    setDatePickerVisible(false);
   };
 
-  const handleClickOutside = (event) => {
+  const handleClickOutside = (event: any) => {
     if (
       datePickerRef.current &&
       !datePickerRef.current.contains(event.target)
@@ -237,7 +214,6 @@ export const SearchInput = () => {
             </InputLeftElement>
             <Input
               onClick={handleInputClick}
-              // onInput={handleInputChange}
               value={searchInput}
               focusBorderColor="#FD5B61"
               borderRadius={"20rem"}

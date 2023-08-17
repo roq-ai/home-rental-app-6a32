@@ -34,9 +34,7 @@ import { CompanyInterface } from "interfaces/company";
 import { getCompanies } from "apiSdk/companies";
 import { PropertyInterface } from "interfaces/property";
 import useSWR from "swr";
-import Map from "components/mapbox/Map";
-import { AddressAutofill, AddressMinimap } from "@mapbox/search-js-react";
-import { features } from "process";
+import Map from "components/mapbox/Map";sd
 
 function PropertyCreatePage() {
   const TOKEN = process.env.NEXT_PUBLIC_MAP_TOKEN;

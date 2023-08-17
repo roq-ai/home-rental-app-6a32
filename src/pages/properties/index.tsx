@@ -6,7 +6,7 @@ import {
   useAuthorizationApi,
   useSession,
 } from "@roq/nextjs";
-import { SimpleGrid, Spinner } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
 import { compose } from "lib/compose";
 import { Box, Button, Flex, Text, TextProps } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
