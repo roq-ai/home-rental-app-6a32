@@ -6,44 +6,26 @@ import {
   useAuthorizationApi,
   useSession,
 } from "@roq/nextjs";
-import { Spinner } from "@chakra-ui/react";
+import { SimpleGrid, Spinner } from "@chakra-ui/react";
 import { compose } from "lib/compose";
-import {
-  Box,
-  Button,
-  Flex,
-  IconButton,
-  Input,
-  Link,
-  Text,
-  TextProps,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Text, TextProps } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
-import Table from "components/table";
 import {
   useDataTableParams,
   ListDataFiltersType,
 } from "components/table/hook/use-data-table-params.hook";
-import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import { FiEdit2, FiPlus, FiTrash } from "react-icons/fi";
 import useSWR from "swr";
 import { PaginatedInterface } from "interfaces";
 import { withAppLayout } from "lib/hocs/with-app-layout.hoc";
-import {
-  getProperties,
-  deletePropertyById,
-  getPropertyById,
-  searchProperties,
-} from "apiSdk/properties";
+import { getProperties, deletePropertyById } from "apiSdk/properties";
 import { PropertyInterface } from "interfaces/property";
 import { PropertyGrid } from "components/property-list/PropertyGrid";
 import PropertyCard from "components/property-list/PropertyList";
 import { useFilter } from "context/FilterContext";
 import { BiMapPin } from "react-icons/bi";
 import ListMap from "components/mapbox/ListMap";
-import { getCompanyById } from "apiSdk/companies";
 
 type ColumnType = ColumnDef<PropertyInterface, unknown>;
 
@@ -257,10 +239,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
 
       <Flex direction="row" gap={2}>
         {!showMap && (
-          <Flex
-            flex={showMap ? 1 : "auto"} // Use flex 1 when map is shown, otherwise use auto
-            flexBasis={0} // Set the flex basis to 0 to allow the flex property to take effect
-          >
+          <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
             {filteredData?.length === 0 ? (
               <Text color="gray.500" textAlign="center" fontSize="lg" mt="8">
                 No properties found.

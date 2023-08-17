@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Flex, Spinner } from "@chakra-ui/react";
 import Breadcrumbs from "components/breadcrumb";
 import AppLayout from "layout/app-layout";
 import { useRouter } from "next/router";
@@ -25,7 +25,13 @@ function PropertyViewPage() {
     () => (id ? `/properties/${id}` : null),
     () => getPropertyById(id)
   );
-  if (isLoading) return null;
+  if (isLoading) {
+    return (
+      <Flex align="center" justify="center" w="100%" h="100%">
+        <Spinner size="lg" color="black" />
+      </Flex>
+    );
+  }
 
   return (
     <AppLayout
@@ -45,7 +51,7 @@ function PropertyViewPage() {
       }
     >
       <DetailContainer data={data} />
-      <Box borderWidth="2px" width="-webkit-max-content" minH="480px" rounded="xl" borderStyle="dashed">
+      <Box borderWidth="2px" minH="480px" rounded="xl" borderStyle="dashed">
         <LocationMap latitude={data.latitude} longitude={data.longitude} />
       </Box>
     </AppLayout>

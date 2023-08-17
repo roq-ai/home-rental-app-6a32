@@ -3,7 +3,7 @@ import mapboxgl from "mapbox-gl";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import { Box } from "@chakra-ui/react";
 
-const LocationMap = ({ latitude, longitude, width = "950" }: any) => {
+const LocationMap = ({ latitude, longitude, width = "500" }: any) => {
   const mapContainerRef = useRef(null);
 
   useEffect(() => {
@@ -23,6 +23,7 @@ const LocationMap = ({ latitude, longitude, width = "950" }: any) => {
   return (
     <Box
       minW={{ base: "200px", md: "300px", lg: "550px", xl: "500px" }}
+      width={`500px`}
       ref={mapContainerRef}
       style={{ height: "100%" }}
     />

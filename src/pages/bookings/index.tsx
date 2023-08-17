@@ -12,6 +12,7 @@ import {
   Flex,
   IconButton,
   Link,
+  SimpleGrid,
   Text,
   TextProps,
 } from "@chakra-ui/react";
@@ -347,7 +348,13 @@ export function BookingListPage(props: BookingListPageProps) {
           <Error error={deleteError} />{" "}
         </Box>
       )}
-      <BookingGrid>
+      <SimpleGrid
+        display="flex"
+        flexWrap="wrap"
+        columns={3}
+        columnGap="3"
+        rowGap="6"
+      >
         {data?.data?.length === 0 ? (
           <Text color="gray.500" textAlign="center" fontSize="lg" mt="8">
             No bookings available yet.
@@ -359,7 +366,7 @@ export function BookingListPage(props: BookingListPageProps) {
             </NextLink>
           ))
         )}
-      </BookingGrid>
+      </SimpleGrid>
     </Box>
   );
 }
