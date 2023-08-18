@@ -68,8 +68,8 @@ const PickerButton = (props: PickerButtonProps) => {
       <Button
         as="span"
         px="7"
-        py="4" // Increase button padding
-        m="1" // Add margin to create space between buttons
+        py="4"
+        m="1"
         cursor="pointer"
         variant="outline"
         colorScheme="blackAlpha"

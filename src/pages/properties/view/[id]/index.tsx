@@ -8,7 +8,6 @@ import {
   AccessOperationEnum,
   AccessServiceEnum,
   requireNextAuth,
-  useAuthorizationApi,
   withAuthorization,
 } from "@roq/nextjs";
 
@@ -18,7 +17,6 @@ import { DetailContainer } from "components/detail-view/DetailContainer";
 import LocationMap from "components/mapbox/LocationMap";
 
 function PropertyViewPage() {
-  const { hasAccess } = useAuthorizationApi();
   const router = useRouter();
   const id = router.query.id as string;
   const { data, error, isLoading, mutate } = useSWR<PropertyInterface>(

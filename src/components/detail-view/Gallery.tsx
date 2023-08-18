@@ -4,7 +4,6 @@ import {
   Image,
   Skeleton,
   Stack,
-  StackProps,
   useBreakpointValue,
 } from "@chakra-ui/react";
 import * as React from "react";
@@ -15,13 +14,6 @@ import {
   CarouselSlide,
   useCarousel,
 } from "./Carousel";
-import { ProductImage } from "./_data";
-
-interface GalleryProps {
-  images: ProductImage[];
-  aspectRatio?: number;
-  rootProps?: StackProps;
-}
 
 export const Gallery = (props: any) => {
   const { images, aspectRatio = 4 / 3, rootProps } = props;
@@ -36,7 +28,6 @@ export const Gallery = (props: any) => {
     },
     slideChanged: (slider) => setCurrentSlide(slider.track.details.rel),
   });
-  // console.log({ images });
 
   return (
     <Stack spacing="4" {...rootProps}>
@@ -56,7 +47,7 @@ export const Gallery = (props: any) => {
           disabled={currentSlide === 0}
         />
         <Carousel ref={ref} direction="row" width="full">
-          {images.map((image, i) => (
+          {images.map((image: any, i: number) => (
             <CarouselSlide key={i} onClick={() => setIndex(i)} cursor="pointer">
               <AspectRatio
                 ratio={aspectRatio}

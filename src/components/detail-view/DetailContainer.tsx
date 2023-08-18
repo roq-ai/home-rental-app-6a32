@@ -5,23 +5,16 @@ import {
   Flex,
   Heading,
   HStack,
-  Icon,
-  Link,
   Stack,
-  StackProps,
   Text,
-  useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import { FiClock, FiHeart } from "react-icons/fi";
-import { RiRulerLine } from "react-icons/ri";
 import { Gallery } from "./Gallery";
 import { PriceTag } from "./PriceTag";
 import { QuantityPicker } from "./QuantityPicker";
-import { Product } from "./_data";
 import { DateRangePicker } from "react-date-range";
-import "react-date-range/dist/styles.css"; // main style file
-import "react-date-range/dist/theme/default.css"; // theme css file
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 import { useEffect, useRef, useState } from "react";
 import { Promos } from "./Promos";
 import { createBooking, getBookings } from "apiSdk/bookings";
@@ -32,12 +25,6 @@ import { getUsers } from "apiSdk/users";
 import { UserInterface } from "interfaces/user";
 import { PaginatedInterface } from "interfaces";
 import { BookingInterface } from "interfaces/booking";
-
-interface DetailContainerProps {
-  product: Product;
-  rootProps?: StackProps;
-}
-type FetchedDataType<T> = { data: T[] };
 
 export const DetailContainer = (props: any) => {
   const { session } = useSession();
@@ -70,7 +57,6 @@ export const DetailContainer = (props: any) => {
   );
   const isPropertyReserved = () => {
     if (existingBookingsError || existingBookingsLoading) {
-      // Handle loading or error states
       return false;
     }
 
@@ -136,7 +122,7 @@ export const DetailContainer = (props: any) => {
     setDatePickerVisible(!isDatePickerVisible);
   };
 
-  const handleClickOutside = (event) => {
+  const handleClickOutside = (event: any) => {
     if (
       datePickerRef.current &&
       !datePickerRef.current.contains(event.target)

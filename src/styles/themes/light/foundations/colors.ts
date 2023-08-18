@@ -3,7 +3,7 @@ export const colors = {
     main: '#ff385c',
     transparent: 'rgba(110, 115, 247, 0.2)',
     focus: '#ff585c',
-    content: '#ff885c',
+    content: '#fff',
   },
   secondary: {
     main: '#ff385c',

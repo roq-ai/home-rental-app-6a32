@@ -13,7 +13,6 @@ import { RiSearchLine } from "react-icons/ri";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { DateRangePicker } from "react-date-range";
-import axios from "axios";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import useSWR from "swr";
@@ -23,22 +22,10 @@ import { useDataTableParams } from "./table/hook/use-data-table-params.hook";
 import { PaginatedInterface } from "interfaces";
 import { PropertyInterface } from "interfaces/property";
 import { QuantityPicker } from "./detail-view/QuantityPicker";
-import { AddressAutofill } from "@mapbox/search-js-react";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
-const geocoder = new MapboxGeocoder({
-  accessToken: process.env.NEXT_PUBLIC_MAP_TOKEN,
-});
-
 const LocationList = ({ locations, inputWidth, onLocationSelect }: any) => {
-  const { data, error, isLoading, mutate } = useSWR(
-    () => "/properties",
-    () => getProperties()
-  );
-  const uniqueLocations = locations;
-  console.log({ locations });
-  console.log("hey in location list");
   return (
     <Box
       p="3"
@@ -78,7 +65,6 @@ export const SearchInput = () => {
   const [searchProperty, setSearchProperty] = useState(null);
   const [showLocationList, setShowLocationList] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const [date, setDate] = useState(null);
   const { filteredValue, setFilteredValue, setSearchResult, setGuest, guest } =
     useFilter();
   const [startDate, setStartDate] = useState<Date>();
@@ -97,7 +83,7 @@ export const SearchInput = () => {
         latitude: query.latitude,
         longitude: query.longitude,
       });
-      
+
       setSearchResult(propertiesOnSearch);
     } catch (error) {
       console.error("Error fetching properties:", error);
@@ -108,36 +94,20 @@ export const SearchInput = () => {
     setStartDate(ranges.selection.startDate);
     setEndDate(ranges.selection.endDate);
   };
-  // const handlePickDateClick = () => {
-  //   setDatePickerVisible(!isDatePickerVisible);
-  // };
-  // const handleWhoClick = () => {
-  //   setWhoVisible(!isWhoVisible);
-  // };
   const handleInputClick = () => {
     setShowDatePicker(true);
     setShowLocationList(true);
     setExpanded(true);
   };
   const handleLocationSelect = (property: PropertyInterface) => {
-
-    console.log("hey here in handle location select");
-    console.log({property});
     setSelectedLocation(property.location);
     setSearchInput(property.location);
     setShowLocationList(false);
-    setSearchProperty(property)
+    setSearchProperty(property);
     setFilteredValue(property.location);
   };
 
-  const {
-    onFiltersChange,
-    onSearchTermChange,
-    params,
-    onPageChange,
-    onPageSizeChange,
-    setParams,
-  } = useDataTableParams({
+  const { params } = useDataTableParams({
     searchTerm: "",
     order: [
       {
@@ -200,7 +170,7 @@ export const SearchInput = () => {
 
   const handlePickDateClick = () => {
     setDatePickerVisible(!isDatePickerVisible);
-    setWhoVisible(false); // Close QuantityPicker when opening DatePicker
+    setWhoVisible(false);
   };
 
   const handleWhoClick = () => {
@@ -208,7 +178,7 @@ export const SearchInput = () => {
     setDatePickerVisible(false); // Close DatePicker when opening QuantityPicker
   };
 
-  const handleClickOutside = (event) => {
+  const handleClickOutside = (event: any) => {
     if (
       datePickerRef.current &&
       !datePickerRef.current.contains(event.target)
@@ -241,7 +211,6 @@ export const SearchInput = () => {
             </InputLeftElement>
             <Input
               onClick={handleInputClick}
-              // onInput={handleInputChange}
               value={searchInput}
               focusBorderColor="#FD5B61"
               borderRadius={"20rem"}
@@ -279,7 +248,6 @@ export const SearchInput = () => {
               />
             </InputGroup>
             <Button
-              // onClick={handleCheckInClick}
               size="sm"
               px={5}
               variant="unstyled"
@@ -292,7 +260,6 @@ export const SearchInput = () => {
               </Text>
             </Button>
             <Button
-              // onClick={handleCheckOutClick}
               size="sm"
               px={5}
               ml={5}
@@ -336,7 +303,7 @@ export const SearchInput = () => {
             >
               Who
               <Text fontSize="xs" fontWeight="normal">
-                Add Guest
+                {guest ? guest : "Add Guest"}
               </Text>
             </Button>
             {isWhoVisible && (
@@ -372,7 +339,7 @@ export const SearchInput = () => {
                 background: "primary.main",
                 color: "white",
               }}
-              onClick={() => mutate(searchFromBE(searchProperty))}
+              onClick={() => mutate(searchFromBE(searchProperty) as any)}
             >
               <FiSearch size="md" />
             </Button>

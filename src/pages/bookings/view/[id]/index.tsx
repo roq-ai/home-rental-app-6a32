@@ -2,26 +2,17 @@ import {
   Box,
   Center,
   Flex,
-  Link,
-  List,
-  ListItem,
   Spinner,
   Stack,
   Text,
-  Image,
   Button,
 } from "@chakra-ui/react";
 import Breadcrumbs from "components/breadcrumb";
 import { Error } from "components/error";
-import { FormListItem } from "components/form-list-item";
 import { FormWrapper } from "components/form-wrapper";
 import AppLayout from "layout/app-layout";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { FunctionComponent, useState } from "react";
-import parseISO from "date-fns/parseISO";
-import format from "date-fns/format";
-import { routes } from "routes";
 import useSWR from "swr";
 import { compose } from "lib/compose";
 import {
@@ -31,8 +22,6 @@ import {
   useAuthorizationApi,
   withAuthorization,
 } from "@roq/nextjs";
-import { UserPageTable } from "components/user-page-table";
-import { EntityImage } from "components/entity-image";
 import { FiEdit2 } from "react-icons/fi";
 
 import { getBookingById } from "apiSdk/bookings";
@@ -51,11 +40,6 @@ function BookingViewPage() {
         relations: ["user", "property"],
       })
   );
-  console.log({ id });
-  console.log({ data });
-
-  const [deleteError, setDeleteError] = useState(null);
-  const [createError, setCreateError] = useState(null);
 
   return (
     <AppLayout
@@ -145,7 +129,7 @@ function BookingViewPage() {
                 py={{ base: "6", md: "8", lg: "12" }}
               >
                 <Stack
-                  direction={{ base: "column", md:'column', lg: "row" }}
+                  direction={{ base: "column", md: "column", lg: "row" }}
                   spacing={{ base: "6", lg: "12", xl: "16" }}
                 >
                   <Box minH="200px">

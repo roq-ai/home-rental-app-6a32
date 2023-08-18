@@ -27,9 +27,7 @@ export default function BookingCard({ data }: any) {
           maxW={"320px"}
           w={"full"}
           bg={useColorModeValue("white", "gray.900")}
-          // boxShadow={"2xl"}
           rounded={"md"}
-          // p={6}
           overflow={"hidden"}
         >
           <Box h={"210px"} bg={"gray.100"} m={3} mb={6} pos={"relative"}>
@@ -38,7 +36,6 @@ export default function BookingCard({ data }: any) {
             </Box>
           </Box>
 
-          {/* Check-in and Check-out section */}
           <Stack>
             <Text m={3} fontSize="md">
               {data?.property?.location}
@@ -51,17 +48,10 @@ export default function BookingCard({ data }: any) {
             spacing={6}
             align={"center"}
           >
-            {/* <Box flex={1} borderBottom={"1px"} borderColor={"gray.300"} /> */}
-            <Stack
-              direction={"column"}
-              spacing={1}
-              // textAlign={"center"}
-              fontSize={"sm"}
-            >
+            <Stack direction={"column"} spacing={1} fontSize={"sm"}>
               <Text fontWeight={600}>Check-in</Text>
               <Text color={"gray.500"}>{checkIn}</Text>
             </Stack>
-            {/* <Box flex={1} borderBottom={"1px"} borderColor={"gray.300"} /> */}
             <Stack
               direction={"column"}
               spacing={1}
@@ -71,7 +61,6 @@ export default function BookingCard({ data }: any) {
               <Text fontWeight={600}>Check-out</Text>
               <Text color={"gray.500"}>{checkOut}</Text>
             </Stack>
-            {/* <Box flex={1} borderBottom={"1px"} borderColor={"gray.300"} /> */}
           </Stack>
           <Divider mt="3" />
 

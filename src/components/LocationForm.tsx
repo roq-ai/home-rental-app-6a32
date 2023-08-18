@@ -1,6 +1,5 @@
-import React from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
-import { Icon, Text } from "@chakra-ui/react";
+import { Icon } from "@chakra-ui/react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
 const containerStyle = {
@@ -27,12 +26,10 @@ const MapWithMarkers = () => {
         center={defaultCenter}
         zoom={5}
       >
-        {/* Default Center Marker */}
         <Marker position={defaultCenter}>
           <Icon as={FaMapMarkerAlt} boxSize={6} color="red.500" />
         </Marker>
 
-        {/* Other Locations */}
         {locations.map((location, index) => (
           <Marker key={index} position={location}>
             <Icon as={FaMapMarkerAlt} boxSize={6} color="red.500" />

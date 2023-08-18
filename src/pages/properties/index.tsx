@@ -3,8 +3,6 @@ import {
   AccessServiceEnum,
   requireNextAuth,
   withAuthorization,
-  useAuthorizationApi,
-  useSession,
 } from "@roq/nextjs";
 import { Spinner } from "@chakra-ui/react";
 import { compose } from "lib/compose";
@@ -14,7 +12,6 @@ import {
   useDataTableParams,
   ListDataFiltersType,
 } from "components/table/hook/use-data-table-params.hook";
-import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import useSWR from "swr";
 import { PaginatedInterface } from "interfaces";
@@ -44,11 +41,9 @@ export function PropertyListPage(props: PropertyListPageProps) {
   const {
     filters = {},
     titleProps = {},
-    
+
     pageSize,
-    
   } = props;
-  const { hasAccess } = useAuthorizationApi();
   const {
     onFiltersChange,
     onSearchTermChange,
@@ -92,7 +87,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
       params.filters,
     ]
   );
-  const { session } = useSession();
   const { data, error, isLoading, mutate } = useSWR<
     PaginatedInterface<PropertyInterface>
   >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
@@ -106,10 +100,8 @@ export function PropertyListPage(props: PropertyListPageProps) {
     selectedPropertyType,
     minValue,
     maxValue,
-    FilterNumber,
     setFilterNumber,
     searchResult,
-    guest,
   } = useFilter();
   const filterIsEmpty =
     !filteredValue &&
@@ -122,12 +114,11 @@ export function PropertyListPage(props: PropertyListPageProps) {
 
   useEffect(() => {
     if (filterIsEmpty) {
-      mutate(); // Trigger refetch when all filters are empty
+      mutate();
     }
   }, [filterIsEmpty, mutate]);
 
   const filterMatches = (item: PropertyInterface) => {
-    // Filter based on amenities
     if (
       selectedAmenities.length > 0 &&
       (!item.amenities || item.amenities.length === 0)
@@ -140,21 +131,14 @@ export function PropertyListPage(props: PropertyListPageProps) {
       (item.amenities &&
         item.amenities.some((amenity) => selectedAmenities.includes(amenity)));
 
-    // Filter based on beds
     const bedsMatch = !selectedBeds || item.num_of_beds === selectedBeds;
-
-    // Filter based on baths
     const bathsMatch = !selectedBaths || item.num_of_baths === selectedBaths;
-
-    // Filter based on property type
     const propertyTypeMatch =
       !selectedPropertyType || item.type === selectedPropertyType;
 
-    // Filter based on price
     const priceMatch =
       (Number(minValue) === 0 || item.price >= minValue) &&
       (Number(maxValue) === 4000 || item.price <= maxValue);
-    // Combine all filter criteria
     return (
       amenitiesMatch &&
       bedsMatch &&
@@ -177,7 +161,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
     setFilterNumber(filteredData?.length as unknown as string);
   }, [filteredData, setFilterNumber]);
 
-  const router = useRouter();
   const [deleteError, setDeleteError] = useState(null);
   useEffect(() => {
     setFilterNumber(filteredData?.length as unknown as string);
@@ -192,17 +175,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
       setDeleteError(error);
     }
   };
-  const [input, setInput] = useState("");
-  const searchInput = data?.data?.filter((item) =>
-    filteredValue ? item.location.includes(filteredValue) : true
-  );
-  const handleView = (row: PropertyInterface) => {
-    if (
-      hasAccess("property", AccessOperationEnum.READ, AccessServiceEnum.PROJECT)
-    ) {
-      router.push(`/properties/view/${row.id}`);
-    }
-  };
+
   if (isLoading) {
     return (
       <Flex align="center" justify="center" w="100%" h="100%">

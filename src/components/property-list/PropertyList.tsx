@@ -1,21 +1,7 @@
-import Image from "next/image";
-import {
-  Box,
-  Center,
-  Heading,
-  Text,
-  Stack,
-  Avatar,
-  useColorModeValue,
-  Divider,
-  Flex,
-} from "@chakra-ui/react";
-import { BiMessageAdd } from "react-icons/bi";
-import { IoLocation } from "react-icons/io5";
+import { Box, Text, Stack, useColorModeValue } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { PriceTag } from "./PriceTag";
 import { Gallery } from "components/image-carousel/Gallery";
-import { images } from "components/image-carousel/_data";
 
 export default function PropertyCard({ data }: any) {
   return (
@@ -26,7 +12,6 @@ export default function PropertyCard({ data }: any) {
           w={"full"}
           bg={useColorModeValue("white", "gray.900")}
           rounded={"md"}
-          // p={6}
           overflow={"hidden"}
         >
           <Box

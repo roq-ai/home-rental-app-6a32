@@ -10,7 +10,7 @@ const ListMap = ({ locations }: any) => {
     longitude: location.longitude,
     latitude: location.latitude,
   }));
-  const mapCenter = getCenter(coordinates);
+  const mapCenter: any = getCenter(coordinates);
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;

@@ -45,8 +45,6 @@ const amenitiesList: Amenity[] = [
 ];
 const FormModal = () => {
   const handleSubmit = (values: any, actions: any) => {
-    // Perform your form submission logic here
-    console.log("Form values:", values);
     actions.setSubmitting(false);
     onClose();
   };
@@ -124,19 +122,18 @@ const FormModal = () => {
           css={{
             width: "50%",
             maxHeight: "70vh",
-            overflowY: "auto", // Add vertical scrollbar when content overflows
-            scrollbarWidth: "thin", // Set the width of the scrollbar (not supported in Firefox)
-            scrollbarColor: "#333 #333", // Set the color of the scrollbar (not supported in Firefox)
-            // Style for the scrollbar (Chrome, Edge, Safari)
+            overflowY: "auto",
+            scrollbarWidth: "thin",
+            scrollbarColor: "#333 #333",
             "&::-webkit-scrollbar": {
-              width: "3px", // Set the width of the scrollbar
+              width: "3px",
             },
             "&::-webkit-scrollbar-thumb": {
-              backgroundColor: "#333", // Set the color of the scrollbar thumb
-              borderRadius: "3px", // Set border radius for the thumb
+              backgroundColor: "#333",
+              borderRadius: "3px",
             },
             "&::-webkit-scrollbar-track": {
-              backgroundColor: "#f0e6f6", // Set the color of the scrollbar track
+              backgroundColor: "#f0e6f6",
             },
           }}
         >
@@ -164,8 +161,8 @@ const FormModal = () => {
                       {amenitiesList.map((amenity) => (
                         <Box key={amenity.id} p={2}>
                           <Checkbox
-                            size="md" // Increase checkbox size
-                            iconSize="1em" // Increase icon size
+                            size="md"
+                            iconSize="1em"
                             borderColor="gray"
                             isChecked={selectedAmenities.includes(amenity.name)}
                             onChange={() => toggleAmenity(amenity.name)}

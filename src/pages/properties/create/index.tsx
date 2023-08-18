@@ -23,7 +23,6 @@ import {
   AccessServiceEnum,
   FileUpload,
   requireNextAuth,
-  useSession,
   withAuthorization,
 } from "@roq/nextjs";
 import { compose } from "lib/compose";
@@ -50,7 +49,6 @@ function PropertyCreatePage() {
   ];
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
-  const [locationName, setLocationName] = useState("");
   const handleSubmit = async (
     values: PropertyInterface,
     { resetForm }: FormikHelpers<any>

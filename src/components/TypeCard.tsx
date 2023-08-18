@@ -37,9 +37,9 @@ function RadioCard(props: any) {
 }
 
 export default function TypeCard({
-  setSelectedPropertyType ,
+  setSelectedPropertyType,
   setSelectedPropertyTypeContext,
-}) {
+}: any) {
   const options = ["Apartment", "House", "Guest House"];
 
   const { getRootProps, getRadioProps } = useRadioGroup({
@@ -47,7 +47,7 @@ export default function TypeCard({
     defaultValue: "",
     onChange: (value) => {
       if (value === setSelectedPropertyType) {
-        setSelectedPropertyType(""); // Toggle off if clicked on the selected option
+        setSelectedPropertyType("");
         setSelectedPropertyTypeContext("");
       } else {
         setSelectedPropertyType(value);
