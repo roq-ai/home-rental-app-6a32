@@ -25,7 +25,7 @@ function RadioCard(props: any) {
         }}
         mb="5"
         ml="5"
-        px={20}
+        px={10}
         py={35}
       >
         <Text fontSize="sm" size="sm">
@@ -37,7 +37,7 @@ function RadioCard(props: any) {
 }
 
 export default function TypeCard({
-  setSelectedPropertyType,
+  setSelectedPropertyType ,
   setSelectedPropertyTypeContext,
 }) {
   const options = ["Apartment", "House", "Guest House"];

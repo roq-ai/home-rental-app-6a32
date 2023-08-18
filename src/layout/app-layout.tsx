@@ -192,16 +192,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   loading = isLoading;
 
   const MockedLinkItems: Array<NavItemPropsInterface> = [
-    // { name: 'Users', icon: FiUsers, path: '/users', entity: 'user', service: AccessServiceEnum.PROJECT },
-
-    // {
-    //   name: 'Companies',
-    //   path: isTenantUser ? `/companies/view/${data?.[0]?.id}` : '/companies',
-    //   entity: 'company',
-    //   service: AccessServiceEnum.PROJECT,
-    //   icon: FiBriefcase,
-    // },
-
+ 
     {
       name: currentUser === "host" ? "Bookings" : "My Bookings",
       path: "/bookings",

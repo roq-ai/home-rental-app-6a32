@@ -41,7 +41,6 @@ import { features } from "process";
 function PropertyCreatePage() {
   const TOKEN = process.env.NEXT_PUBLIC_MAP_TOKEN;
   const router = useRouter();
-  const { session } = useSession();
   const [error, setError] = useState(null);
   const [images, setImages] = useState([]);
   const amenitiesOptions = [
@@ -53,6 +52,7 @@ function PropertyCreatePage() {
   ];
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
+  const [locationName, setLocationName] = useState("");
   const handleSubmit = async (
     values: PropertyInterface,
     { resetForm }: FormikHelpers<any>
@@ -60,7 +60,6 @@ function PropertyCreatePage() {
     setError(null);
     try {
       const propertyData = { ...values, image_urls: images };
-      console.log("property :", propertyData);
       await createProperty(propertyData);
       resetForm();
       router.push("/properties");
@@ -104,7 +103,6 @@ function PropertyCreatePage() {
     validateOnChange: false,
     validateOnBlur: false,
   });
-  console.log("Formik Values:", formik.values);
 
   return (
     <AppLayout
@@ -224,6 +222,15 @@ function PropertyCreatePage() {
             }}
           />
           <TextInput
+            label={"Address"}
+            props={{
+              name: "Location",
+              placeholder: "Location",
+              value: formik.values?.location,
+              onChange: formik.handleChange,
+            }}
+          />
+          <TextInput
             error={formik.errors.longitude}
             label={"Longitude"}
             props={{
@@ -243,6 +250,7 @@ function PropertyCreatePage() {
               onChange: formik.handleChange,
             }}
           />
+
           <CheckboxGroup
             value={formik.values.amenities}
             onChange={(selectedAmenities) =>

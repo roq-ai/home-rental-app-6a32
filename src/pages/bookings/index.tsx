@@ -115,7 +115,6 @@ export function BookingListPage(props: BookingListPageProps) {
 
   const router = useRouter();
   const [deleteError, setDeleteError] = useState(null);
-  console.log({ data });
 
   const handleDelete = async (id: string) => {
     setDeleteError(null);
@@ -360,11 +359,7 @@ export function BookingListPage(props: BookingListPageProps) {
             No bookings available yet.
           </Text>
         ) : (
-          data?.data?.map((item) => (
-            <NextLink href={`/bookings/view/${item.id}`} key={item.id}>
-              <BookingCard data={item} />
-            </NextLink>
-          ))
+          data?.data?.map((item) => <BookingCard key={item.id} data={item} />)
         )}
       </SimpleGrid>
     </Box>

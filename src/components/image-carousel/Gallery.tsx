@@ -46,7 +46,7 @@ export const Gallery = (props: any) => {
           },
         }}
       >
-        <NextLink href={`/properties/view/${data?.id}`} key={data?.id}>
+        {/* <NextLink href={`/properties/view/${data?.id}`} key={data?.id}> */}
           <Carousel ref={ref} width="300px">
             {images?.map((image, i) => (
               <CarouselSlide key={i}>
@@ -57,6 +57,7 @@ export const Gallery = (props: any) => {
                   _hover={{ opacity: 1 }}
                 >
                   <Image
+                    borderRadius="10"
                     src={image}
                     objectFit="cover"
                     alt={image.alt}
@@ -66,7 +67,7 @@ export const Gallery = (props: any) => {
               </CarouselSlide>
             ))}
           </Carousel>
-        </NextLink>
+        {/* </NextLink> */}
         {hasPrevious && (
           <CarouselIconButton
             pos="absolute"

@@ -2,10 +2,11 @@ import React, { useRef, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import { Box } from "@chakra-ui/react";
 import { getCenter } from "geolib";
+import { PropertyInterface } from "interfaces/property";
 const ListMap = ({ locations }: any) => {
   const mapContainerRef = useRef(null);
 
-  const coordinates = locations.map((location: any) => ({
+  const coordinates = locations.map((location: PropertyInterface) => ({
     longitude: location.longitude,
     latitude: location.latitude,
   }));
@@ -13,7 +14,6 @@ const ListMap = ({ locations }: any) => {
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;
-
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
@@ -28,7 +28,6 @@ const ListMap = ({ locations }: any) => {
     );
 
     map.addControl(new mapboxgl.NavigationControl(), "top-right");
-
     return () => map.remove();
   });
 

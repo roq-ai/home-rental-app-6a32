@@ -112,14 +112,10 @@ export function PropertyListPage(props: PropertyListPageProps) {
       params.filters,
     ]
   );
-  const { session } = useSession();
   const { data, error, isLoading, mutate } = useSWR<
     PaginatedInterface<PropertyInterface>
   >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
-
-  const currentUser = session.user.roles?.[0];
   const [showMap, setShowMap] = useState(false);
-  // const [searchResult, setSearchResult] = useState([]);
   const {
     filteredValue,
     selectedAmenities,
@@ -147,15 +143,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
     }
   }, [filterIsEmpty, mutate]);
 
-  console.log({
-    filteredValue,
-    selectedAmenities,
-    selectedBeds,
-    selectedBaths,
-    selectedPropertyType,
-    minValue,
-    maxValue,
-  });
   const filterMatches = (item: PropertyInterface) => {
     // Filter based on amenities
     if (
@@ -164,7 +151,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
     ) {
       return false;
     }
-
     const amenitiesMatch =
       selectedAmenities.length === 0 ||
       (item.amenities &&
@@ -207,7 +193,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
     setFilterNumber(filteredData?.length as unknown as string);
   }, [filteredData, setFilterNumber]);
 
-  console.log({ filteredData });
   const router = useRouter();
   const [deleteError, setDeleteError] = useState(null);
   useEffect(() => {
@@ -223,20 +208,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
       setDeleteError(error);
     }
   };
-  const [input, setInput] = useState("");
-  const searchInput = data?.data?.filter((item) =>
-    filteredValue ? item.location.includes(filteredValue) : true
-  );
-
-  const DEFAULT_CENTER = [38.907132, -77.036546];
-  const mapContainerStyles = {
-    position: "relative",
-    width: "100%",
-    height: "400px",
-    transition: "opacity 0.3s ease, visibility 0.3s ease",
-    opacity: showMap ? 1 : 0,
-    visibility: showMap ? "visible" : "hidden",
-  };
   const handleView = (row: PropertyInterface) => {
     if (
       hasAccess("property", AccessOperationEnum.READ, AccessServiceEnum.PROJECT)
@@ -245,142 +216,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
     }
   };
 
-  const columns: ColumnType[] = [
-    { id: "name", header: "Name", accessorKey: "name" },
-    { id: "description", header: "Description", accessorKey: "description" },
-    { id: "location", header: "Location", accessorKey: "location" },
-    hasAccess("company", AccessOperationEnum.READ, AccessServiceEnum.PROJECT)
-      ? {
-          id: "company",
-          header: "Company",
-          accessorKey: "company",
-          cell: ({ row: { original: record } }: any) => (
-            <Link
-              as={NextLink}
-              onClick={(e) => e.stopPropagation()}
-              href={`/companies/view/${record.company?.id}`}
-            >
-              {record.company?.name}
-            </Link>
-          ),
-        }
-      : null,
-    hasAccess("booking", AccessOperationEnum.READ, AccessServiceEnum.PROJECT)
-      ? {
-          id: "booking",
-          header: "Booking",
-          accessorKey: "booking",
-          cell: ({ row: { original: record } }: any) => record?._count?.booking,
-        }
-      : null,
-
-    !hideActions
-      ? {
-          id: "actions",
-          header: "",
-          accessorKey: "actions",
-          cell: ({ row: { original: record } }: any) => (
-            <Flex justifyContent="flex-end">
-              <NextLink
-                href={`/properties/view/${record.id}`}
-                passHref
-                legacyBehavior
-              >
-                <Button
-                  onClick={(e) => e.stopPropagation()}
-                  mr={2}
-                  padding="0rem 8px"
-                  height="24px"
-                  fontSize="0.75rem"
-                  variant="solid"
-                  backgroundColor="state.neutral.transparent"
-                  color="state.neutral.main"
-                  borderRadius="6px"
-                >
-                  View
-                </Button>
-              </NextLink>
-              {hasAccess(
-                "property",
-                AccessOperationEnum.UPDATE,
-                AccessServiceEnum.PROJECT
-              ) && (
-                <NextLink
-                  href={`/properties/edit/${record.id}`}
-                  passHref
-                  legacyBehavior
-                >
-                  <Button
-                    onClick={(e) => e.stopPropagation()}
-                    mr={2}
-                    padding="0rem 0.5rem"
-                    height="24px"
-                    fontSize="0.75rem"
-                    variant="outline"
-                    color="state.info.main"
-                    borderRadius="6px"
-                    border="1px"
-                    borderColor="state.info.transparent"
-                    leftIcon={
-                      <FiEdit2
-                        width="12px"
-                        height="12px"
-                        color="state.info.main"
-                      />
-                    }
-                  >
-                    Edit
-                  </Button>
-                </NextLink>
-              )}
-              {hasAccess(
-                "property",
-                AccessOperationEnum.DELETE,
-                AccessServiceEnum.PROJECT
-              ) && (
-                <IconButton
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(record.id);
-                  }}
-                  padding="0rem 0.5rem"
-                  variant="outline"
-                  aria-label="edit"
-                  height={"24px"}
-                  fontSize="0.75rem"
-                  color="state.error.main"
-                  borderRadius="6px"
-                  borderColor="state.error.transparent"
-                  icon={
-                    <FiTrash width="12px" height="12px" color="error.main" />
-                  }
-                />
-              )}
-            </Flex>
-          ),
-        }
-      : null,
-  ].filter(Boolean) as ColumnType[];
-  const table = (
-    <Table
-      hidePagination={hidePagination}
-      hideTableBorders={hideTableBorders}
-      isLoading={isLoading}
-      onPageChange={onPageChange}
-      onPageSizeChange={onPageSizeChange}
-      columns={columns}
-      data={data?.data}
-      totalCount={data?.totalCount || 0}
-      pageSize={params.pageSize}
-      pageIndex={params.pageNumber}
-      order={params.order}
-      setParams={setParams}
-      onRowClick={handleView}
-    />
-  );
-  if (tableOnly) {
-    return table;
-  }
+  
 
   return (
     <Box

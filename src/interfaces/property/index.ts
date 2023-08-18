@@ -30,6 +30,8 @@ export interface PropertyGetQueryInterface extends GetQueryInterface {
   id?: string;
   name?: string;
   description?: string;
+  latitude?:string;
+  longitude?:string;
   location?: string;
   company_id?: string;
 }

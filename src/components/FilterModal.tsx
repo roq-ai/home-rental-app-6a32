@@ -120,9 +120,10 @@ const FormModal = () => {
         <ModalOverlay />
         <ModalContent
           maxW={"65%"}
+          p={10}
           css={{
-            width: "90%",
-            maxHeight: "80vh",
+            width: "50%",
+            maxHeight: "70vh",
             overflowY: "auto", // Add vertical scrollbar when content overflows
             scrollbarWidth: "thin", // Set the width of the scrollbar (not supported in Firefox)
             scrollbarColor: "#333 #333", // Set the color of the scrollbar (not supported in Firefox)
@@ -149,11 +150,6 @@ const FormModal = () => {
             >
               {({ isSubmitting }) => (
                 <Form>
-                  {/* <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-                    <QuantityPicker defaultValue={1} max={5} />
-                    <QuantityPicker defaultValue={1} max={5} label="Number of beds" />
-                    <QuantityPicker defaultValue={1} max={5} label="Number of baths" />
-                  </Grid> */}
                   <Divider
                     color="black"
                     size="md"
@@ -168,16 +164,13 @@ const FormModal = () => {
                       {amenitiesList.map((amenity) => (
                         <Box key={amenity.id} p={2}>
                           <Checkbox
-                            colorScheme="gray"
                             size="md" // Increase checkbox size
-                            iconSize="1.5em" // Increase icon size
-                            borderColor="black"
+                            iconSize="1em" // Increase icon size
+                            borderColor="gray"
                             isChecked={selectedAmenities.includes(amenity.name)}
                             onChange={() => toggleAmenity(amenity.name)}
                           >
-                            <Text fontSize="md" fontWeight="medium">
-                              {amenity.name}
-                            </Text>
+                            <Text fontSize="md">{amenity.name}</Text>
                           </Checkbox>
                         </Box>
                       ))}
@@ -289,20 +282,13 @@ const FormModal = () => {
                         size="md"
                       >
                         Show Filter
-                        {/* {selectedFiltersCount > 0 && (
-                            <Badge colorScheme="pink" ml={2} fontSize="sm">
-                              {selectedFiltersCount}
-                            </Badge>
-                          )} */}
                         <Badge
                           color="black"
                           bg="white"
-                          mb={3}
                           ml={4}
                           fontSize="sm"
                           borderRadius="full"
                         >
-                          {/* {selectedFiltersCount} */}
                           {FilterNumber || 0}
                         </Badge>
                       </Button>

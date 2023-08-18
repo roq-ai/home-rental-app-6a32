@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 
 const Map = ({
+  // setLocationName,
   onLocationSelect,
   setLongitude,
   setLatitude,
@@ -19,16 +20,13 @@ const Map = ({
 }: any) => {
   const mapContainerRef = useRef(null);
   const markerRef = useRef(null);
-  // const [longitude, setLongitude] = useState("");
-  // const [latitude, setLatitude] = useState("");
-
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v12",
       center: [longitude as any, latitude as any],
-      zoom: longitude || latitude ? 5 : 1,
+      zoom: longitude || latitude ? 3 : 1,
     });
 
     map.on("load", () => {
@@ -48,16 +46,14 @@ const Map = ({
       const longitude = String(e.result.geometry.coordinates[0]);
       const latitude = String(e.result.geometry.coordinates[1]);
       const name = e.result.place_name;
-
+      // setLocationName(name)
       setLongitude(longitude);
       setLatitude(latitude);
-
       onLocationSelect({ name, longitude, latitude });
-
       if (!markerRef.current) {
         markerRef.current = new mapboxgl.Marker({
-          color: "red",
-          draggable: false,
+          color: "green",
+          draggable: true,
         })
           .setLngLat([
             longitude as unknown as number,
@@ -68,11 +64,11 @@ const Map = ({
         markerRef.current.setLngLat([longitude, latitude]);
       }
 
-      // map.flyTo({
-      //   center: e.result.geometry.coordinates,
-      //   essential: true,
-      //   zoom: 5,
-      // });
+      map.flyTo({
+        center: e.result.geometry.coordinates,
+        essential: true,
+        zoom: 3,
+      });
     });
 
     return () => {
@@ -81,7 +77,7 @@ const Map = ({
       }
       map.remove();
     };
-  }, [longitude, latitude, setLongitude, setLatitude, onLocationSelect]);
+  }, [latitude, longitude]);
 
   return (
     <Box>
@@ -101,10 +97,10 @@ const Map = ({
         Longitude: {longitude} | Latitude: {latitude}
       </Box>
       <Box>
-        <Box ref={mapContainerRef} width="100%" height="100%" />
+        <Box ref={mapContainerRef} width="500px" height="300px" />
       </Box>
     </Box>
   );
 };
 
-export default React.memo(Map);
+export default Map;

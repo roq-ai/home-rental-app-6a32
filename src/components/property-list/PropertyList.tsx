@@ -19,52 +19,53 @@ import { images } from "components/image-carousel/_data";
 
 export default function PropertyCard({ data }: any) {
   return (
-    <Box>
-      <Box
-        maxW={"300px"}
-        w={"full"}
-        bg={useColorModeValue("white", "gray.900")}
-        boxShadow={"2xl"}
-        rounded={"md"}
-        p={6}
-        overflow={"hidden"}
-      >
+    <NextLink href={`/properties/view/${data.id}`} key={data.id}>
+      <Box>
         <Box
-          h={"210px"}
-          bg={"gray.100"}
-          mt={-6}
-          mx={-6}
-          mb={6}
-          pos={"relative"}
+          maxW={"300px"}
+          w={"full"}
+          bg={useColorModeValue("white", "gray.900")}
+          rounded={"md"}
+          // p={6}
+          overflow={"hidden"}
         >
-          <Box mx="auto">
-            <Gallery images={data.image_urls} data={data} />
+          <Box
+            h={"210px"}
+            bg={"gray.100"}
+            mt={-6}
+            mx={-6}
+            mb={6}
+            pos={"relative"}
+          >
+            <Box mx="auto" p={6}>
+              <Gallery images={data.image_urls} data={data} />
+            </Box>
           </Box>
-        </Box>
 
-        <NextLink href={`/properties/view/${data.id}`} key={data.id}>
-          <Stack direction={"row"} spacing={4} align={"center"}>
-            <Stack direction={"column"} fontSize={"sm"}>
-              <Text
-                fontSize="sm"
-                fontWeight="bold"
-                color={useColorModeValue("gray.700", "gray.400")}
-              >
-                {data.location.split(",")[0]}
-              </Text>
+          <NextLink href={`/properties/view/${data.id}`} key={data.id}>
+            <Stack py={6} direction={"row"} spacing={4} align={"center"}>
+              <Stack direction={"column"} fontSize={"sm"}>
+                <Text
+                  fontSize="md"
+                  fontWeight="medium"
+                  color={useColorModeValue("gray.900", "gray.900")}
+                >
+                  {data.location.split(",")}
+                </Text>
 
-              <Text
-                fontSize="md"
-                fontWeight="normal"
-                color={useColorModeValue("gray.700", "gray.400")}
-              >
-                {data.name}
-              </Text>
-              <PriceTag currency="USD" price={data.price} />
+                <Text
+                  fontSize="sm"
+                  fontWeight="normal"
+                  color={useColorModeValue("gray.700", "gray.400")}
+                >
+                  {data.name}
+                </Text>
+                <PriceTag currency="USD" price={data.price} />
+              </Stack>
             </Stack>
-          </Stack>
-        </NextLink>
+          </NextLink>
+        </Box>
       </Box>
-    </Box>
+    </NextLink>
   );
 }

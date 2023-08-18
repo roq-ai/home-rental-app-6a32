@@ -36,7 +36,7 @@ export const Gallery = (props: any) => {
     },
     slideChanged: (slider) => setCurrentSlide(slider.track.details.rel),
   });
-  console.log({ images });
+  // console.log({ images });
 
   return (
     <Stack spacing="4" {...rootProps}>

@@ -13,7 +13,7 @@ import { RiSearchLine } from "react-icons/ri";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { DateRangePicker } from "react-date-range";
-
+import axios from "axios";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import useSWR from "swr";
@@ -23,13 +23,22 @@ import { useDataTableParams } from "./table/hook/use-data-table-params.hook";
 import { PaginatedInterface } from "interfaces";
 import { PropertyInterface } from "interfaces/property";
 import { QuantityPicker } from "./detail-view/QuantityPicker";
+import { AddressAutofill } from "@mapbox/search-js-react";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+
+const geocoder = new MapboxGeocoder({
+  accessToken: process.env.NEXT_PUBLIC_MAP_TOKEN,
+});
+
 const LocationList = ({ locations, inputWidth, onLocationSelect }: any) => {
   const { data, error, isLoading, mutate } = useSWR(
     () => "/properties",
     () => getProperties()
   );
-  const uniqueLocations = Array.from(new Set(locations)) as string[];
-  console.log({ uniqueLocations });
+  const uniqueLocations = locations;
+  console.log({ locations });
+  console.log("hey in location list");
   return (
     <Box
       p="3"
@@ -40,7 +49,7 @@ const LocationList = ({ locations, inputWidth, onLocationSelect }: any) => {
       mt="2"
       overflow="hidden"
     >
-      {uniqueLocations.map((location: string, index: any) => (
+      {locations.map((property: PropertyInterface, index: any) => (
         <Box
           key={index}
           display="flex"
@@ -49,11 +58,13 @@ const LocationList = ({ locations, inputWidth, onLocationSelect }: any) => {
           cursor="pointer"
           _hover={{ bg: "gray.100", borderRadius: "md", p: "1" }}
           onClick={() => {
-            onLocationSelect(location);
+            console.log("hey beshasha");
+            console.log(property, "out");
+            onLocationSelect(property);
           }}
         >
           <Icon as={FaMapMarkerAlt} color="#FD5B61" mr="2" />
-          {location}
+          {property.location}
         </Box>
       ))}
     </Box>
@@ -64,6 +75,7 @@ export const SearchInput = () => {
   const [searchInput, setSearchInput] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [searchProperty, setSearchProperty] = useState(null);
   const [showLocationList, setShowLocationList] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [date, setDate] = useState(null);
@@ -78,15 +90,15 @@ export const SearchInput = () => {
     endDate: endDate,
     key: "selection",
   };
-  const searchFromBE = async (query: string) => {
-    console.log("Searching with query:", query);
-
+  const searchFromBE = async (query: PropertyInterface) => {
     try {
       const propertiesOnSearch = await searchProperties({
-        location: query,
+        location: query.location,
+        latitude: query.latitude,
+        longitude: query.longitude,
       });
+      
       setSearchResult(propertiesOnSearch);
-      console.log("Fetched properties from searchInput:", propertiesOnSearch);
     } catch (error) {
       console.error("Error fetching properties:", error);
     }
@@ -107,28 +119,17 @@ export const SearchInput = () => {
     setShowLocationList(true);
     setExpanded(true);
   };
-  const handleLocationSelect = (location: string) => {
-    setSelectedLocation(location);
-    setSearchInput(location);
+  const handleLocationSelect = (property: PropertyInterface) => {
+
+    console.log("hey here in handle location select");
+    console.log({property});
+    setSelectedLocation(property.location);
+    setSearchInput(property.location);
     setShowLocationList(false);
-    setFilteredValue(location);
+    setSearchProperty(property)
+    setFilteredValue(property.location);
   };
 
-  const handleCollpaseSearch = () => {
-    setExpanded(false);
-  };
-
-  const handleCheckInClick = () => {
-    // Handle Check In button click
-  };
-
-  const handleCheckOutClick = () => {
-    // Handle Check Out button click
-  };
-
-  const handleWhoOutClick = () => {
-    // Handle Who dropdown select
-  };
   const {
     onFiltersChange,
     onSearchTermChange,
@@ -176,9 +177,11 @@ export const SearchInput = () => {
   const properties = data?.data || [];
 
   const filteredLocations = properties
-    .map((property: any) => property.location)
-    .filter((location: string) =>
-      location.toLowerCase().includes(searchInput.toLowerCase())
+    .map((property: any) => {
+      return property;
+    })
+    .filter((property: any) =>
+      property.location.toLowerCase().includes(searchInput.toLowerCase())
     );
 
   const handleInputChange = (e: any) => {
@@ -191,6 +194,7 @@ export const SearchInput = () => {
     }
     setFilteredValue(inputValue);
   };
+
   const datePickerRef = useRef(null);
   const quantityPickerRef = useRef(null);
 
@@ -265,22 +269,13 @@ export const SearchInput = () => {
               <InputLeftElement>
                 <Icon as={RiSearchLine} color="gray.500" fontSize="lg" />
               </InputLeftElement>
+
               <Input
                 onChange={handleInputChange}
                 value={searchInput}
                 focusBorderColor="#FD5B61"
                 borderRadius={"20rem"}
-                border="1px solid lightgray"
-                width="20rem"
-                fontSize="md"
-                variant="filled"
-                type="text"
-                background="whitesmoke"
                 placeholder="What are you looking for?"
-                autoComplete="off"
-                _focus={{
-                  background: "white",
-                }}
               />
             </InputGroup>
             <Button
@@ -377,7 +372,7 @@ export const SearchInput = () => {
                 background: "#ff385c",
                 color: "white",
               }}
-              onClick={() => mutate(searchFromBE(filteredValue))}
+              onClick={() => mutate(searchFromBE(searchProperty))}
             >
               <FiSearch size="md" />
             </Button>

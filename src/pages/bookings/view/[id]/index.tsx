@@ -145,7 +145,7 @@ function BookingViewPage() {
                 py={{ base: "6", md: "8", lg: "12" }}
               >
                 <Stack
-                  direction={{ base: "column", md: "column", lg: "row" }}
+                  direction={{ base: "column", md:'column', lg: "row" }}
                   spacing={{ base: "6", lg: "12", xl: "16" }}
                 >
                   <Box minH="200px">
@@ -159,7 +159,7 @@ function BookingViewPage() {
                     borderStyle="dashed"
                   >
                     <LocationMap
-                      // width={"550px"}
+                      // width={"550"}
                       latitude={data.property.latitude}
                       longitude={data.property.longitude}
                     />

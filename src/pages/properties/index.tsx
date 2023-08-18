@@ -44,12 +44,9 @@ export function PropertyListPage(props: PropertyListPageProps) {
   const {
     filters = {},
     titleProps = {},
-    showSearchFilter = true,
-    hidePagination,
-    hideTableBorders,
+    
     pageSize,
-    tableOnly,
-    hideActions,
+    
   } = props;
   const { hasAccess } = useAuthorizationApi();
   const {
@@ -100,9 +97,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
     PaginatedInterface<PropertyInterface>
   >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
 
-  const currentUser = session.user.roles?.[0];
   const [showMap, setShowMap] = useState(false);
-  // const [searchResult, setSearchResult] = useState([]);
   const {
     filteredValue,
     selectedAmenities,
@@ -182,7 +177,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
     setFilterNumber(filteredData?.length as unknown as string);
   }, [filteredData, setFilterNumber]);
 
-  console.log("filtered data", { filteredData });
   const router = useRouter();
   const [deleteError, setDeleteError] = useState(null);
   useEffect(() => {
@@ -247,9 +241,9 @@ export function PropertyListPage(props: PropertyListPageProps) {
             ) : searchResult.length !== 0 ? (
               <PropertyGrid>
                 {searchResult?.map((item) => {
-                  if (Number(guest) > 0 && guest <= item.num_of_guest) {
-                    return <PropertyCard data={item} key={item.id} />;
-                  }
+                  // if (Number(guest) > 0 && guest <= item.num_of_guest) {
+                  return <PropertyCard data={item} key={item.id} />;
+                  // }
                 })}
               </PropertyGrid>
             ) : (
