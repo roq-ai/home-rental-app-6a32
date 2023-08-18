@@ -275,7 +275,7 @@ function PropertyCreatePage() {
           <Flex justifyContent={"flex-start"}>
             <Button
               isDisabled={formik?.isSubmitting}
-              bg="#ff385c"
+              bg="primary.main"
               color="base.100"
               type="submit"
               display="flex"
@@ -286,7 +286,7 @@ function PropertyCreatePage() {
               gap="0.5rem"
               mr="4"
               _hover={{
-                bg: "#ff385c",
+                bg: "#ff585c",
                 color: "white",
               }}
             >

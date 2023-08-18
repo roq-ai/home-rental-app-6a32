@@ -271,10 +271,10 @@ export const DetailContainer = (props: any) => {
               </HStack>
 
               <Button
-                colorScheme="#ff385c"
+                colorScheme="primary.main"
                 size="md"
                 width="base"
-                background="#ff385c"
+                background="primary.main"
                 color="white"
                 onClick={handleReserveClick}
               >

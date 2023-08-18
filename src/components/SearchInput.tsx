@@ -363,13 +363,13 @@ export const SearchInput = () => {
             )}
 
             <Button
-              background="#ff385c"
+              background="primary.main"
               color="white"
               variant="solid"
               marginLeft="3rem"
               borderRadius={"20rem"}
               _hover={{
-                background: "#ff385c",
+                background: "primary.main",
                 color: "white",
               }}
               onClick={() => mutate(searchFromBE(searchProperty))}

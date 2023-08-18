@@ -249,7 +249,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
             padding="0rem 0.75rem"
             fontSize={"0.875rem"}
             fontWeight={600}
-            bg="#ff385c"
+            bg="primary.main"
             borderRadius={"6px"}
             color="base.100"
             _hover={{

@@ -1,9 +1,9 @@
 export const colors = {
   primary: {
-    main: '#6E73F7',
+    main: '#ff385c',
     transparent: 'rgba(110, 115, 247, 0.2)',
-    focus: '#4E41D9',
-    content: '#fff',
+    focus: '#ff585c',
+    content: '#ff885c',
   },
   secondary: {
     main: '#14B887',

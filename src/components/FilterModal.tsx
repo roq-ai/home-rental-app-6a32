@@ -104,12 +104,12 @@ const FormModal = () => {
       <Button
         leftIcon={<FiFilter />}
         variant="solid"
-        background="#ff385c"
+        colorScheme="primay.main"
         color="white"
         borderRadius="2xl"
         onClick={onOpen}
         _hover={{
-          background: "#ff385c",
+          background: "primary.main",
           color: "white",
         }}
       >
@@ -153,7 +153,7 @@ const FormModal = () => {
                   <Divider
                     color="black"
                     size="md"
-                    colorScheme="#ff385c"
+                    colorScheme="primary.main"
                     mb="2"
                   />
                   <VStack align="start" spacing={2}>
@@ -179,7 +179,7 @@ const FormModal = () => {
                   <Divider
                     color="black"
                     size="md"
-                    colorScheme="#ff385c"
+                    colorScheme="primary.main"
                     mb="3"
                     mt="3"
                   />
@@ -223,7 +223,7 @@ const FormModal = () => {
                   <Divider
                     color="black"
                     size="md"
-                    colorScheme="#ff385c"
+                    colorScheme="primary.main"
                     mt="3"
                     mb="3"
                   />
