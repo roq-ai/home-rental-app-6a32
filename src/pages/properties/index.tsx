@@ -183,6 +183,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
       </Flex>
     );
   }
+  console.log({ searchResult });
 
   return (
     <Box
@@ -205,6 +206,12 @@ export function PropertyListPage(props: PropertyListPageProps) {
       </Flex>
 
       <Flex direction="row" gap={2}>
+        {}
+        {/* <PropertyGrid>
+          {filteredData?.map((item) => (
+            <PropertyCard data={item} key={item.id} />
+          ))}
+        </PropertyGrid> */}
         {!showMap && (
           <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
             {filteredData?.length === 0 ? (
@@ -214,24 +221,22 @@ export function PropertyListPage(props: PropertyListPageProps) {
             ) : searchResult.length !== 0 ? (
               <PropertyGrid>
                 {searchResult?.map((item) => {
-                  // if (Number(guest) > 0 && guest <= item.num_of_guest) {
                   return <PropertyCard data={item} key={item.id} />;
-                  // }
                 })}
               </PropertyGrid>
             ) : (
-              <PropertyGrid>
-                {filteredData?.map((item) => (
-                  <PropertyCard data={item} key={item.id} />
-                ))}
-              </PropertyGrid>
+              <Text>No properties found.</Text>
             )}
           </Flex>
         )}
       </Flex>
       {showMap && (
         <Box flex={1} flexBasis={0} height={500}>
-          <ListMap locations={filteredData} />
+          {searchResult.length !== 0 ? (
+            <ListMap locations={searchResult} />
+          ) : (
+            <ListMap locations={filteredData} />
+          )}
         </Box>
       )}
 

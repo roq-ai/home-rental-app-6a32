@@ -33,5 +33,8 @@ export interface PropertyGetQueryInterface extends GetQueryInterface {
   latitude?:string;
   longitude?:string;
   location?: string;
+  startDate?:Date;
+  endDate?:Date
+  maxGuest?:string
   company_id?: string;
 }

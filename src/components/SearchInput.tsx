@@ -20,7 +20,10 @@ import { getProperties, searchProperties } from "apiSdk/properties";
 import { useFilter } from "context/FilterContext";
 import { useDataTableParams } from "./table/hook/use-data-table-params.hook";
 import { PaginatedInterface } from "interfaces";
-import { PropertyInterface } from "interfaces/property";
+import {
+  PropertyGetQueryInterface,
+  PropertyInterface,
+} from "interfaces/property";
 import { QuantityPicker } from "./detail-view/QuantityPicker";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
@@ -45,8 +48,6 @@ const LocationList = ({ locations, inputWidth, onLocationSelect }: any) => {
           cursor="pointer"
           _hover={{ bg: "gray.100", borderRadius: "md", p: "1" }}
           onClick={() => {
-            console.log("hey beshasha");
-            console.log(property, "out");
             onLocationSelect(property);
           }}
         >
@@ -65,8 +66,14 @@ export const SearchInput = () => {
   const [searchProperty, setSearchProperty] = useState(null);
   const [showLocationList, setShowLocationList] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const { filteredValue, setFilteredValue, setSearchResult, setGuest, guest } =
-    useFilter();
+  const {
+    filteredValue,
+    setFilteredValue,
+    setSearchResult,
+    setGuest,
+    guest,
+    searchResult,
+  } = useFilter();
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
@@ -76,13 +83,33 @@ export const SearchInput = () => {
     endDate: endDate,
     key: "selection",
   };
-  const searchFromBE = async (query: PropertyInterface) => {
+  console.log("from search", searchResult);
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      setSearchInput("");
+      setSearchResult([]);
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      setSearchInput("");
+      setSearchResult([]);
+    };
+  }, [setSearchResult]);
+
+  const searchFromBE = async (query: PropertyGetQueryInterface) => {
     try {
       const propertiesOnSearch = await searchProperties({
+        startDate: query.startDate,
+        endDate: query.endDate,
+        maxGuest: query.maxGuest,
         location: query.location,
         latitude: query.latitude,
         longitude: query.longitude,
       });
+      console.log("From search", propertiesOnSearch);
 
       setSearchResult(propertiesOnSearch);
     } catch (error) {
@@ -339,7 +366,16 @@ export const SearchInput = () => {
                 background: "primary.main",
                 color: "white",
               }}
-              onClick={() => mutate(searchFromBE(searchProperty) as any)}
+              onClick={() =>
+                mutate(
+                  searchFromBE({
+                    ...searchProperty,
+                    startDate: startDate,
+                    endDate: endDate,
+                    maxGuest: guest,
+                  }) as any
+                )
+              }
             >
               <FiSearch size="md" />
             </Button>

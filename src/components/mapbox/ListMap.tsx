@@ -11,8 +11,10 @@ const PopupContent = ({ data }: any) => {
       style={{ padding: "16px", backgroundColor: "#fff", borderRadius: "8px" }}
     >
       <h3>{data.name}</h3>
-      <p>Latitude: {data.latitude}</p>
-      <p>Longitude: {data.longitude}</p>
+      <p>Location: {data.location}</p>
+      <p>Price: {data.price}</p>
+
+      {/* <p>Longitude: {data.longitude}</p> */}
       {/* <Image
         src={data.image_urls?.[0]}
         alt={data.name}
