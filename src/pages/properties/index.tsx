@@ -102,6 +102,8 @@ export function PropertyListPage(props: PropertyListPageProps) {
     maxValue,
     setFilterNumber,
     searchResult,
+    searchedLat,
+    searchedLong,
   } = useFilter();
   const filterIsEmpty =
     !filteredValue &&
@@ -183,8 +185,8 @@ export function PropertyListPage(props: PropertyListPageProps) {
       </Flex>
     );
   }
-  console.log({ searchResult });
 
+  console.log({ searchedLat, searchedLong });
   return (
     <Box
       maxW="7xl"
@@ -221,9 +223,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
                 ) : searchResult.length !== 0 ? (
                   <PropertyGrid>
                     {searchResult?.map((item) => {
-                      // if (Number(guest) > 0 && guest <= item.num_of_guest) {
                       return <PropertyCard data={item} key={item.id} />;
-                      // }
                     })}
                   </PropertyGrid>
                 ) : (
@@ -240,7 +240,11 @@ export function PropertyListPage(props: PropertyListPageProps) {
 
         <Box flex={1} flexBasis={0} height={500}>
           {searchResult.length !== 0 ? (
-            <ListMap locations={searchResult} />
+            <ListMap
+              locations={searchResult}
+              searchedLat={searchedLat}
+              searchedLong={searchedLong}
+            />
           ) : (
             <ListMap locations={filteredData} />
           )}

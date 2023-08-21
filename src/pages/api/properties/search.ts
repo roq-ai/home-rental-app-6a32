@@ -59,8 +59,7 @@ export default async function handler(
         },
       },
     });
-    console.log('this is query',req.query)
-    console.log({properties})
+    
     return res.status(200).json(properties);
   }
 }

@@ -66,12 +66,14 @@ import {
   FiCalendar,
   FiBriefcase,
   FiHome,
+  FiLogIn,
 } from "react-icons/fi";
 
 import { CompanyInterface } from "interfaces/company";
 import { getCompanies } from "apiSdk/companies";
 import { SearchInput } from "components/SearchInput";
 import FormModal from "components/FilterModal";
+import { BiLogIn } from "react-icons/bi";
 
 interface LinkItemProps {
   name: string;
@@ -373,7 +375,7 @@ interface MobileProps extends FlexProps {
   isBannerVisible: boolean;
 }
 const MobileNav = ({ onOpen, isBannerVisible, ...rest }: MobileProps) => {
-  const { session } = useSession();
+  const { session, status } = useSession();
   const router = useRouter();
   const shouldShowSearchInput =
     router.pathname === "/properties" || router.pathname === "/my-properties";
@@ -442,40 +444,41 @@ const MobileNav = ({ onOpen, isBannerVisible, ...rest }: MobileProps) => {
             <FormModal />
           </>
         )}
+        {status === "authenticated" ? (
+          <HStack spacing={0}>
+            {hasAccess(
+              RoqResourceEnum.CONVERSATION,
+              AccessOperationEnum.READ,
+              AccessServiceEnum.PLATFORM
+            ) && (
+              <Box className="nav-conversation" p={2}>
+                <ChatMessageBell
+                  onClick={() => router.push(routes.frontend.chat.index)}
+                  icon={
+                    <ChatIcon color="base.content" width="20px" height="20px" />
+                  }
+                />
+              </Box>
+            )}
 
-        <HStack spacing={0}>
-          {hasAccess(
-            RoqResourceEnum.CONVERSATION,
-            AccessOperationEnum.READ,
-            AccessServiceEnum.PLATFORM
-          ) && (
-            <Box className="nav-conversation" p={2}>
-              <ChatMessageBell
-                onClick={() => router.push(routes.frontend.chat.index)}
+            <Box className="layout-notification-bell" p={2}>
+              <NotificationBell
                 icon={
-                  <ChatIcon color="base.content" width="20px" height="20px" />
+                  <NotificationIcon
+                    color="base.content"
+                    width="16px"
+                    height="20px"
+                  />
                 }
               />
             </Box>
-          )}
-
-          <Box className="layout-notification-bell" p={2}>
-            <NotificationBell
-              icon={
-                <NotificationIcon
-                  color="base.content"
-                  width="16px"
-                  height="20px"
-                />
-              }
-            />
-          </Box>
-          <Flex alignItems={"center"}>
-            <Box className="layout-user-profile" p={2}>
-              {session?.roqUserId && <UserAccountDropdown />}
-            </Box>
-          </Flex>
-        </HStack>
+            <Flex alignItems={"center"}>
+              <Box className="layout-user-profile" p={2}>
+                {session?.roqUserId && <UserAccountDropdown />}
+              </Box>
+            </Flex>
+          </HStack>
+        ) : null}
       </Box>
     </Flex>
   );

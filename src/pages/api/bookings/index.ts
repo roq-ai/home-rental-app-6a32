@@ -67,7 +67,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       .asSuperAdmin()
       .users({ filter: { tenantId: { equalTo: company.tenant_id } } });
     const usersId = usersOfcompany.users.data.map((user) => user.id);
-    console.log("property", { property });
     const conversationId = await roqClient
       .asUser(roqUserId)
       .createConversation({
@@ -79,11 +78,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           tags: ["test"],
         },
       });
-    console.log("conversatoin", conversationId.createConversation);
-
-    console.log({ property });
-    console.log({ company });
-
+   
     const data = await prisma.booking.create({
       data: {...body, roqConversationId:conversationId.createConversation.id}
     });

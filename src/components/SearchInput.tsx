@@ -25,7 +25,6 @@ import {
   PropertyInterface,
 } from "interfaces/property";
 import { QuantityPicker } from "./detail-view/QuantityPicker";
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 const LocationList = ({ locations, inputWidth, onLocationSelect }: any) => {
@@ -73,6 +72,8 @@ export const SearchInput = () => {
     setGuest,
     guest,
     searchResult,
+    setSearchedLat,
+    setSearchedLong,
   } = useFilter();
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
@@ -83,11 +84,15 @@ export const SearchInput = () => {
     endDate: endDate,
     key: "selection",
   };
-  console.log("from search", searchResult);
   useEffect(() => {
     const handleBeforeUnload = () => {
       setSearchInput("");
       setSearchResult([]);
+      setSearchedLat("");
+      setSearchedLong("");
+      setGuest("");
+      setStartDate(null);
+      setEndDate(null);
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -96,10 +101,17 @@ export const SearchInput = () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
       setSearchInput("");
       setSearchResult([]);
+      setSearchedLat("");
+      setSearchedLong("");
+      setGuest("");
+      setStartDate(null);
+      setEndDate(null);
     };
-  }, [setSearchResult]);
+  }, [setGuest, setSearchResult, setSearchedLat, setSearchedLong]);
 
   const searchFromBE = async (query: PropertyGetQueryInterface) => {
+    setSearchedLat(query.latitude);
+    setSearchedLong(query.longitude);
     try {
       const propertiesOnSearch = await searchProperties({
         startDate: query.startDate,
@@ -202,7 +214,7 @@ export const SearchInput = () => {
 
   const handleWhoClick = () => {
     setWhoVisible(!isWhoVisible);
-    setDatePickerVisible(false); // Close DatePicker when opening QuantityPicker
+    setDatePickerVisible(false);
   };
 
   const handleClickOutside = (event: any) => {
