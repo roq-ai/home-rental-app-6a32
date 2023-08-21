@@ -261,36 +261,38 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
               ))
             : null}
         </Box>
-        <Box mt="auto" px={8} pb={4}>
-          <Link
-            href={routes.frontend.invites.index}
-            style={{ textDecoration: "none" }}
-          >
-            <Button
-              className="nav-userInvite"
-              width="100%"
-              bgColor="#ff385c"
-              color="secondary.content"
-              _hover={{ bg: "secondary.focus" }}
-              borderRadius="100px"
-              size="sm"
-              rightIcon={
-                <InviteMemberIcon
-                  color="secondary.content"
-                  width="17px"
-                  height="17px"
-                />
-              }
-              boxShadow={`
+        {session.user.roles?.[0] == "host" && (
+          <Box mt="auto" px={8} pb={4}>
+            <Link
+              href={routes.frontend.invites.index}
+              style={{ textDecoration: "none" }}
+            >
+              <Button
+                className="nav-userInvite"
+                width="100%"
+                bgColor="#ff385c"
+                color="secondary.content"
+                _hover={{ bg: "secondary.focus" }}
+                borderRadius="100px"
+                size="sm"
+                rightIcon={
+                  <InviteMemberIcon
+                    color="secondary.content"
+                    width="17px"
+                    height="17px"
+                  />
+                }
+                boxShadow={`
               0px 3px 5px -1px #74748526,
               0px 6px 10px 0px #7474851A,
               0px 1px 18px 0px #7474850D
             `}
-            >
-              Invite Members
-            </Button>
-          </Link>
-        </Box>
+              >
+                Invite Members
+              </Button>
+            </Link>
+          </Box>
+        )}
         <Box px={8} py={4} borderTop="1px solid" borderColor="base.300">
           <Flex mb={1}>
             {sidebarFooterLinks.map(({ Icon, url }, index) => (
@@ -440,41 +442,40 @@ const MobileNav = ({ onOpen, isBannerVisible, ...rest }: MobileProps) => {
             <FormModal />
           </>
         )}
-        {session.user.roles?.[0] !== undefined ? (
-          <HStack spacing={0}>
-            {hasAccess(
-              RoqResourceEnum.CONVERSATION,
-              AccessOperationEnum.READ,
-              AccessServiceEnum.PLATFORM
-            ) && (
-              <Box className="nav-conversation" p={2}>
-                <ChatMessageBell
-                  onClick={() => router.push(routes.frontend.chat.index)}
-                  icon={
-                    <ChatIcon color="base.content" width="20px" height="20px" />
-                  }
-                />
-              </Box>
-            )}
 
-            <Box className="layout-notification-bell" p={2}>
-              <NotificationBell
+        <HStack spacing={0}>
+          {hasAccess(
+            RoqResourceEnum.CONVERSATION,
+            AccessOperationEnum.READ,
+            AccessServiceEnum.PLATFORM
+          ) && (
+            <Box className="nav-conversation" p={2}>
+              <ChatMessageBell
+                onClick={() => router.push(routes.frontend.chat.index)}
                 icon={
-                  <NotificationIcon
-                    color="base.content"
-                    width="16px"
-                    height="20px"
-                  />
+                  <ChatIcon color="base.content" width="20px" height="20px" />
                 }
               />
             </Box>
-            <Flex alignItems={"center"}>
-              <Box className="layout-user-profile" p={2}>
-                {session?.roqUserId && <UserAccountDropdown />}
-              </Box>
-            </Flex>
-          </HStack>
-        ) : null}
+          )}
+
+          <Box className="layout-notification-bell" p={2}>
+            <NotificationBell
+              icon={
+                <NotificationIcon
+                  color="base.content"
+                  width="16px"
+                  height="20px"
+                />
+              }
+            />
+          </Box>
+          <Flex alignItems={"center"}>
+            <Box className="layout-user-profile" p={2}>
+              {session?.roqUserId && <UserAccountDropdown />}
+            </Box>
+          </Flex>
+        </HStack>
       </Box>
     </Flex>
   );
