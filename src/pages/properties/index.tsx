@@ -4,7 +4,7 @@ import {
   requireNextAuth,
   withAuthorization,
 } from "@roq/nextjs";
-import { Spinner } from "@chakra-ui/react";
+import { Grid, Spinner } from "@chakra-ui/react";
 import { compose } from "lib/compose";
 import { Box, Button, Flex, Text, TextProps } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
@@ -204,33 +204,40 @@ export function PropertyListPage(props: PropertyListPageProps) {
           Properties
         </Text>
       </Flex>
-
-      <Flex direction="row" gap={2}>
-        {}
-        {/* <PropertyGrid>
-          {filteredData?.map((item) => (
-            <PropertyCard data={item} key={item.id} />
-          ))}
-        </PropertyGrid> */}
-        {!showMap && (
-          <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
-            {filteredData?.length === 0 ? (
-              <Text color="gray.500" textAlign="center" fontSize="lg" mt="8">
-                No properties found.
-              </Text>
-            ) : searchResult.length !== 0 ? (
-              <PropertyGrid>
-                {searchResult?.map((item) => {
-                  return <PropertyCard data={item} key={item.id} />;
-                })}
-              </PropertyGrid>
-            ) : (
-              <Text>No properties found.</Text>
-            )}
+      <Grid templateColumns="2fr 1fr" gap={4}>
+        <Box>
+          <Flex direction="row" gap={2}>
+            {
+              <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
+                {filteredData?.length === 0 ? (
+                  <Text
+                    color="gray.500"
+                    textAlign="center"
+                    fontSize="lg"
+                    mt="8"
+                  >
+                    No properties found.
+                  </Text>
+                ) : searchResult.length !== 0 ? (
+                  <PropertyGrid>
+                    {searchResult?.map((item) => {
+                      // if (Number(guest) > 0 && guest <= item.num_of_guest) {
+                      return <PropertyCard data={item} key={item.id} />;
+                      // }
+                    })}
+                  </PropertyGrid>
+                ) : (
+                  <PropertyGrid>
+                    {filteredData?.map((item) => (
+                      <PropertyCard data={item} key={item.id} />
+                    ))}
+                  </PropertyGrid>
+                )}
+              </Flex>
+            }
           </Flex>
-        )}
-      </Flex>
-      {showMap && (
+        </Box>
+
         <Box flex={1} flexBasis={0} height={500}>
           {searchResult.length !== 0 ? (
             <ListMap locations={searchResult} />
@@ -238,8 +245,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
             <ListMap locations={filteredData} />
           )}
         </Box>
-      )}
-
+      </Grid>
       <Flex direction="column" align="center" mt={4}>
         <Box
           position="fixed"

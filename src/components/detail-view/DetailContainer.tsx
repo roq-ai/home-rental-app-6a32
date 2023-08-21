@@ -30,15 +30,14 @@ import { getUsers } from "apiSdk/users";
 import { UserInterface } from "interfaces/user";
 import { PaginatedInterface } from "interfaces";
 import { BookingInterface } from "interfaces/booking";
+
 import { FiEdit2 } from "react-icons/fi";
 import NextLink from "next/link";
-
 export const DetailContainer = (props: any) => {
   const { session } = useSession();
   const { data, rootProps } = props;
   const router = useRouter();
   const { hasAccess } = useAuthorizationApi();
-
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
@@ -120,9 +119,10 @@ export const DetailContainer = (props: any) => {
         total_price: String(totalPrice),
       };
 
-      await createBooking(bookingData);
+      const bookingresponse = await createBooking(bookingData);
+      const bookingId = bookingresponse?.id
+      router.push(`/bookings/view/${bookingId}`);
 
-      router.push("/bookings");
     } catch (error) {}
   };
   const datePickerRef = useRef(null);
@@ -149,7 +149,7 @@ export const DetailContainer = (props: any) => {
 
   return (
     <>
-      {hasAccess(
+    {hasAccess(
         "property",
         AccessOperationEnum.UPDATE,
         AccessServiceEnum.PROJECT
