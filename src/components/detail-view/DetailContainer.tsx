@@ -19,17 +19,26 @@ import { useEffect, useRef, useState } from "react";
 import { Promos } from "./Promos";
 import { createBooking, getBookings } from "apiSdk/bookings";
 import { useRouter } from "next/router";
-import { useSession } from "@roq/nextjs";
+import {
+  AccessOperationEnum,
+  AccessServiceEnum,
+  useAuthorizationApi,
+  useSession,
+} from "@roq/nextjs";
 import useSWR from "swr";
 import { getUsers } from "apiSdk/users";
 import { UserInterface } from "interfaces/user";
 import { PaginatedInterface } from "interfaces";
 import { BookingInterface } from "interfaces/booking";
+import { FiEdit2 } from "react-icons/fi";
+import NextLink from "next/link";
 
 export const DetailContainer = (props: any) => {
   const { session } = useSession();
   const { data, rootProps } = props;
   const router = useRouter();
+  const { hasAccess } = useAuthorizationApi();
+
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
@@ -140,6 +149,37 @@ export const DetailContainer = (props: any) => {
 
   return (
     <>
+      {hasAccess(
+        "property",
+        AccessOperationEnum.UPDATE,
+        AccessServiceEnum.PROJECT
+      ) && (
+        <NextLink
+          href={`/my-properties/edit/${data.id}`}
+          passHref
+          legacyBehavior
+        >
+          <Button
+            onClick={(e) => e.stopPropagation()}
+            mr={2}
+            mb={5}
+            padding="0rem 0.5rem"
+            height="24px"
+            fontSize="0.8rem"
+            variant="outline"
+            color="primary.main"
+            borderRadius="6px"
+            border="1px"
+            borderColor="state.info.transparent"
+            leftIcon={
+              <FiEdit2 width="12px" height="12px" color="state.info.main" />
+            }
+            alignSelf="flex-end" // Add this line to align the button to the end
+          >
+            Edit
+          </Button>
+        </NextLink>
+      )}
       <Stack
         direction={{ base: "column", md: "column" }}
         spacing={{ base: "8", lg: "16" }}

@@ -20,6 +20,7 @@ import {
   AccessServiceEnum,
   requireNextAuth,
   useAuthorizationApi,
+  useSession,
   withAuthorization,
 } from "@roq/nextjs";
 import { FiEdit2 } from "react-icons/fi";
@@ -32,6 +33,8 @@ import LocationMap from "components/mapbox/LocationMap";
 function BookingViewPage() {
   const { hasAccess } = useAuthorizationApi();
   const router = useRouter();
+  const { session } = useSession();
+  const currentUser = session.user.roles?.[0];
   const id = router.query.id as string;
   const { data, error, isLoading, mutate } = useSWR<BookingInterface>(
     () => (id ? `/bookings/${id}` : null),
@@ -91,35 +94,36 @@ function BookingViewPage() {
                   "booking",
                   AccessOperationEnum.UPDATE,
                   AccessServiceEnum.PROJECT
-                ) && (
-                  <NextLink
-                    href={`/bookings/edit/${id}`}
-                    passHref
-                    legacyBehavior
-                  >
-                    <Button
-                      onClick={(e) => e.stopPropagation()}
-                      mr={2}
-                      padding="0rem 0.5rem"
-                      height="24px"
-                      fontSize="0.75rem"
-                      variant="outline"
-                      color="state.info.main"
-                      borderRadius="6px"
-                      border="1px"
-                      borderColor="state.info.transparent"
-                      leftIcon={
-                        <FiEdit2
-                          width="12px"
-                          height="12px"
-                          color="state.info.main"
-                        />
-                      }
+                ) &&
+                  currentUser === "guest" && (
+                    <NextLink
+                      href={`/bookings/edit/${id}`}
+                      passHref
+                      legacyBehavior
                     >
-                      Edit
-                    </Button>
-                  </NextLink>
-                )}
+                      <Button
+                        onClick={(e) => e.stopPropagation()}
+                        mr={2}
+                        padding="0rem 0.5rem"
+                        height="24px"
+                        fontSize="0.75rem"
+                        variant="outline"
+                        color="state.info.main"
+                        borderRadius="6px"
+                        border="1px"
+                        borderColor="state.info.transparent"
+                        leftIcon={
+                          <FiEdit2
+                            width="12px"
+                            height="12px"
+                            color="state.info.main"
+                          />
+                        }
+                      >
+                        Edit
+                      </Button>
+                    </NextLink>
+                  )}
               </Flex>
 
               <Box
@@ -136,14 +140,8 @@ function BookingViewPage() {
                     <BookingDetailCard data={data} />
                   </Box>
 
-                  <Box
-                    borderWidth="2px"
-                    minH="400px"
-                    rounded="xl"
-                    borderStyle="dashed"
-                  >
+                  <Box>
                     <LocationMap
-                      // width={"550"}
                       latitude={data.property.latitude}
                       longitude={data.property.longitude}
                     />

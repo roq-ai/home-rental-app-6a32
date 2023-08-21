@@ -192,7 +192,6 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   loading = isLoading;
 
   const MockedLinkItems: Array<NavItemPropsInterface> = [
- 
     {
       name: currentUser === "host" ? "Bookings" : "My Bookings",
       path: "/bookings",
@@ -249,24 +248,18 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           </Box>
         </Flex>
         <Box className="main-nav">
-          <NavItem
-            key="dashboard"
-            icon={HomeIcon}
-            path={"/dashboard"}
-            isActive={isActiveRoute("/dashboard")}
-          >
-            Dashboard
-          </NavItem>
-          {MockedLinkItems.map((link) => (
-            <NavItem
-              key={link.name}
-              icon={link.icon}
-              path={link.path}
-              isActive={isActiveRoute(link.path)}
-            >
-              {link.name}
-            </NavItem>
-          ))}
+          {currentUser !== undefined
+            ? MockedLinkItems.map((link) => (
+                <NavItem
+                  key={link.name}
+                  icon={link.icon}
+                  path={link.path}
+                  isActive={isActiveRoute(link.path)}
+                >
+                  {link.name}
+                </NavItem>
+              ))
+            : null}
         </Box>
         <Box mt="auto" px={8} pb={4}>
           <Link
@@ -447,40 +440,41 @@ const MobileNav = ({ onOpen, isBannerVisible, ...rest }: MobileProps) => {
             <FormModal />
           </>
         )}
+        {session.user.roles?.[0] !== undefined ? (
+          <HStack spacing={0}>
+            {hasAccess(
+              RoqResourceEnum.CONVERSATION,
+              AccessOperationEnum.READ,
+              AccessServiceEnum.PLATFORM
+            ) && (
+              <Box className="nav-conversation" p={2}>
+                <ChatMessageBell
+                  onClick={() => router.push(routes.frontend.chat.index)}
+                  icon={
+                    <ChatIcon color="base.content" width="20px" height="20px" />
+                  }
+                />
+              </Box>
+            )}
 
-        <HStack spacing={0}>
-          {hasAccess(
-            RoqResourceEnum.CONVERSATION,
-            AccessOperationEnum.READ,
-            AccessServiceEnum.PLATFORM
-          ) && (
-            <Box className="nav-conversation" p={2}>
-              <ChatMessageBell
-                onClick={() => router.push(routes.frontend.chat.index)}
+            <Box className="layout-notification-bell" p={2}>
+              <NotificationBell
                 icon={
-                  <ChatIcon color="base.content" width="20px" height="20px" />
+                  <NotificationIcon
+                    color="base.content"
+                    width="16px"
+                    height="20px"
+                  />
                 }
               />
             </Box>
-          )}
-
-          <Box className="layout-notification-bell" p={2}>
-            <NotificationBell
-              icon={
-                <NotificationIcon
-                  color="base.content"
-                  width="16px"
-                  height="20px"
-                />
-              }
-            />
-          </Box>
-          <Flex alignItems={"center"}>
-            <Box className="layout-user-profile" p={2}>
-              {session?.roqUserId && <UserAccountDropdown />}
-            </Box>
-          </Flex>
-        </HStack>
+            <Flex alignItems={"center"}>
+              <Box className="layout-user-profile" p={2}>
+                {session?.roqUserId && <UserAccountDropdown />}
+              </Box>
+            </Flex>
+          </HStack>
+        ) : null}
       </Box>
     </Flex>
   );

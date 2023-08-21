@@ -57,18 +57,26 @@ const Card: FC<{
 );
 let currentUser: any;
 function HomePage() {
-  const { session, status } = useSession();
+  const { session } = useSession();
   currentUser = session?.user?.roles?.[0];
   const router = useRouter();
+  const [redirectTo, setRedirectTo] = useState("/");
 
-  // Wait for the session to load before performing redirection
+  // Update redirectTo based on currentUser
   useEffect(() => {
     if (currentUser === "host") {
-      router.push("/my-properties");
+      setRedirectTo("/my-properties");
     } else if (currentUser === "guest") {
-      router.push("/properties");
+      setRedirectTo("/properties");
     }
-  }, [currentUser, router]);
+  }, []);
+  //   useEffect(() => {
+  //     if (currentUser === "host") {
+  //       router.replace("/my-properties");
+  //     } else if (currentUser === "guest") {
+  //       router.replace("/properties");
+  //     }
+  //   }, [currentUser, router]);
 
   return (
     <>
@@ -162,5 +170,13 @@ function HomePage() {
     </>
   );
 }
-
-export default HomePage;
+let redirectToPath = "/";
+if (currentUser === "host") {
+  redirectToPath = "/my-properties";
+} else if (currentUser === "guest") {
+  redirectToPath = "/properties";
+}
+export default requireNextAuth({
+  redirectIfAuthenticated: true,
+  redirectTo: "properties",
+})(HomePage);

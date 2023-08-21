@@ -25,7 +25,7 @@ const LocationMap = ({ latitude, longitude }: any) => {
     <>
       <Box
         ref={mapContainerRef}
-        style={{ width: "auto", height: "500px", overflow: "hidden" }}
+        style={{ width: "500px", height: "500px", overflow: "hidden" }}
       />
     </>
   );

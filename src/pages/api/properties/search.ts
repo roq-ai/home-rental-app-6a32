@@ -5,8 +5,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const oneKmLatitudeOffset = 0.00898311175; // 1km in degrees of latitude
-  const oneKmLongitudeOffset = 0.011972; // 1km in degrees of longitude
+  const fiftyKmLatitudeOffset = 0.4491555875; // 
+  const fiftyKmLongitudeOffset = 0.5986; // 
+  
 
   if (req.method == "GET") {
     const data = await prisma.property.findMany({
@@ -15,28 +16,28 @@ export default async function handler(
           {
             latitude: {
               gte: (
-                parseFloat(req.query.latitude as string) - oneKmLatitudeOffset
+                parseFloat(req.query.latitude as string) - fiftyKmLatitudeOffset
               ).toString(),
             },
           },
           {
             latitude: {
               lte: (
-                parseFloat(req.query.latitude as string) + oneKmLatitudeOffset
+                parseFloat(req.query.latitude as string) + fiftyKmLatitudeOffset
               ).toString(),
             },
           },
           {
             longitude: {
               gte: (
-                parseFloat(req.query.longitude as string) - oneKmLongitudeOffset
+                parseFloat(req.query.longitude as string) - fiftyKmLongitudeOffset
               ).toString(),
             },
           },
           {
             longitude: {
               lte: (
-                parseFloat(req.query.longitude as string) + oneKmLongitudeOffset
+                parseFloat(req.query.longitude as string) + fiftyKmLongitudeOffset
               ).toString(),
             },
           },

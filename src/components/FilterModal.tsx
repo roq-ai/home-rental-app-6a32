@@ -102,7 +102,7 @@ const FormModal = () => {
       <Button
         leftIcon={<FiFilter />}
         variant="solid"
-        colorScheme="primay.main"
+        background="primary.main"
         color="white"
         borderRadius="2xl"
         onClick={onOpen}
