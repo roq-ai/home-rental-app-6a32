@@ -90,8 +90,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
   const { data, error, isLoading, mutate } = useSWR<
     PaginatedInterface<PropertyInterface>
   >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
-
-  const [showMap, setShowMap] = useState(false);
+  const [showMap, setShowMap] = useState(true);
   const {
     filteredValue,
     selectedAmenities,
@@ -183,7 +182,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
       </Flex>
     );
   }
-
   return (
     <Box
       maxW="7xl"
@@ -203,7 +201,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
           Properties
         </Text>
       </Flex>
-      <Grid templateColumns={{base: "1fr", md: "2fr 1fr"}} gap={4}>
+      <Grid templateColumns={{base: "1fr" ,lg:"2fr 1fr"}} gap={4}>
         <Box>
           <Flex direction="row" gap={2}>
             {
@@ -220,9 +218,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
                 ) : searchResult.length !== 0 ? (
                   <PropertyGrid>
                     {searchResult?.map((item) => {
-                      // if (Number(guest) > 0 && guest <= item.num_of_guest) {
                       return <PropertyCard data={item} key={item.id} />;
-                      // }
                     })}
                   </PropertyGrid>
                 ) : (
@@ -236,16 +232,18 @@ export function PropertyListPage(props: PropertyListPageProps) {
             }
           </Flex>
         </Box>
-        {!showMap && (
-          <Box
-            flex={1}
-            display={{ base: "none", lg: "block" }}
-            flexBasis={0}
-            height={500}
-          >
-            <ListMap locations={filteredData} />
-          </Box>
-        )}
+        {
+          showMap &&
+        <Box flex={1} flexBasis={0} height="100vh" display={{ base: "none", lg: "block" }}>
+          {searchResult.length !== 0 ? (
+            <ListMap
+            locations={searchResult}
+            />
+            ) : (
+              <ListMap locations={filteredData} />
+              )}
+        </Box>
+            }
       </Grid>
       <Flex direction="column" align="center" mt={4}>
         <Box
