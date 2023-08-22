@@ -83,7 +83,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
   const { data, error, isLoading, mutate } = useSWR<
     PaginatedInterface<PropertyInterface>
   >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
-  console.log({ data });
+  // console.log({ data });
 
   const [showMap, setShowMap] = useState(false);
   const {
@@ -181,9 +181,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
       router.push("/properties");
     }
   }, [currentUser, router]);
-  console.log({ currentUser });
-  console.log({ router });
-
+  
   if (isLoading) {
     return (
       <Flex align="center" justify="center" w="100%" h="100%">

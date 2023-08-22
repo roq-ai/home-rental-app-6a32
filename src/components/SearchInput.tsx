@@ -121,8 +121,6 @@ export const SearchInput = () => {
         latitude: query.latitude,
         longitude: query.longitude,
       });
-      console.log("From search", propertiesOnSearch);
-
       setSearchResult(propertiesOnSearch);
     } catch (error) {
       console.error("Error fetching properties:", error);
@@ -184,7 +182,7 @@ export const SearchInput = () => {
   >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
 
   const properties = data?.data || [];
-
+  
   const filteredLocations = properties
     .map((property: any) => {
       return property;

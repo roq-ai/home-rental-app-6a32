@@ -39,7 +39,7 @@ const ListMap = ({ locations }: any) => {
   const { searchedLat, searchedLong } = useFilter();
   const mapContainerRef = useRef(null);
   const map = useRef(null);
-  console.log("from", { searchedLat, searchedLong });
+  // console.log("from", { searchedLat, searchedLong });
   const coordinates = locations?.map((location: PropertyInterface) => ({
     longitude: location.longitude,
     latitude: location.latitude,
@@ -55,7 +55,7 @@ const ListMap = ({ locations }: any) => {
         searchedLong ? searchedLong : mapCenter?.longitude,
         searchedLat ? searchedLat : mapCenter?.latitude,
       ],
-      zoom: 1,
+      zoom: 4,
     });
 
     locations.forEach((location: any) => {

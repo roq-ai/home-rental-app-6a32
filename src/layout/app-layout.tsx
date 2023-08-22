@@ -109,7 +109,7 @@ const sidebarFooterLinks = [
 export default function AppLayout({ children, breadcrumbs }: AppLayoutProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isMd = useBreakpointValue({ base: false, md: true });
-  const { isBannerVisible, setIsBannerVisible } = useBanner();
+  const [ isBannerVisible, setIsBannerVisible ] = useState(false);
 
   useEffect(() => {
     if (isMd && isOpen) {

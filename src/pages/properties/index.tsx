@@ -185,8 +185,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
       </Flex>
     );
   }
-
-  console.log({ searchedLat, searchedLong });
+  console.log("filtered",{ filteredData });
   return (
     <Box
       maxW="7xl"

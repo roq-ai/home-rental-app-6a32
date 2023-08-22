@@ -84,14 +84,16 @@ export default function BookingDetailCard({ data }: any) {
           >
             <BiMessageAdd />
             <Flex direction="column">
-              <Text fontSize="sm">Message Host</Text>
+              <Text fontSize="sm">Message</Text>
             </Flex>
           </Stack>
         </Link>
 
         <Divider mt="3" />
-        <Stack direction={"row"} spacing={4} align={"center"} mt={3}>
-          <IoLocation />
+        <Stack direction={"row"} align={"center"} mt={3}>
+          <Box>
+            <IoLocation />
+          </Box>
           <Flex direction="column">
             <Text fontSize="sm">{data?.property.location}</Text>
           </Flex>

@@ -61,8 +61,6 @@ function HomePage() {
       router.push("/properties");
     }
   }, [currentUser, router]);
-  console.log({ currentUser });
-  console.log({ router });
 
   return (
     <>

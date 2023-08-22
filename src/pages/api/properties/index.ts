@@ -1,20 +1,29 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { prisma } from 'server/db';
-import { authorizationValidationMiddleware, errorHandlerMiddleware } from 'server/middlewares';
-import { propertyValidationSchema } from 'validationSchema/properties';
-import { convertQueryToPrismaUtil, getOrderByOptions, parseQueryParams } from 'server/utils';
-import { getServerSession } from '@roq/nextjs';
-import { GetManyQueryOptions } from 'interfaces';
+import type { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from "server/db";
+import {
+  authorizationValidationMiddleware,
+  errorHandlerMiddleware,
+} from "server/middlewares";
+import { propertyValidationSchema } from "validationSchema/properties";
+import {
+  convertQueryToPrismaUtil,
+  getOrderByOptions,
+  parseQueryParams,
+} from "server/utils";
+import { getServerSession } from "@roq/nextjs";
+import { GetManyQueryOptions } from "interfaces";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { roqUserId, user } = await getServerSession(req);
   switch (req.method) {
-    case 'GET':
+    case "GET":
       return getProperties();
-    case 'POST':
+    case "POST":
       return createProperty();
     default:
-      return res.status(405).json({ message: `Method ${req.method} not allowed` });
+      return res
+        .status(405)
+        .json({ message: `Method ${req.method} not allowed` });
   }
 
   async function getProperties() {
@@ -33,12 +42,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         roles: user.roles,
       })
       .findManyPaginated({
-        ...convertQueryToPrismaUtil(query, 'property'),
+        ...convertQueryToPrismaUtil(query, "property"),
         take: limit,
         skip: offset,
         ...(order?.length && {
           orderBy: getOrderByOptions(order),
         }),
+        include: { booking: true },
       });
     return res.status(200).json(response);
   }
@@ -46,7 +56,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   async function createProperty() {
     await propertyValidationSchema.validate(req.body);
     const body = { ...req.body };
-    console.log({body})
     if (body?.booking?.length > 0) {
       const create_booking = body.booking;
       body.booking = {
@@ -58,11 +67,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const data = await prisma.property.create({
       data: body,
     });
-    
+
     return res.status(200).json(data);
   }
 }
 
 export default function apiHandler(req: NextApiRequest, res: NextApiResponse) {
-  return errorHandlerMiddleware(authorizationValidationMiddleware(handler))(req, res);
+  return errorHandlerMiddleware(authorizationValidationMiddleware(handler))(
+    req,
+    res
+  );
 }

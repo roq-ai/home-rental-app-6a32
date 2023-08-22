@@ -49,20 +49,6 @@ function PropertyCreatePage() {
   ];
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
-  const handleSubmit = async (
-    values: PropertyInterface,
-    { resetForm }: FormikHelpers<any>
-  ) => {
-    setError(null);
-    try {
-      const propertyData = { ...values, image_urls: images };
-      await createProperty(propertyData);
-      resetForm();
-      router.push("/properties");
-    } catch (error) {
-      setError(error);
-    }
-  };
 
   const {
     data: companyData,
@@ -71,6 +57,25 @@ function PropertyCreatePage() {
   } = useSWR<CompanyInterface[]>("/companies", () =>
     getCompanies().then(({ data }) => data)
   );
+
+  const handleSubmit = async (
+    values: PropertyInterface,
+    { resetForm }: FormikHelpers<any>
+  ) => {
+    setError(null);
+    try {
+      const propertyData = {
+        ...values,
+        company_id: companyData?.[0]?.id,
+        image_urls: images,
+      };
+      await createProperty(propertyData);
+      resetForm();
+      router.push("/properties");
+    } catch (error) {
+      setError(error);
+    }
+  };
 
   const handleUploadSuccess = ({ url }: any) => {
     setImages((prevImages) => [...prevImages, url]);
@@ -91,7 +96,6 @@ function PropertyCreatePage() {
       location: "",
       latitude: "",
       longitude: "",
-      company_id: companyData?.[0]?.id,
     },
     validationSchema: propertyValidationSchema,
     onSubmit: handleSubmit,

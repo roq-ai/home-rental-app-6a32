@@ -60,12 +60,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       where: { id: body.property_id },
       include: { company: true },
     });
-    const company = await prisma.company.findFirst({
-      where: { id: body.company_id },
-    });
     const usersOfcompany = await roqClient
       .asSuperAdmin()
-      .users({ filter: { tenantId: { equalTo: company.tenant_id } } });
+      .users({ filter: { tenantId: { equalTo: property.company.tenant_id } } });
+
     const usersId = usersOfcompany.users.data.map((user) => user.id);
     const conversationId = await roqClient
       .asUser(roqUserId)
@@ -78,9 +76,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           tags: ["test"],
         },
       });
-   
+
     const data = await prisma.booking.create({
-      data: {...body, roqConversationId:conversationId.createConversation.id}
+      data: {
+        ...body,
+        roqConversationId: conversationId.createConversation.id,
+      },
     });
     return res.status(200).json(data);
   }
