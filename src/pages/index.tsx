@@ -16,6 +16,8 @@ import { BiMapPin } from "react-icons/bi";
 import Link from "next/link";
 import { FiLogIn } from "react-icons/fi";
 import { useRouter } from "next/router";
+import { SearchInput } from "components/SearchInput";
+import FormModal from "components/FilterModal";
 
 type ColumnType = ColumnDef<PropertyInterface, unknown>;
 
@@ -181,8 +183,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
       router.push("/properties");
     }
   }, [currentUser, router]);
-  console.log({ currentUser });
-  console.log({ router });
 
   if (isLoading) {
     return (
@@ -210,6 +210,12 @@ export function PropertyListPage(props: PropertyListPageProps) {
         >
           Properties
         </Text>
+        <>
+          <Box display={{ base: "none", md: "flex" }} justifyContent="center">
+            <SearchInput />
+          </Box>
+          <FormModal />
+        </>
         <Link href="/login">
           <Button
             leftIcon={<FiLogIn />}

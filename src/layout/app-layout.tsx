@@ -169,7 +169,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const { session } = useSession();
   const { hasAccess } = useAuthorizationApi();
   const router = useRouter();
-  const currentUser = session.user.roles?.[0];
+  const currentUser = session?.user?.roles?.[0];
 
   const isActiveRoute = useCallback(
     (path: string) => {
@@ -263,7 +263,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
               ))
             : null}
         </Box>
-        {session.user.roles?.[0] == "host" && (
+        {session?.user?.roles?.[0] == "host" && (
           <Box mt="auto" px={8} pb={4}>
             <Link
               href={routes.frontend.invites.index}

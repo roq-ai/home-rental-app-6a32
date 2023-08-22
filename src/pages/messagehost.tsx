@@ -1,5 +1,7 @@
 import { Box, Stack, Text, Divider, IconButton } from "@chakra-ui/react";
 import { ChatWindow } from "@roq/nextjs";
+import { compose } from "lib/compose";
+import { withAppLayout } from "lib/hocs/with-app-layout.hoc";
 import { useRouter } from "next/router";
 import { FiArrowLeft } from "react-icons/fi"; // Import the back arrow icon
 
@@ -44,5 +46,4 @@ function MessageHost() {
     </Stack>
   );
 }
-
-export default MessageHost;
+export default compose(withAppLayout())(MessageHost);
