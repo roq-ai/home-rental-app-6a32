@@ -91,7 +91,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
     PaginatedInterface<PropertyInterface>
   >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
 
-  const [showMap, setShowMap] = useState(false);
+  const [showMap, setShowMap] = useState(true);
   const {
     filteredValue,
     selectedAmenities,
@@ -205,7 +205,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
           Properties
         </Text>
       </Flex>
-      <Grid templateColumns={{base: "1fr" ,lg:"2fr 1fr"}} gap={4}>
+      <Grid templateColumns={{ base: "1fr", lg: "2fr 1fr" }} gap={4}>
         <Box>
           <Flex direction="row" gap={2}>
             {
@@ -226,6 +226,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
                     })}
                   </PropertyGrid>
                 ) : (
+                  
                   <PropertyGrid>
                     {filteredData?.map((item) => (
                       <PropertyCard data={item} key={item.id} />
@@ -236,18 +237,25 @@ export function PropertyListPage(props: PropertyListPageProps) {
             }
           </Flex>
         </Box>
-        
-        <Box flex={1} flexBasis={0} height="100vh" display={{ base: "none", lg: "block" }}>
-          {searchResult.length !== 0 ? (
-            <ListMap
-              locations={searchResult}
-              searchedLat={searchedLat}
-              searchedLong={searchedLong}
-            />
-          ) : (
-            <ListMap locations={filteredData} />
-          )}
-        </Box>
+
+        {showMap && (
+          <Box
+            flex={1}
+            flexBasis={0}
+            height="100vh"
+            display={{ base: "none", lg: "block" }}
+          >
+            {searchResult.length !== 0 ? (
+              <ListMap
+                locations={searchResult}
+                searchedLat={searchedLat}
+                searchedLong={searchedLong}
+              />
+            ) : (
+              <ListMap locations={filteredData} />
+            )}
+          </Box>
+        )}
       </Grid>
       <Flex direction="column" align="center" mt={4}>
         <Box
@@ -274,7 +282,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
               backgroundColor: "black",
             }}
           >
-            {showMap ? "Show Map":"Hide Map"  }
+            {showMap ? "Hide Map" : "Show Map"}
           </Button>
         </Box>
       </Flex>
@@ -293,4 +301,3 @@ export default compose(
   }),
   withAppLayout()
 )(PropertyListPage);
-

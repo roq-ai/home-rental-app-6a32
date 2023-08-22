@@ -12,6 +12,8 @@ import {
 } from "server/utils";
 import { getServerSession } from "@roq/nextjs";
 import { GetManyQueryOptions } from "interfaces";
+import { UserInterface } from "interfaces/user";
+import companies from "pages/companies";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { roqUserId, user } = await getServerSession(req);
@@ -54,7 +56,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   async function createProperty() {
-    await propertyValidationSchema.validate(req.body);
     const body = { ...req.body };
     if (body?.booking?.length > 0) {
       const create_booking = body.booking;
@@ -64,10 +65,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     } else {
       delete body.booking;
     }
-    const data = await prisma.property.create({
-      data: body,
+    const user = await prisma.user.findMany({
+      where: { roq_user_id: roqUserId },
+      include: { company: true },
     });
-
+    const company = await prisma.company.findFirst({where : {user_id : user[0].id}})
+    const data = await prisma.property.create({
+      data: { ...body, company_id: company.id},
+    });
     return res.status(200).json(data);
   }
 }

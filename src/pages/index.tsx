@@ -85,7 +85,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
   const { data, error, isLoading, mutate } = useSWR<
     PaginatedInterface<PropertyInterface>
   >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
-  console.log({ data });
+
 
   const [showMap, setShowMap] = useState(false);
   const {

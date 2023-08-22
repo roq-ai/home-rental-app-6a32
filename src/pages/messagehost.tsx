@@ -14,7 +14,7 @@ function MessageHost() {
   };
 
   return (
-    <Stack spacing={4} mt={6} width="70%" mx="auto">
+    <Stack spacing={4} mt={6} width="0%" mx="auto">
       <Box
         bg="white"
         // boxShadow="lg"
