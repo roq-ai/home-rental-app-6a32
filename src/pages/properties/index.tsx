@@ -203,7 +203,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
           Properties
         </Text>
       </Flex>
-      <Grid templateColumns="2fr 1fr" gap={4}>
+      <Grid templateColumns={{base: "1fr", md: "2fr 1fr"}} gap={4}>
         <Box>
           <Flex direction="row" gap={2}>
             {
@@ -239,7 +239,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
         {!showMap && (
           <Box
             flex={1}
-            display={{ base: "none", md: "block" }}
+            display={{ base: "none", lg: "block" }}
             flexBasis={0}
             height={500}
           >
@@ -258,6 +258,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
             leftIcon={<BiMapPin />}
             onClick={() => setShowMap(!showMap)}
             zIndex={900002}
+            display={{ base: "none", lg: "block" }}
             fontSize="1rem"
             fontWeight="bold"
             background="black"
@@ -271,7 +272,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
               backgroundColor: "black",
             }}
           >
-            {showMap ? "Hide Map" : "Show Map"}
+            {showMap ? "Show Map":"Hide Map"  }
           </Button>
         </Box>
       </Flex>
