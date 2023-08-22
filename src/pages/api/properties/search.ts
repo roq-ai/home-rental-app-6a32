@@ -1,22 +1,30 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client"; // Import PrismaClient from the correct module
-import { string } from "yup";
+import { PrismaClient } from "@prisma/client"; 
 
-const prisma = new PrismaClient(); // Create a new instance of PrismaClient
+const prisma = new PrismaClient(); 
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const fiftyKmLatitudeOffset = 0.4491555875;
-  const fiftyKmLongitudeOffset = 0.5986;
+  const fiftyKmLatitudeOffset = 0.4491555875; 
+  const fiftyKmLongitudeOffset = 0.5986; 
 
   if (req.method === "GET") {
     const latitude = parseFloat(req.query.latitude as string);
     const longitude = parseFloat(req.query.longitude as string);
 
-    const startDate = new Date(req.query.startDate as string);
-    const endDate = new Date(req.query.endDate as string);
+    let startDate = new Date(req.query.startDate as string);
+    let endDate = new Date(req.query.endDate as string);
+    const maxGuest = (req.query.maxGuest as string) || 0;
+    if (isNaN(startDate.getTime())) {
+      startDate = new Date(); 
+    }
+
+    if (isNaN(endDate.getTime())) {
+      endDate = new Date(startDate);
+      endDate.setDate(endDate.getDate() + 7); 
+    }
 
     const properties = await prisma.property.findMany({
       where: {
@@ -34,14 +42,28 @@ export default async function handler(
             },
           },
         ],
-      },
-      include: {
         booking: {
-          where: {
+          none: {
             AND: [
               {
+                OR: [
+                  {
+                    start_date: {
+                      lte: endDate,
+                      gte: startDate,
+                    },
+                  },
+                  {
+                    end_date: {
+                      lte: endDate,
+                      gte: startDate,
+                    },
+                  },
+                ],
+              },
+              {
                 num_of_guest: {
-                  gte: req.query.maxGuest as string,
+                  lte: maxGuest.toString(),
                 },
               },
             ],
@@ -49,6 +71,7 @@ export default async function handler(
         },
       },
     });
+    console.log({properties})
     
     return res.status(200).json(properties);
   }

@@ -55,7 +55,7 @@ const ListMap = ({ locations }: any) => {
         searchedLong ? searchedLong : mapCenter?.longitude,
         searchedLat ? searchedLat : mapCenter?.latitude,
       ],
-      zoom: 4,
+      zoom: searchedLat ? 6 : 1,
     });
 
     locations.forEach((location: any) => {
@@ -100,9 +100,10 @@ const ListMap = ({ locations }: any) => {
   return (
     <Box
       ref={mapContainerRef}
-      style={{ width: "auto", height: "500px", overflow: "hidden" }}
+      style={{ width: "auto", height: "80vh", overflow: "hidden" }}
     />
   );
 };
 
 export default ListMap;
+

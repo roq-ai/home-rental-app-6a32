@@ -185,7 +185,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
       </Flex>
     );
   }
-  console.log("filtered",{ filteredData });
+
   return (
     <Box
       maxW="7xl"
@@ -205,7 +205,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
           Properties
         </Text>
       </Flex>
-      <Grid templateColumns="2fr 1fr" gap={4}>
+      <Grid templateColumns={{base: "1fr" ,lg:"2fr 1fr"}} gap={4}>
         <Box>
           <Flex direction="row" gap={2}>
             {
@@ -236,8 +236,8 @@ export function PropertyListPage(props: PropertyListPageProps) {
             }
           </Flex>
         </Box>
-
-        <Box flex={1} flexBasis={0} height={500}>
+        
+        <Box flex={1} flexBasis={0} height="100vh" display={{ base: "none", lg: "block" }}>
           {searchResult.length !== 0 ? (
             <ListMap
               locations={searchResult}
@@ -260,6 +260,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
             leftIcon={<BiMapPin />}
             onClick={() => setShowMap(!showMap)}
             zIndex={900002}
+            display={{ base: "none", lg: "block" }}
             fontSize="1rem"
             fontWeight="bold"
             background="black"
@@ -273,7 +274,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
               backgroundColor: "black",
             }}
           >
-            {showMap ? "Hide Map" : "Show Map"}
+            {showMap ? "Show Map":"Hide Map"  }
           </Button>
         </Box>
       </Flex>
@@ -292,3 +293,4 @@ export default compose(
   }),
   withAppLayout()
 )(PropertyListPage);
+

@@ -1,5 +1,7 @@
 import { Box, Stack, Text, Divider, IconButton } from "@chakra-ui/react";
 import { ChatWindow } from "@roq/nextjs";
+import { compose } from "lib/compose";
+import { withAppLayout } from "lib/hocs/with-app-layout.hoc";
 import { useRouter } from "next/router";
 import { FiArrowLeft } from "react-icons/fi"; // Import the back arrow icon
 
@@ -12,10 +14,10 @@ function MessageHost() {
   };
 
   return (
-    <Stack spacing={4} mt={6} width="600px" mx="auto">
+    <Stack spacing={4} mt={6} width="70%" mx="auto">
       <Box
         bg="white"
-        boxShadow="lg"
+        // boxShadow="lg"
         borderRadius="md"
         p={4}
         borderWidth="1px"
@@ -36,7 +38,7 @@ function MessageHost() {
         </Box>
         <Divider my={3} />
         {conversationId && (
-          <Box width="auto" height="500px">
+          <Box width="100%" height="100%">
             <ChatWindow conversationId={conversationId as string} />
           </Box>
         )}
@@ -44,5 +46,4 @@ function MessageHost() {
     </Stack>
   );
 }
-
-export default MessageHost;
+export default compose(withAppLayout())(MessageHost);

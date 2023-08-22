@@ -109,7 +109,7 @@ const sidebarFooterLinks = [
 export default function AppLayout({ children, breadcrumbs }: AppLayoutProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isMd = useBreakpointValue({ base: false, md: true });
-  const [ isBannerVisible, setIsBannerVisible ] = useState(false);
+  const [isBannerVisible, setIsBannerVisible] = useState(false);
 
   useEffect(() => {
     if (isMd && isOpen) {
@@ -169,7 +169,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const { session } = useSession();
   const { hasAccess } = useAuthorizationApi();
   const router = useRouter();
-  const currentUser = session.user.roles?.[0];
+  const currentUser = session?.user?.roles?.[0];
 
   const isActiveRoute = useCallback(
     (path: string) => {
@@ -263,8 +263,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
               ))
             : null}
         </Box>
-        {session.user.roles?.[0] == "host" && (
-          <Box mt="auto" px={8} pb={4}>
+        <Box mt="auto" px={8} pb={4}>
+          {session?.user?.roles?.[0] == "host" && (
             <Link
               href={routes.frontend.invites.index}
               style={{ textDecoration: "none" }}
@@ -293,8 +293,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                 Invite Members
               </Button>
             </Link>
-          </Box>
-        )}
+          )}
+        </Box>
         <Box px={8} py={4} borderTop="1px solid" borderColor="base.300">
           <Flex mb={1}>
             {sidebarFooterLinks.map(({ Icon, url }, index) => (

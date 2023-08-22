@@ -16,6 +16,8 @@ import { BiMapPin } from "react-icons/bi";
 import Link from "next/link";
 import { FiLogIn } from "react-icons/fi";
 import { useRouter } from "next/router";
+import { SearchInput } from "components/SearchInput";
+import FormModal from "components/FilterModal";
 
 type ColumnType = ColumnDef<PropertyInterface, unknown>;
 
@@ -83,7 +85,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
   const { data, error, isLoading, mutate } = useSWR<
     PaginatedInterface<PropertyInterface>
   >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
-  // console.log({ data });
+  console.log({ data });
 
   const [showMap, setShowMap] = useState(false);
   const {
@@ -155,20 +157,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
     setFilterNumber(filteredData?.length as unknown as string);
   }, [filteredData, setFilterNumber]);
 
-  const [deleteError, setDeleteError] = useState(null);
-  useEffect(() => {
-    setFilterNumber(filteredData?.length as unknown as string);
-  }, [filteredData, setFilterNumber]);
-
-  const handleDelete = async (id: string) => {
-    setDeleteError(null);
-    try {
-      await deletePropertyById(id);
-      await mutate();
-    } catch (error) {
-      setDeleteError(error);
-    }
-  };
   const { session, status } = useSession();
   currentUser = session?.user?.roles?.[0];
   const router = useRouter();
@@ -182,6 +170,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
     }
   }, [currentUser, router]);
   
+
   if (isLoading) {
     return (
       <Flex align="center" justify="center" w="100%" h="100%">
@@ -208,6 +197,12 @@ export function PropertyListPage(props: PropertyListPageProps) {
         >
           Properties
         </Text>
+        <>
+          <Box display={{ base: "none", md: "flex" }} justifyContent="center">
+            <SearchInput />
+          </Box>
+          <FormModal />
+        </>
         <Link href="/login">
           <Button
             leftIcon={<FiLogIn />}

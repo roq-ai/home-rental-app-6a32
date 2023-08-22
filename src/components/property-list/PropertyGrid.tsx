@@ -8,8 +8,9 @@ export const PropertyGrid = (props: SimpleGridProps) => {
     ).length;
     return {
       base: Math.min(1, count),
+      sm:Math.min(2, count),
       md: Math.min(2, count),
-      lg: Math.min(3, count),
+      lg: Math.min(2, count),
       xl: Math.min(3, count),
     };
   }, [props.children]);

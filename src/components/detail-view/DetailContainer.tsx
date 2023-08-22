@@ -33,13 +33,14 @@ import { BookingInterface } from "interfaces/booking";
 
 import { FiEdit2 } from "react-icons/fi";
 import NextLink from "next/link";
+
 export const DetailContainer = (props: any) => {
   const { session } = useSession();
   const { data, rootProps } = props;
   const router = useRouter();
   const { hasAccess } = useAuthorizationApi();
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
   const selectionRange = {
     startDate: startDate,
@@ -63,6 +64,7 @@ export const DetailContainer = (props: any) => {
     () => "/bookings",
     () => getBookings()
   );
+
   const isPropertyReserved = () => {
     if (existingBookingsError || existingBookingsLoading) {
       return false;
@@ -79,6 +81,35 @@ export const DetailContainer = (props: any) => {
       return startDate >= bookingStartDate && startDate >= bookingEndDate;
     });
   };
+  const isDateDisabled = (date) => {
+    if (existingBookingsError || existingBookingsLoading) {
+      return false;
+    }
+
+    const propertyId = data?.id;
+    const isDateBooked = existingBookings.data.some((booking) => {
+      const bookingStartDate = new Date(booking.start_date);
+      const bookingEndDate = new Date(booking.end_date);
+      return (
+        date >= bookingStartDate &&
+        date <= bookingEndDate &&
+        booking.property_id === propertyId
+      );
+    });
+
+    return isDateBooked;
+  };
+
+  // const findNextAvailableDate = () => {
+  //   const today = new Date();
+  //   let nextAvailableDate = new Date(today);
+
+  //   while (isDateDisabled(nextAvailableDate)) {
+  //     nextAvailableDate.setDate(nextAvailableDate.getDate() + 1);
+  //   }
+
+  //   return nextAvailableDate;
+  // };
 
   const handleSelect = (ranges: any) => {
     setStartDate(ranges.selection.startDate);
@@ -120,9 +151,8 @@ export const DetailContainer = (props: any) => {
       };
 
       const bookingresponse = await createBooking(bookingData);
-      const bookingId = bookingresponse?.id
+      const bookingId = bookingresponse?.id;
       router.push(`/bookings/view/${bookingId}`);
-
     } catch (error) {}
   };
   const datePickerRef = useRef(null);
@@ -149,7 +179,7 @@ export const DetailContainer = (props: any) => {
 
   return (
     <>
-    {hasAccess(
+      {hasAccess(
         "property",
         AccessOperationEnum.UPDATE,
         AccessServiceEnum.PROJECT
@@ -232,7 +262,7 @@ export const DetailContainer = (props: any) => {
                   >
                     <Text fontWeight={600}>Check-in</Text>
                     <Text color={"gray.500"}>
-                      {startDate.toLocaleDateString()}
+                      {startDate ? startDate.toLocaleDateString() : "Pick Date"}
                     </Text>
                   </Stack>
                   <Box flex={1} />
@@ -258,7 +288,7 @@ export const DetailContainer = (props: any) => {
                   >
                     <Text fontWeight={600}>Check-out</Text>
                     <Text color={"gray.500"}>
-                      {endDate.toLocaleDateString()}
+                      {endDate ? endDate.toLocaleDateString() : "Pick Date"}
                     </Text>
                   </Stack>
                   <Box flex={1} />
@@ -281,6 +311,7 @@ export const DetailContainer = (props: any) => {
                       minDate={new Date()}
                       onChange={handleSelect}
                       rangeColors={["#FD5B61"]}
+                      disabledDay={isDateDisabled}
                     />
                   </Box>
                 )}
