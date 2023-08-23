@@ -154,8 +154,8 @@ export function PropertyListPage(props: PropertyListPageProps) {
     selectedPropertyType ||
     minValue ||
     maxValue
-      ? data?.data.filter(filterMatches)
-      : data?.data;
+      ? data.filter(filterMatches)
+      : data;
   useEffect(() => {
     setFilterNumber(filteredData?.length as unknown as string);
   }, [filteredData, setFilterNumber]);

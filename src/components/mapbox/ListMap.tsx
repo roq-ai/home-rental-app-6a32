@@ -29,7 +29,7 @@ const ListMap = ({ locations }: any) => {
   const map = useRef(null);
   console.log({ locations });
 
-  const coordinates = locations.map((location: PropertyInterface) => ({
+  const coordinates = locations?.map((location: PropertyInterface) => ({
     longitude: location.longitude,
     latitude: location.latitude,
   }));
@@ -40,11 +40,11 @@ const ListMap = ({ locations }: any) => {
     map.current = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [mapCenter?.longitude, mapCenter?.latitude],
+      center: [0, 0],
       zoom: 1,
     });
 
-    locations.forEach((location: any) => {
+    locations?.forEach((location: any) => {
       const popupContent = renderToStaticMarkup(
         <PopupContent data={location} />
       );

@@ -55,7 +55,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   async function createBooking() {
     await bookingValidationSchema.validate(req.body);
+    const startDate = req?.body?.start_date
+    const endDate = req?.body?.end_date
+
+    const startDateFormatted = new Date(startDate);
+    const endDateFormatted = new Date(endDate);
     const body = { ...req.body };
+    body.start_date = startDateFormatted;
+    body.end_date = endDateFormatted;
     const property = await prisma.property.findFirst({
       where: { id: body.property_id },
       include: { company: true },

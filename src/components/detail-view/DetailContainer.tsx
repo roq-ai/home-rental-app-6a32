@@ -9,6 +9,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
+import moment from "moment";
 import { Gallery } from "./Gallery";
 import { PriceTag } from "./PriceTag";
 import { QuantityPicker } from "./QuantityPicker";
@@ -41,6 +42,7 @@ export const DetailContainer = (props: any) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
+  const [reserveIsLoading,setReserveIsLoading] = useState(false);
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
@@ -63,11 +65,21 @@ export const DetailContainer = (props: any) => {
     () => "/bookings",
     () => getBookings()
   );
-  const isPropertyReserved = () => {
+  console.log(existingBookings, existingBookingsError, "the booking");
+
+  function formatDate(date:any) {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Adding 1 because getMonth() returns 0-11
+    const day = date.getDate();
+  
+    // Format the date as "YYYY-MM-DD"
+    return `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+  }
+  
+  const isPropertyAvailable = () => {
     if (existingBookingsError || existingBookingsLoading) {
       return false;
     }
-
     const propertyId = data?.id;
     const bookingsForProperty = existingBookings.data.filter(
       (booking) => booking.property_id === propertyId
@@ -76,11 +88,23 @@ export const DetailContainer = (props: any) => {
     return bookingsForProperty.every((booking) => {
       const bookingStartDate = new Date(booking.start_date);
       const bookingEndDate = new Date(booking.end_date);
-      return startDate >= bookingStartDate && startDate >= bookingEndDate;
+
+
+      // Check if the requested dates fall outside the existing booking's range
+      const startDateOnly = formatDate(bookingStartDate);
+      const endDateOnly = formatDate(bookingEndDate);
+      const startDateFormatted = formatDate(startDate);
+      const endDateFormatted = formatDate(endDate)
+      const isBeforeExistingBooking = startDateFormatted < startDateOnly;
+      const isAfterExistingBooking = endDateFormatted > endDateOnly;
+
+      // The property is available if the requested dates don't overlap with any existing booking
+      return isBeforeExistingBooking || isAfterExistingBooking;
     });
   };
 
   const handleSelect = (ranges: any) => {
+    console.log(ranges, "ranges");
     setStartDate(ranges.selection.startDate);
     setEndDate(ranges.selection.endDate);
   };
@@ -95,8 +119,12 @@ export const DetailContainer = (props: any) => {
   const toast = useToast();
   const { numDays, totalPrice } = calculateTotalPrice();
   const handleReserveClick = async () => {
+    setReserveIsLoading(true);
     try {
-      if (!isPropertyReserved()) {
+      const startDateFormatted = formatDate(startDate);
+      const endDateFormatted = formatDate(endDate)
+
+      if (!isPropertyAvailable()) {
         toast({
           title: "Property Already Reserved",
           description:
@@ -110,8 +138,8 @@ export const DetailContainer = (props: any) => {
       }
 
       const bookingData = {
-        start_date: startDate,
-        end_date: endDate,
+        start_date: startDateFormatted,
+        end_date: endDateFormatted,
         guest_id: fetchedData?.[0]?.id,
         property_id: data?.id,
         num_of_guest: "",
@@ -120,10 +148,12 @@ export const DetailContainer = (props: any) => {
       };
 
       const bookingresponse = await createBooking(bookingData);
-      const bookingId = bookingresponse?.id
+      const bookingId = bookingresponse?.id;
       router.push(`/bookings/view/${bookingId}`);
-
     } catch (error) {}
+    finally{
+      setReserveIsLoading(false)
+    }
   };
   const datePickerRef = useRef(null);
 
@@ -149,7 +179,7 @@ export const DetailContainer = (props: any) => {
 
   return (
     <>
-    {hasAccess(
+      {hasAccess(
         "property",
         AccessOperationEnum.UPDATE,
         AccessServiceEnum.PROJECT
@@ -303,6 +333,8 @@ export const DetailContainer = (props: any) => {
                 background="primary.main"
                 color="white"
                 onClick={handleReserveClick}
+                disabled={reserveIsLoading}
+                isLoading={reserveIsLoading}
               >
                 Reserve
               </Button>
