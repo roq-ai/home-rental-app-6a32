@@ -158,7 +158,7 @@ export const SearchInput = () => {
     PaginatedInterface<PropertyInterface>
   >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
 
-  const properties = data?.data || [];
+  const properties = (data || []) as any;
 
   const filteredLocations = properties
     .map((property: any) => {

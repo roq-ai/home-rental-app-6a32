@@ -41,7 +41,7 @@ export const DetailContainer = (props: any) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
-  const [reserveIsLoading,setReserveIsLoading] = useState(false);
+  const [reserveIsLoading, setReserveIsLoading] = useState(false);
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
@@ -54,7 +54,28 @@ export const DetailContainer = (props: any) => {
   } = useSWR<UserInterface[]>("/users", () =>
     getUsers({ roq_user_id: session.roqUserId }).then(({ data }) => data)
   );
+  function formatDate(date: any) {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Adding 1 because getMonth() returns 0-11
+    const day = date.getDate();
 
+    // Format the date as "YYYY-MM-DD"
+    return `${year}-${month.toString().padStart(2, "0")}-${day
+      .toString()
+      .padStart(2, "0")}`;
+  }
+  
+  function areAllDatesOutsideRange(dateToCheckStart:any, dateToCheckEnd:any, startDate:any, endDate:any) {
+    for (let currentDate = new Date(dateToCheckStart); 
+      currentDate <= new Date(dateToCheckEnd); 
+      currentDate.setDate(currentDate.getDate() + 1)) {
+        const currentDateFormatted = formatDate(currentDate);
+      if (currentDateFormatted >= startDate && currentDateFormatted <= endDate) {
+        return false; // At least one date falls within the range
+      }
+    }
+    return true; // All dates are outside the range
+  }
   const {
     data: existingBookings,
     error: existingBookingsError,
@@ -64,43 +85,33 @@ export const DetailContainer = (props: any) => {
     () => "/bookings",
     () => getBookings()
   );
-  console.log(existingBookings, existingBookingsError, "the booking");
+ 
 
-  function formatDate(date:any) {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1; // Adding 1 because getMonth() returns 0-11
-    const day = date.getDate();
-  
-    // Format the date as "YYYY-MM-DD"
-    return `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
-  }
-  
   const isPropertyAvailable = () => {
     if (existingBookingsError || existingBookingsLoading) {
       return false;
     }
     const propertyId = data?.id;
     const bookingsForProperty = existingBookings.data.filter(
+      
       (booking) => booking.property_id === propertyId
-    );
-
-    return bookingsForProperty.every((booking) => {
-      const bookingStartDate = new Date(booking.start_date);
-      const bookingEndDate = new Date(booking.end_date);
-
-
-      // Check if the requested dates fall outside the existing booking's range
-      const startDateOnly = formatDate(bookingStartDate);
-      const endDateOnly = formatDate(bookingEndDate);
-      const startDateFormatted = formatDate(startDate);
-      const endDateFormatted = formatDate(endDate)
-      const isBeforeExistingBooking = startDateFormatted < startDateOnly;
-      const isAfterExistingBooking = endDateFormatted > endDateOnly;
-
-      // The property is available if the requested dates don't overlap with any existing booking
-      return isBeforeExistingBooking || isAfterExistingBooking;
-    });
-  };
+      );
+      
+      return bookingsForProperty.every((booking) => {
+        const bookingStartDate = new Date(booking.start_date);
+        const bookingEndDate = new Date(booking.end_date);
+        
+        // Check if the requested dates fall outside the existing booking's range
+        const startDateOnly = formatDate(bookingStartDate);
+        const endDateOnly = formatDate(bookingEndDate);
+        const startDateFormatted = formatDate(startDate);
+        const endDateFormatted = formatDate(endDate);
+        // The property is available if the requested dates don't overlap with any existing booking
+        
+        const value = areAllDatesOutsideRange(startDateFormatted,endDateFormatted,startDateOnly,endDateOnly)
+        return value;
+      });
+    };
 
   const handleSelect = (ranges: any) => {
     console.log(ranges, "ranges");
@@ -121,7 +132,7 @@ export const DetailContainer = (props: any) => {
     setReserveIsLoading(true);
     try {
       const startDateFormatted = formatDate(startDate);
-      const endDateFormatted = formatDate(endDate)
+      const endDateFormatted = formatDate(endDate);
 
       if (!isPropertyAvailable()) {
         toast({
@@ -149,9 +160,9 @@ export const DetailContainer = (props: any) => {
       const bookingresponse = await createBooking(bookingData);
       const bookingId = bookingresponse?.id;
       router.push(`/bookings/view/${bookingId}`);
-    } catch (error) {}
-    finally{
-      setReserveIsLoading(false)
+    } catch (error) {
+    } finally {
+      setReserveIsLoading(false);
     }
   };
   const datePickerRef = useRef(null);

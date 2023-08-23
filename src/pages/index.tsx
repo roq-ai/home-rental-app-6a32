@@ -1,4 +1,5 @@
-import { Grid, Spinner } from "@chakra-ui/react";
+import { useSession } from "@roq/nextjs";
+import { Spinner } from "@chakra-ui/react";
 import { Box, Button, Flex, Text, TextProps } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import {
@@ -7,17 +8,22 @@ import {
 } from "components/table/hook/use-data-table-params.hook";
 import { useCallback, useEffect, useState } from "react";
 import useSWR from "swr";
-import { getHomeProperties } from "apiSdk/properties";
+import { PaginatedInterface } from "interfaces";
+import {
+  getProperties,
+  deletePropertyById,
+  getHomeProperties,
+} from "apiSdk/properties";
 import { PropertyInterface } from "interfaces/property";
 import { useFilter } from "context/FilterContext";
 import { BiMapPin } from "react-icons/bi";
-import { PropertyGrid } from "components/property-list/PropertyGrid";
-import PropertyCard from "components/property-list/PropertyList";
-import ListMap from "components/mapbox/ListMap";
-import { compose } from "lib/compose";
-import { withAppLayout } from "lib/hocs/with-app-layout.hoc";
-import { useSession } from "@roq/nextjs";
+import Link from "next/link";
+import { FiLogIn } from "react-icons/fi";
 import { useRouter } from "next/router";
+import { SearchInput } from "components/SearchInput";
+import FormModal from "components/FilterModal";
+import { withAppLayout } from "lib/hocs/with-app-layout.hoc";
+import { compose } from "lib/compose";
 
 type ColumnType = ColumnDef<PropertyInterface, unknown>;
 
@@ -31,8 +37,6 @@ interface PropertyListPageProps {
   tableOnly?: boolean;
   hideActions?: boolean;
 }
-let currentUser:any;
-
 export function PropertyListPage(props: PropertyListPageProps) {
 
   const {
@@ -61,10 +65,10 @@ export function PropertyListPage(props: PropertyListPageProps) {
   });
 
   const fetcher = useCallback(async () => getHomeProperties(), []);
-  const { data, error, isLoading, mutate } = useSWR(
-    () => `/properties?params=${JSON.stringify(params)}`,
-    fetcher
-  );
+  const { data, error, isLoading, mutate } = useSWR<
+    PaginatedInterface<PropertyInterface>
+  >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
+  console.log({ data });
 
   const [showMap, setShowMap] = useState(false);
   const {
@@ -130,27 +134,16 @@ export function PropertyListPage(props: PropertyListPageProps) {
     selectedPropertyType ||
     minValue ||
     maxValue
-      ? data?.filter(filterMatches)
-      : data;
-
+      ? data?.data.filter(filterMatches)
+      : data?.data;
   useEffect(() => {
     setFilterNumber(filteredData?.length as unknown as string);
   }, [filteredData, setFilterNumber]);
-  const { session, status } = useSession();
-  currentUser = session?.user?.roles?.[0];
-  const router = useRouter();
 
-  console.log({ status });
-
-  // Wait for the session to load before performing redirection
+  const [deleteError, setDeleteError] = useState(null);
   useEffect(() => {
-    if (currentUser === "host") {
-      router.push("/my-properties");
-    } else if (currentUser === "guest") {
-      router.push("/properties");
-    }
-  }, [currentUser, router]);
-
+    setFilterNumber(filteredData?.length as unknown as string);
+  }, [filteredData, setFilterNumber]);
   if (isLoading) {
     return (
       <Flex align="center" justify="center" w="100%" h="100%">
@@ -178,7 +171,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
           Properties
         </Text>
       </Flex>
-      <Grid templateColumns="2fr 1fr" gap={4}>
+      {/* <Grid templateColumns="2fr 1fr" gap={4}>
         <Box>
           <Flex direction="row" gap={2}>
             {
@@ -200,7 +193,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
                   </PropertyGrid>
                 ) : (
                   <PropertyGrid>
-                    {filteredData?.map((item: any) => (
+                    {filteredData?.map((item) => (
                       <PropertyCard data={item} key={item.id} />
                     ))}
                   </PropertyGrid>
@@ -217,7 +210,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
             <ListMap locations={filteredData} />
           )}
         </Box>
-      </Grid>
+      </Grid> */}
       <Flex direction="column" align="center" mt={4}>
         <Box
           position="fixed"
@@ -249,5 +242,4 @@ export function PropertyListPage(props: PropertyListPageProps) {
     </Box>
   );
 }
-
 export default compose(withAppLayout())(PropertyListPage);

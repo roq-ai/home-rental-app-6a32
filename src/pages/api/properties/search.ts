@@ -5,50 +5,45 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const fiftyKmLatitudeOffset = 0.4491555875; // 
-  const fiftyKmLongitudeOffset = 0.5986; // 
-  console.log(req.query,"hello server");
+  let result :any[];
+  function generateDateRangeArray(startDate: any, endDate: any) {
+     result = [];
+    const currentDate = new Date(startDate);
+
+    while (currentDate <= new Date(endDate)) {
+      result.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    console.log(result, "test 3");
+
+    return result;
+  }
+  const fiftyKmLatitudeOffset = 0.4491555875; //
+  const fiftyKmLongitudeOffset = 0.5986; //
+  console.log(req.query, "hello server");
   const startDate = req?.query?.start_date;
   const endDate = req?.query?.end_date;
-  
-
-  
+  generateDateRangeArray(startDate, endDate);
+  console.log(result,"after test")
   if (req.method == "GET") {
     const data = await prisma.property.findMany({
       where: {
-        AND: [
-          {
-            latitude: {
-              gte: (
-                parseFloat(req.query.latitude as string) - fiftyKmLatitudeOffset
-              ).toString(),
+        NOT: {
+          booking: {
+            some: {
+              OR: result.map((date) => ({
+                AND: [
+                  { start_date: { lte: date } },
+                  { end_date: { gte: date } },
+                ],
+              })),
             },
           },
-          {
-            latitude: {
-              lte: (
-                parseFloat(req.query.latitude as string) + fiftyKmLatitudeOffset
-              ).toString(),
-            },
-          },
-          {
-            longitude: {
-              gte: (
-                parseFloat(req.query.longitude as string) - fiftyKmLongitudeOffset
-              ).toString(),
-            },
-          },
-          {
-            longitude: {
-              lte: (
-                parseFloat(req.query.longitude as string) + fiftyKmLongitudeOffset
-              ).toString(),
-            },
-          },
-        ],
+        },
       },
     });
     
+    console.log(data,"data4");
     return res.status(200).json(data);
   }
 }
