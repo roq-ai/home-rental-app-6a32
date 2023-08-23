@@ -44,8 +44,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       })
       .findManyPaginated({
         ...convertQueryToPrismaUtil(query, "booking"),
-        take: limit,
-        skip: offset,
         ...(order?.length && {
           orderBy: getOrderByOptions(order),
         }),
@@ -104,4 +102,5 @@ export default function apiHandler(req: NextApiRequest, res: NextApiResponse) {
     res
   );
 }
+
 

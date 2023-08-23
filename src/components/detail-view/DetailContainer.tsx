@@ -54,18 +54,6 @@ export const DetailContainer = (props: any) => {
   } = useSWR<UserInterface[]>("/users", () =>
     getUsers({ roq_user_id: session.roqUserId }).then(({ data }) => data)
   );
-
-  const {
-    data: existingBookings,
-    error: existingBookingsError,
-    isLoading: existingBookingsLoading,
-    mutate,
-  } = useSWR<PaginatedInterface<BookingInterface>>(
-    () => "/bookings",
-    () => getBookings()
-  );
-  console.log(existingBookings, existingBookingsError, "the booking");
-
   function formatDate(date: any) {
     const year = date.getFullYear();
     const month = date.getMonth() + 1; // Adding 1 because getMonth() returns 0-11
@@ -76,6 +64,37 @@ export const DetailContainer = (props: any) => {
       .toString()
       .padStart(2, "0")}`;
   }
+
+  function areAllDatesOutsideRange(
+    dateToCheckStart: any,
+    dateToCheckEnd: any,
+    startDate: any,
+    endDate: any
+  ) {
+    for (
+      let currentDate = new Date(dateToCheckStart);
+      currentDate <= new Date(dateToCheckEnd);
+      currentDate.setDate(currentDate.getDate() + 1)
+    ) {
+      const currentDateFormatted = formatDate(currentDate);
+      if (
+        currentDateFormatted >= startDate &&
+        currentDateFormatted <= endDate
+      ) {
+        return false; // At least one date falls within the range
+      }
+    }
+    return true; // All dates are outside the range
+  }
+  const {
+    data: existingBookings,
+    error: existingBookingsError,
+    isLoading: existingBookingsLoading,
+    mutate,
+  } = useSWR<PaginatedInterface<BookingInterface>>(
+    () => "/bookings",
+    () => getBookings()
+  );
 
   const isPropertyAvailable = () => {
     if (existingBookingsError || existingBookingsLoading) {
@@ -95,11 +114,15 @@ export const DetailContainer = (props: any) => {
       const endDateOnly = formatDate(bookingEndDate);
       const startDateFormatted = formatDate(startDate);
       const endDateFormatted = formatDate(endDate);
-      const isBeforeExistingBooking = startDateFormatted < startDateOnly;
-      const isAfterExistingBooking = endDateFormatted > endDateOnly;
-
       // The property is available if the requested dates don't overlap with any existing booking
-      return isBeforeExistingBooking || isAfterExistingBooking;
+
+      const value = areAllDatesOutsideRange(
+        startDateFormatted,
+        endDateFormatted,
+        startDateOnly,
+        endDateOnly
+      );
+      return value;
     });
   };
 
