@@ -87,6 +87,37 @@ export const DetailContainer = (props: any) => {
   );
  
 
+  function areAllDatesOutsideRange(
+    dateToCheckStart: any,
+    dateToCheckEnd: any,
+    startDate: any,
+    endDate: any
+  ) {
+    for (
+      let currentDate = new Date(dateToCheckStart);
+      currentDate <= new Date(dateToCheckEnd);
+      currentDate.setDate(currentDate.getDate() + 1)
+    ) {
+      const currentDateFormatted = formatDate(currentDate);
+      if (
+        currentDateFormatted >= startDate &&
+        currentDateFormatted <= endDate
+      ) {
+        return false; // At least one date falls within the range
+      }
+    }
+    return true; // All dates are outside the range
+  }
+  const {
+    data: existingBookings,
+    error: existingBookingsError,
+    isLoading: existingBookingsLoading,
+    mutate,
+  } = useSWR<PaginatedInterface<BookingInterface>>(
+    () => "/bookings",
+    () => getBookings()
+  );
+
   const isPropertyAvailable = () => {
     if (existingBookingsError || existingBookingsLoading) {
       return false;

@@ -24,6 +24,12 @@ import { PropertyInterface } from "interfaces/property";
 import { QuantityPicker } from "./detail-view/QuantityPicker";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+// import { SearchBox } from "@mapbox/search-js-react";
+import dynamic from "next/dynamic";
+
+const DynamicSearchBox = dynamic(() => import("./mapbox/SearchBox"), {
+  ssr: false,
+}) as any;
 
 const LocationList = ({ locations, inputWidth, onLocationSelect }: any) => {
   return (
@@ -97,7 +103,7 @@ export const SearchInput = () => {
         start_date:startDateFormatted,
         end_date:endDateFormatted
       });
-
+      console.log({ propertiesOnSearch });
       setSearchResult(propertiesOnSearch);
     } catch (error) {
       console.error("Error fetching properties:", error);
@@ -154,9 +160,10 @@ export const SearchInput = () => {
       params.searchTerm,
     ]
   );
-  const { data, error, isLoading, mutate } = useSWR<
-    PaginatedInterface<PropertyInterface>
-  >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
+  const { data, error, isLoading, mutate } = useSWR(
+    () => `/properties?params=${JSON.stringify(params)}`,
+    fetcher
+  );
 
   const properties = (data || []) as any;
 
@@ -227,7 +234,7 @@ export const SearchInput = () => {
             </InputLeftElement>
             <Input
               onClick={handleInputClick}
-              value={searchInput}
+              // value={searchInput}
               focusBorderColor="#FD5B61"
               borderRadius={"20rem"}
               width="20rem"
@@ -250,19 +257,9 @@ export const SearchInput = () => {
             borderRadius="20rem"
             width="full"
           >
-            <InputGroup>
-              <InputLeftElement>
-                <Icon as={RiSearchLine} color="gray.500" fontSize="lg" />
-              </InputLeftElement>
-
-              <Input
-                onChange={handleInputChange}
-                value={searchInput}
-                focusBorderColor="#FD5B61"
-                borderRadius={"20rem"}
-                placeholder="What are you looking for?"
-              />
-            </InputGroup>
+            <Box ml={3}>
+              <DynamicSearchBox />
+            </Box>
             <Button
               size="sm"
               px={5}
@@ -349,20 +346,20 @@ export const SearchInput = () => {
               background="primary.main"
               color="white"
               variant="solid"
-              marginLeft="3rem"
-              borderRadius={"20rem"}
+              marginLeft="1rem"
+              borderRadius="full"
               _hover={{
                 background: "primary.main",
                 color: "white",
               }}
               onClick={() => mutate(searchFromBE(searchProperty) as any)}
             >
-              <FiSearch size="md" />
+              <FiSearch />
             </Button>
           </Box>
         )}
       </Flex>
-      {showLocationList && searchInput && (
+      {/* {showLocationList && searchInput && (
         <Box position="absolute" top="58%" left={10} zIndex={1}>
           <LocationList
             locations={filteredLocations}
@@ -370,7 +367,7 @@ export const SearchInput = () => {
             onLocationSelect={handleLocationSelect}
           />
         </Box>
-      )}
+      )} */}
     </Box>
   );
 };
