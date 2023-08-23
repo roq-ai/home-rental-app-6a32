@@ -211,7 +211,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
           <Flex direction="row" gap={2}>
             {
               <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
-                {filteredData?.length === 0 && searchResult.length !== 0 && (
+                {filteredData?.length !== 0 && (
                   <PropertyGrid>
                     {filteredData?.map((item) => (
                       <PropertyCard data={item} key={item.id} />
@@ -219,7 +219,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
                   </PropertyGrid>
                 )}
 
-                {filteredData?.length === 0 && (
+                {/* {filteredData?.length === 0 && (
                   <Text
                     color="gray.500"
                     textAlign="center"
@@ -239,7 +239,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
                   >
                     No properties found.
                   </Text>
-                )}
+                )} */}
                 {searchResult.length !== 0 && (
                   <PropertyGrid>
                     {searchResult?.map((item) => {
