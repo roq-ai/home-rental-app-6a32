@@ -203,6 +203,8 @@ export const SearchInput = () => {
     setFilteredValue(inputValue);
     if (inputValue === "") {
       setSearchResult([]);
+      setSearchedLat("");
+      setSearchedLong("");
     }
   };
 
