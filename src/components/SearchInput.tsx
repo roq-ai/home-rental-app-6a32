@@ -175,6 +175,8 @@ export const SearchInput = () => {
     setExpanded(true);
     if (inputValue === "") {
       setSearchResult([]);
+      setSearchedLat("");
+      setSearchedLong("");
     }
     setFilteredValue(inputValue);
   };

@@ -246,7 +246,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
         </Box>
             }
       </Grid>
-      <Flex direction="column" align="center" mt={4}>
+      {/* <Flex direction="column" align="center" mt={4}>
         <Box
           position="fixed"
           bottom="1rem"
@@ -274,7 +274,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
             {showMap ? "Show Map":"Hide Map"  }
           </Button>
         </Box>
-      </Flex>
+      </Flex> */}
     </Box>
   );
 }

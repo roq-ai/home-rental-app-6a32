@@ -40,8 +40,11 @@ const ListMap = ({ locations }: any) => {
     map.current = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [0, 0],
-      zoom: 1,
+      center: [
+        searchedLong ? Number(searchedLong) : 0,
+        searchedLat ? Number(searchedLat) : 0,
+      ],
+      zoom: searchedLong ? 6 : 1,
     });
 
     locations?.forEach((location: any) => {

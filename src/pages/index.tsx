@@ -1,5 +1,5 @@
 import { useSession } from "@roq/nextjs";
-import { Spinner } from "@chakra-ui/react";
+import { Grid, Spinner } from "@chakra-ui/react";
 import { Box, Button, Flex, Text, TextProps } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import {
@@ -9,21 +9,16 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import useSWR from "swr";
 import { PaginatedInterface } from "interfaces";
-import {
-  getProperties,
-  deletePropertyById,
-  getHomeProperties,
-} from "apiSdk/properties";
+import { getHomeProperties } from "apiSdk/properties";
 import { PropertyInterface } from "interfaces/property";
 import { useFilter } from "context/FilterContext";
 import { BiMapPin } from "react-icons/bi";
-import Link from "next/link";
-import { FiLogIn } from "react-icons/fi";
 import { useRouter } from "next/router";
-import { SearchInput } from "components/SearchInput";
-import FormModal from "components/FilterModal";
 import { withAppLayout } from "lib/hocs/with-app-layout.hoc";
 import { compose } from "lib/compose";
+import ListMap from "components/mapbox/ListMap";
+import { PropertyGrid } from "components/property-list/PropertyGrid";
+import PropertyCard from "components/property-list/PropertyList";
 
 type ColumnType = ColumnDef<PropertyInterface, unknown>;
 
@@ -134,8 +129,8 @@ export function PropertyListPage(props: PropertyListPageProps) {
     selectedPropertyType ||
     minValue ||
     maxValue
-      ? data?.data.filter(filterMatches)
-      : data?.data;
+      ? data.filter(filterMatches)
+      : data;
   useEffect(() => {
     setFilterNumber(filteredData?.length as unknown as string);
   }, [filteredData, setFilterNumber]);
@@ -144,6 +139,22 @@ export function PropertyListPage(props: PropertyListPageProps) {
   useEffect(() => {
     setFilterNumber(filteredData?.length as unknown as string);
   }, [filteredData, setFilterNumber]);
+  let currentUser:any;
+
+  const { session, status } = useSession();
+  currentUser = session?.user?.roles?.[0];
+  const router = useRouter();
+
+  console.log({ status });
+
+  useEffect(() => {
+    if (currentUser === "host") {
+      router.push("/my-properties");
+    } else if (currentUser === "guest") {
+      router.push("/properties");
+    }
+  }, [currentUser, router]);
+
   if (isLoading) {
     return (
       <Flex align="center" justify="center" w="100%" h="100%">
@@ -171,47 +182,50 @@ export function PropertyListPage(props: PropertyListPageProps) {
           Properties
         </Text>
       </Flex>
-      {/* <Grid templateColumns="2fr 1fr" gap={4}>
-        <Box>
-          <Flex direction="row" gap={2}>
-            {
-              <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
-                {filteredData?.length === 0 ? (
-                  <Text
-                    color="gray.500"
-                    textAlign="center"
-                    fontSize="lg"
-                    mt="8"
-                  >
-                    No properties found.
-                  </Text>
-                ) : searchResult.length !== 0 ? (
-                  <PropertyGrid>
-                    {searchResult?.map((item) => {
-                      return <PropertyCard data={item} key={item.id} />;
-                    })}
-                  </PropertyGrid>
-                ) : (
-                  <PropertyGrid>
-                    {filteredData?.map((item) => (
-                      <PropertyCard data={item} key={item.id} />
-                    ))}
-                  </PropertyGrid>
-                )}
-              </Flex>
-            }
-          </Flex>
-        </Box>
+      {status === "unauthenticated" ? (
+        <Grid templateColumns="2fr 1fr" gap={4}>
+          <Box>
+            <Flex direction="row" gap={2}>
+              {
+                <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
+                  {filteredData?.length === 0 ? (
+                    <Text
+                      color="gray.500"
+                      textAlign="center"
+                      fontSize="lg"
+                      mt="8"
+                    >
+                      No properties found.
+                    </Text>
+                  ) : searchResult.length !== 0 ? (
+                    <PropertyGrid>
+                      {searchResult?.map((item) => {
+                        return <PropertyCard data={item} key={item.id} />;
+                      })}
+                    </PropertyGrid>
+                  ) : (
+                    <PropertyGrid>
+                      {filteredData?.map((item: any) => (
+                        <PropertyCard data={item} key={item.id} />
+                      ))}
+                    </PropertyGrid>
+                  )}
+                </Flex>
+              }
+            </Flex>
+          </Box>
 
-        <Box flex={1} flexBasis={0} height={500}>
-          {searchResult.length !== 0 ? (
-            <ListMap locations={searchResult} />
-          ) : (
-            <ListMap locations={filteredData} />
-          )}
-        </Box>
-      </Grid> */}
-      <Flex direction="column" align="center" mt={4}>
+          <Box flex={1} flexBasis={0} height={500}>
+            {searchResult.length !== 0 ? (
+              <ListMap locations={searchResult} />
+            ) : (
+              <ListMap locations={filteredData} />
+            )}
+          </Box>
+        </Grid>
+      ) : null}
+
+      {/* <Flex direction="column" align="center" mt={4}>
         <Box
           position="fixed"
           bottom="1rem"
@@ -238,7 +252,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
             {showMap ? "Hide Map" : "Show Map"}
           </Button>
         </Box>
-      </Flex>
+      </Flex> */}
     </Box>
   );
 }
