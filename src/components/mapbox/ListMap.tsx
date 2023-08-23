@@ -51,14 +51,11 @@ const ListMap = ({ locations }: any) => {
     map.current = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [
-        searchedLong ? searchedLong : mapCenter?.longitude,
-        searchedLat ? searchedLat : mapCenter?.latitude,
-      ],
+      center: [0, 0],
       zoom: 1,
     });
 
-    locations.forEach((location: any) => {
+    locations?.forEach((location: any) => {
       const popupContent = renderToStaticMarkup(
         <PopupContent data={location} />
       );

@@ -107,6 +107,7 @@ const sidebarFooterLinks = [
 ];
 
 export default function AppLayout({ children, breadcrumbs }: AppLayoutProps) {
+  const { status } = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isMd = useBreakpointValue({ base: false, md: true });
   const { isBannerVisible, setIsBannerVisible } = useBanner();
@@ -124,12 +125,15 @@ export default function AppLayout({ children, breadcrumbs }: AppLayoutProps) {
         setIsBannerVisible={setIsBannerVisible}
       />
       <HelpBox />
-      <SidebarContent
-        transition="none"
-        h={isBannerVisible ? "calc(100vh - 40px)" : "100vh"}
-        onClose={() => onClose}
-        display={{ base: "none", md: "block" }}
-      />
+      {status === "authenticated" ? (
+        <SidebarContent
+          transition="none"
+          h={isBannerVisible ? "calc(100vh - 40px)" : "100vh"}
+          onClose={() => onClose}
+          display={{ base: "none", md: "block" }}
+        />
+      ) : null}
+
       <Drawer
         autoFocus={false}
         isOpen={isOpen}
@@ -149,7 +153,7 @@ export default function AppLayout({ children, breadcrumbs }: AppLayoutProps) {
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} isBannerVisible={isBannerVisible} />
 
-      <Box ml={{ base: 0, md: 60 }} p="8">
+      <Box ml={{ base: 0, md: `${status === "authenticated" ? 60 : 0}` }} p="8">
         {/* Breadcrumbs */}
         {breadcrumbs ? breadcrumbs : null}
         {/* Content */}
@@ -378,7 +382,9 @@ const MobileNav = ({ onOpen, isBannerVisible, ...rest }: MobileProps) => {
   const { session, status } = useSession();
   const router = useRouter();
   const shouldShowSearchInput =
-    router.pathname === "/properties" || router.pathname === "/my-properties";
+    router.pathname === "/properties" ||
+    router.pathname === "/my-properties" ||
+    status === "unauthenticated";
   const { hasAccess } = useAuthorizationApi();
   const {
     isOpen: isFilterOpen,
@@ -478,7 +484,23 @@ const MobileNav = ({ onOpen, isBannerVisible, ...rest }: MobileProps) => {
               </Box>
             </Flex>
           </HStack>
-        ) : null}
+        ) : (
+          <Link href="/login">
+            <Button
+              leftIcon={<FiLogIn />}
+              variant="solid"
+              background="primary.main"
+              color="white"
+              borderRadius="2xl"
+              _hover={{
+                background: "primary.main",
+                color: "white",
+              }}
+            >
+              Login
+            </Button>
+          </Link>
+        )}
       </Box>
     </Flex>
   );

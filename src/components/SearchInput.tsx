@@ -179,11 +179,13 @@ export const SearchInput = () => {
       params.searchTerm,
     ]
   );
-  const { data, error, isLoading, mutate } = useSWR<
-    PaginatedInterface<PropertyInterface>
-  >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
+  const { data, error, isLoading, mutate } = useSWR(
+    () => `/properties?params=${JSON.stringify(params)}`,
+    fetcher
+  );
+  console.log({ searchProperty });
 
-  const properties = data?.data || [];
+  const properties = (data || []) as any;
 
   const filteredLocations = properties
     .map((property: any) => {
@@ -198,10 +200,10 @@ export const SearchInput = () => {
     setSearchInput(inputValue);
     setShowLocationList(true);
     setExpanded(true);
+    setFilteredValue(inputValue);
     if (inputValue === "") {
       setSearchResult([]);
     }
-    setFilteredValue(inputValue);
   };
 
   const datePickerRef = useRef(null);

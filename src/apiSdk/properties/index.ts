@@ -12,6 +12,15 @@ export const getProperties = async (
   });
   return response.data;
 };
+export const getHomeProperties = async (
+  query?: PropertyGetQueryInterface,
+): Promise<any> => {
+  const response = await axios.get('/api/properties/home', {
+    params: query,
+    headers: { 'Content-Type': 'application/json' },
+  });
+  return response.data;
+};
 
 export const createProperty = async (property: PropertyInterface) => {
   const response = await axios.post('/api/properties', property);
