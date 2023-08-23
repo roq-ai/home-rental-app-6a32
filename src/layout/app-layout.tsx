@@ -385,6 +385,7 @@ const MobileNav = ({ onOpen, isBannerVisible, ...rest }: MobileProps) => {
     router.pathname === "/properties" ||
     router.pathname === "/my-properties" ||
     status === "unauthenticated";
+
   const { hasAccess } = useAuthorizationApi();
   const {
     isOpen: isFilterOpen,

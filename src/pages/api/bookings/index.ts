@@ -55,7 +55,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   async function createBooking() {
     await bookingValidationSchema.validate(req.body);
+    const startDate = req?.body?.start_date
+    const endDate = req?.body?.end_date
+
+    const startDateFormatted = new Date(startDate);
+    const endDateFormatted = new Date(endDate);
     const body = { ...req.body };
+    body.start_date = startDateFormatted;
+    body.end_date = endDateFormatted;
     const property = await prisma.property.findFirst({
       where: { id: body.property_id },
       include: { company: true },
@@ -67,6 +74,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       .asSuperAdmin()
       .users({ filter: { tenantId: { equalTo: company.tenant_id } } });
     const usersId = usersOfcompany.users.data.map((user) => user.id);
+    console.log("property", { property });
     const conversationId = await roqClient
       .asUser(roqUserId)
       .createConversation({
@@ -78,7 +86,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           tags: ["test"],
         },
       });
-   
+    console.log("conversatoin", conversationId.createConversation);
+
+    console.log({ property });
+    console.log({ company });
+
     const data = await prisma.booking.create({
       data: {...body, roqConversationId:conversationId.createConversation.id}
     });
@@ -92,3 +104,4 @@ export default function apiHandler(req: NextApiRequest, res: NextApiResponse) {
     res
   );
 }
+

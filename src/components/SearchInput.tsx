@@ -185,7 +185,7 @@ export const SearchInput = () => {
   );
   console.log({ searchProperty });
 
-  const properties = (data || []) as any;
+  const properties = (data?.data || []) as any;
 
   const filteredLocations = properties
     .map((property: any) => {
