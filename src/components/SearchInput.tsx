@@ -76,12 +76,26 @@ export const SearchInput = () => {
     endDate: endDate,
     key: "selection",
   };
+  function formatDate(date:any) {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Adding 1 because getMonth() returns 0-11
+    const day = date.getDate();
+  
+    // Format the date as "YYYY-MM-DD"
+    return `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+  }
   const searchFromBE = async (query: PropertyInterface) => {
+    const startDateFormatted = formatDate(startDate)
+    const endDateFormatted = formatDate(endDate)
+    console.log(startDateFormatted,"dateFormatted");
+    console.log(location,"location")
     try {
+      // location: query.location,
+      // latitude: query.latitude,
+      // longitude: query.longitude,
       const propertiesOnSearch = await searchProperties({
-        location: query.location,
-        latitude: query.latitude,
-        longitude: query.longitude,
+        start_date:startDateFormatted,
+        end_date:endDateFormatted
       });
 
       setSearchResult(propertiesOnSearch);

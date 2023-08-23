@@ -9,7 +9,6 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import moment from "moment";
 import { Gallery } from "./Gallery";
 import { PriceTag } from "./PriceTag";
 import { QuantityPicker } from "./QuantityPicker";

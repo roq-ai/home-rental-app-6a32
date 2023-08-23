@@ -2,6 +2,14 @@ import { BookingInterface } from 'interfaces/booking';
 import { CompanyInterface } from 'interfaces/company';
 import { GetQueryInterface } from 'interfaces';
 
+// location: string;
+// latitude?: string;
+// longitude?: string;
+export interface searchInterface{
+        start_date?:string;
+        end_date?:string;
+}
+
 export interface PropertyInterface {
   id?: string;
   name: string;
@@ -35,3 +43,4 @@ export interface PropertyGetQueryInterface extends GetQueryInterface {
   location?: string;
   company_id?: string;
 }
+

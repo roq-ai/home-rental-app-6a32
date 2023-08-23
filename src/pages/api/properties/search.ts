@@ -7,8 +7,12 @@ export default async function handler(
 ) {
   const fiftyKmLatitudeOffset = 0.4491555875; // 
   const fiftyKmLongitudeOffset = 0.5986; // 
+  console.log(req.query,"hello server");
+  const startDate = req?.query?.start_date;
+  const endDate = req?.query?.end_date;
   
 
+  
   if (req.method == "GET") {
     const data = await prisma.property.findMany({
       where: {
