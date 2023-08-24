@@ -17,7 +17,7 @@ function MessageHost() {
     <Stack spacing={4} mt={6} width="600px" mx="auto">
       <Box
         bg="white"
-        boxShadow="lg"
+        // boxShadow="lg"
         borderRadius="md"
         p={4}
         borderWidth="1px"
@@ -38,7 +38,7 @@ function MessageHost() {
         </Box>
         <Divider my={3} />
         {conversationId && (
-          <Box width="auto" height="500px">
+          <Box width="100%" height="100%">
             <ChatWindow conversationId={conversationId as string} />
           </Box>
         )}

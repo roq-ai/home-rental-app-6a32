@@ -111,7 +111,6 @@ export const SearchInput = () => {
         end_date: endDateFormatted,
         num_of_guest: guest,
       });
-      console.log({ propertiesOnSearch }, "properties on search");
       setSearchResult(propertiesOnSearch);
     } catch (error) {
       console.error("Error fetching properties:", error);

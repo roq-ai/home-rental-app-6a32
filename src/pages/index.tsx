@@ -136,7 +136,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
     setFilterNumber(filteredData?.length as unknown as string);
   }, [filteredData, setFilterNumber]);
 
-  const [deleteError, setDeleteError] = useState(null);
   useEffect(() => {
     setFilterNumber(filteredData?.length as unknown as string);
   }, [filteredData, setFilterNumber]);

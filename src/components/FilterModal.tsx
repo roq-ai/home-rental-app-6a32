@@ -135,6 +135,7 @@ const FormModal = () => {
             "&::-webkit-scrollbar-track": {
               backgroundColor: "#f0e6f6",
             },
+            overflowX: "hidden",
           }}
         >
           <ModalHeader mx="auto">Filters</ModalHeader>

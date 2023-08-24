@@ -69,14 +69,7 @@ function HomePage() {
     } else if (currentUser === "guest") {
       setRedirectTo("/properties");
     }
-  }, []);
-  //   useEffect(() => {
-  //     if (currentUser === "host") {
-  //       router.replace("/my-properties");
-  //     } else if (currentUser === "guest") {
-  //       router.replace("/properties");
-  //     }
-  //   }, [currentUser, router]);
+  }, [currentUser, router]);
 
   return (
     <>
