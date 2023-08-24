@@ -90,6 +90,7 @@ export const SearchInput = () => {
     // Format the date as "YYYY-MM-DD"
     return `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
   }
+  console.log(guest,"number of guest")
   const searchFromBE = async (query: PropertyInterface) => {
     const startDateFormatted = formatDate(startDate)
     const endDateFormatted = formatDate(endDate)
@@ -101,9 +102,10 @@ export const SearchInput = () => {
       // longitude: query.longitude,
       const propertiesOnSearch = await searchProperties({
         start_date:startDateFormatted,
-        end_date:endDateFormatted
+        end_date:endDateFormatted,
+        num_of_guest:guest
       });
-      console.log({ propertiesOnSearch });
+      console.log({ propertiesOnSearch },"properties on search");
       setSearchResult(propertiesOnSearch);
     } catch (error) {
       console.error("Error fetching properties:", error);
@@ -334,7 +336,8 @@ export const SearchInput = () => {
                 >
                   <QuantityPicker
                     defaultValue={1}
-                    max={10}
+                    min={1}
+                    max={5}
                     label="Add Guest"
                     setGuest={setGuest}
                   />

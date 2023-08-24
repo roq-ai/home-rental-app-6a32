@@ -22,26 +22,29 @@ interface QuantityPickerProps extends UseControllableStateProps<number> {
 }
 
 export const QuantityPicker = (props: QuantityPickerProps) => {
-  const { min = 0, max, rootProps, label, setGuest, ...rest } = props;
+  const { min , max, rootProps, label, setGuest, ...rest } = props;
 
   const [value, setValue] = useControllableState(rest);
   const handleDecrement = () => {
     if (value > min) {
-      setValue(value - 1);
+      const updatedValue = value - 1; // Updated value
+      setValue(updatedValue);
       if (setGuest) {
-        setGuest(String(value));
+        setGuest(String(updatedValue)); // Use the updatedValue here
       }
     }
   };
 
   const handleIncrement = () => {
     if (max === undefined || value < max) {
-      setValue(value + 1);
+      const updatedValue = value + 1; // Updated value
+      setValue(updatedValue);
       if (setGuest) {
-        setGuest(String(value));
+        setGuest(String(updatedValue)); // Use the updatedValue here
       }
     }
   };
+
 
   return (
     <FormControl {...rootProps}>

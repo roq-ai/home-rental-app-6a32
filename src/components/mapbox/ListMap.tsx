@@ -41,10 +41,10 @@ const ListMap = ({ locations }: any) => {
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [
-        searchedLong ? Number(searchedLong) : 0,
-        searchedLat ? Number(searchedLat) : 0,
+        0,
+         0,
       ],
-      zoom: searchedLong ? 6 : 1,
+      zoom:  1,
     });
 
     locations?.forEach((location: any) => {

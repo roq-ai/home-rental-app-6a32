@@ -41,7 +41,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     await propertyValidationSchema.validate(req.body);
     const body = { ...req.body };
     
-    // console.log({body})
+    console.log({body},"property body here")
     if (body?.booking?.length > 0) {
       const create_booking = body.booking;
       body.booking = {

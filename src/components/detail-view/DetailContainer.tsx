@@ -42,13 +42,14 @@ export const DetailContainer = (props: any) => {
   const [endDate, setEndDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
   const [reserveIsLoading, setReserveIsLoading] = useState(false);
+  const [guest, setGuest] = useState<string>('1');
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
     key: "selection",
   };
   const {
-    data: fetchedData,
+    data: fetchedData,  
     error,
     isLoading,
   } = useSWR<UserInterface[]>("/users", () =>
@@ -65,17 +66,7 @@ export const DetailContainer = (props: any) => {
       .padStart(2, "0")}`;
   }
   
-  function areAllDatesOutsideRange(dateToCheckStart:any, dateToCheckEnd:any, startDate:any, endDate:any) {
-    for (let currentDate = new Date(dateToCheckStart); 
-      currentDate <= new Date(dateToCheckEnd); 
-      currentDate.setDate(currentDate.getDate() + 1)) {
-        const currentDateFormatted = formatDate(currentDate);
-      if (currentDateFormatted >= startDate && currentDateFormatted <= endDate) {
-        return false; // At least one date falls within the range
-      }
-    }
-    return true; // All dates are outside the range
-  }
+ 
   const {
     data: existingBookings,
     error: existingBookingsError,
@@ -108,15 +99,7 @@ export const DetailContainer = (props: any) => {
     }
     return true; // All dates are outside the range
   }
-  const {
-    data: existingBookings,
-    error: existingBookingsError,
-    isLoading: existingBookingsLoading,
-    mutate,
-  } = useSWR<PaginatedInterface<BookingInterface>>(
-    () => "/bookings",
-    () => getBookings()
-  );
+
 
   const isPropertyAvailable = () => {
     if (existingBookingsError || existingBookingsLoading) {
@@ -161,6 +144,7 @@ export const DetailContainer = (props: any) => {
   const { numDays, totalPrice } = calculateTotalPrice();
   const handleReserveClick = async () => {
     setReserveIsLoading(true);
+    console.log(guest,"guest number");
     try {
       const startDateFormatted = formatDate(startDate);
       const endDateFormatted = formatDate(endDate);
@@ -183,7 +167,7 @@ export const DetailContainer = (props: any) => {
         end_date: endDateFormatted,
         guest_id: fetchedData?.[0]?.id,
         property_id: data?.id,
-        num_of_guest: "",
+        num_of_guest: parseInt(guest),
         num_of_night: String(numDays),
         total_price: String(totalPrice),
       };
@@ -363,7 +347,7 @@ export const DetailContainer = (props: any) => {
                 justify="space-evenly"
               >
                 <Box flex="1">
-                  <QuantityPicker defaultValue={1} max={5} />
+                  <QuantityPicker defaultValue={1} min={1} max={5} setGuest={setGuest}/>
                 </Box>
               </HStack>
 

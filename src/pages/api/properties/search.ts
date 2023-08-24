@@ -24,6 +24,8 @@ export default async function handler(
   console.log(req.query, "hello server");
   const startDate = req?.query?.start_date;
   const endDate = req?.query?.end_date;
+  const guestNumber = parseInt(req?.query?.num_of_guest);
+  console.log(guestNumber,"please 1")
   generateDateRangeArray(startDate, endDate);
   console.log(result,"after test")
   if (req.method == "GET") {
@@ -40,6 +42,9 @@ export default async function handler(
               })),
             },
           },
+        },
+        num_of_guest: {
+          gte: guestNumber, // Replace with your desired maximum number of guests
         },
       },
     });
