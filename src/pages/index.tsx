@@ -76,6 +76,9 @@ export function PropertyListPage(props: PropertyListPageProps) {
     maxValue,
     setFilterNumber,
     searchResult,
+    isSearched,
+    longitude,
+    latitude,
   } = useFilter();
   const filterIsEmpty =
     !filteredValue &&
@@ -187,7 +190,21 @@ export function PropertyListPage(props: PropertyListPageProps) {
             <Flex direction="row" gap={2}>
               {
                 <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
-                  {filteredData?.length === 0 ? (
+                  {filteredData?.length !== 0 &&
+                  searchResult.length === 0 &&
+                  !isSearched ? (
+                    <PropertyGrid>
+                      {filteredData?.map((item: any) => (
+                        <PropertyCard data={item} key={item.id} />
+                      ))}
+                    </PropertyGrid>
+                  ) : searchResult.length !== 0 ? (
+                    <PropertyGrid>
+                      {searchResult?.map((item) => {
+                        return <PropertyCard data={item} key={item.id} />;
+                      })}
+                    </PropertyGrid>
+                  ) : (
                     <Text
                       color="gray.500"
                       textAlign="center"
@@ -196,18 +213,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
                     >
                       No properties found.
                     </Text>
-                  ) : searchResult.length !== 0 ? (
-                    <PropertyGrid>
-                      {searchResult?.map((item) => {
-                        return <PropertyCard data={item} key={item.id} />;
-                      })}
-                    </PropertyGrid>
-                  ) : (
-                    <PropertyGrid>
-                      {filteredData?.map((item: any) => (
-                        <PropertyCard data={item} key={item.id} />
-                      ))}
-                    </PropertyGrid>
                   )}
                 </Flex>
               }
@@ -215,10 +220,16 @@ export function PropertyListPage(props: PropertyListPageProps) {
           </Box>
 
           <Box flex={1} flexBasis={0} height={500}>
-            {searchResult.length !== 0 ? (
-              <ListMap locations={searchResult} />
-            ) : (
+            {filteredData?.length !== 0 &&
+            searchResult.length === 0 &&
+            !isSearched ? (
               <ListMap locations={filteredData} />
+            ) : (
+              <ListMap
+                locations={searchResult}
+                searchedLat={latitude}
+                searchedLong={longitude}
+              />
             )}
           </Box>
         </Grid>

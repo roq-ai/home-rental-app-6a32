@@ -36,10 +36,9 @@ const PopupContent = ({ data }: any) => {
 };
 
 const ListMap = ({ locations }: any) => {
-  const { searchedLat, searchedLong } = useFilter();
+  const { latitude, longitude } = useFilter();
   const mapContainerRef = useRef(null);
   const map = useRef(null);
-  console.log("from", { searchedLat, searchedLong });
   const coordinates = locations?.map((location: PropertyInterface) => ({
     longitude: location.longitude,
     latitude: location.latitude,
@@ -52,10 +51,10 @@ const ListMap = ({ locations }: any) => {
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [
-        searchedLong ? Number(searchedLong) : 0,
-        searchedLat ? Number(searchedLat) : 0,
+        longitude ? Number(longitude) : 0,
+        latitude ? Number(latitude) : 0,
       ],
-      zoom: searchedLong ? 6 : 1,
+      zoom: longitude ? 6 : 1,
     });
 
     locations?.forEach((location: any) => {
@@ -89,13 +88,7 @@ const ListMap = ({ locations }: any) => {
         map.current.remove();
       }
     };
-  }, [
-    locations,
-    mapCenter.latitude,
-    mapCenter.longitude,
-    searchedLat,
-    searchedLong,
-  ]);
+  }, [latitude, locations, longitude, mapCenter.latitude, mapCenter.longitude]);
 
   return (
     <Box

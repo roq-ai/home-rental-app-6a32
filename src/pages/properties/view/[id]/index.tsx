@@ -56,13 +56,4 @@ function PropertyViewPage() {
   );
 }
 
-export default compose(
-  requireNextAuth({
-    redirectTo: "/",
-  }),
-  withAuthorization({
-    service: AccessServiceEnum.PROJECT,
-    entity: "property",
-    operation: AccessOperationEnum.READ,
-  })
-)(PropertyViewPage);
+export default PropertyViewPage;

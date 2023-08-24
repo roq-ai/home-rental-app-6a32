@@ -19,7 +19,6 @@ import useSWR from "swr";
 import { getProperties, searchProperties } from "apiSdk/properties";
 import { useFilter } from "context/FilterContext";
 import { useDataTableParams } from "./table/hook/use-data-table-params.hook";
-import { PaginatedInterface } from "interfaces";
 import {
   PropertyGetQueryInterface,
   PropertyInterface,
@@ -80,6 +79,10 @@ export const SearchInput = () => {
     searchResult,
     setSearchedLat,
     setSearchedLong,
+    latitude,
+    longitude,
+    isSearched,
+    isSetSearched,
   } = useFilter();
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
@@ -116,14 +119,12 @@ export const SearchInput = () => {
   }, [setGuest, setSearchResult, setSearchedLat, setSearchedLong]);
 
   const searchFromBE = async (query: PropertyGetQueryInterface) => {
-    setSearchedLat(query.latitude);
-    setSearchedLong(query.longitude);
     try {
       const propertiesOnSearch = await searchProperties({
-        startDate: query.startDate,
-        endDate: query.endDate,
-        maxGuest: query.maxGuest,
-        location: query.location,
+        // startDate: query.startDate,
+        // endDate: query.endDate,
+        // maxGuest: query.maxGuest,
+        // location: query.location,
         latitude: query.latitude,
         longitude: query.longitude,
       });
@@ -133,6 +134,8 @@ export const SearchInput = () => {
       console.error("Error fetching properties:", error);
     }
   };
+  const datePickerRef = useRef(null);
+  const quantityPickerRef = useRef(null);
 
   const handleSelect = (ranges: any) => {
     setStartDate(ranges.selection.startDate);
@@ -140,15 +143,7 @@ export const SearchInput = () => {
   };
   const handleInputClick = () => {
     setShowDatePicker(true);
-    setShowLocationList(true);
     setExpanded(true);
-  };
-  const handleLocationSelect = (property: PropertyInterface) => {
-    setSelectedLocation(property.location);
-    setSearchInput(property.location);
-    setShowLocationList(false);
-    setSearchProperty(property);
-    setFilteredValue(property.location);
   };
 
   const { params } = useDataTableParams({
@@ -188,33 +183,6 @@ export const SearchInput = () => {
     () => `/properties?params=${JSON.stringify(params)}`,
     fetcher
   );
-
-  const properties = (data?.data || []) as any;
-
-  const filteredLocations = properties
-    .map((property: any) => {
-      return property;
-    })
-    .filter((property: any) =>
-      property.location.toLowerCase().includes(searchInput.toLowerCase())
-    );
-
-  const handleInputChange = (e: any) => {
-    const inputValue = e.target.value;
-    setSearchInput(inputValue);
-    setShowLocationList(true);
-    setExpanded(true);
-    setFilteredValue(inputValue);
-    if (inputValue === "") {
-      setSearchResult([]);
-      setSearchedLat("");
-      setSearchedLong("");
-    }
-  };
-
-  const datePickerRef = useRef(null);
-  const quantityPickerRef = useRef(null);
-
   const handlePickDateClick = () => {
     setDatePickerVisible(!isDatePickerVisible);
     setWhoVisible(false);
@@ -376,31 +344,24 @@ export const SearchInput = () => {
                 background: "primary.main",
                 color: "white",
               }}
-              onClick={() =>
+              onClick={() => {
+                isSetSearched(true);
                 mutate(
                   searchFromBE({
-                    ...searchProperty,
-                    startDate: startDate,
-                    endDate: endDate,
-                    maxGuest: guest,
+                    latitude: latitude,
+                    longitude: longitude,
+                    // startDate: startDate,
+                    // endDate: endDate,
+                    // maxGuest: guest,
                   }) as any
-                )
-              }
+                );
+              }}
             >
               <FiSearch />
             </Button>
           </Box>
         )}
       </Flex>
-      {/* {showLocationList && searchInput && (
-        <Box position="absolute" top="58%" left={10} zIndex={1}>
-          <LocationList
-            locations={filteredLocations}
-            inputWidth="20rem"
-            onLocationSelect={handleLocationSelect}
-          />
-        </Box>
-      )} */}
     </Box>
   );
 };

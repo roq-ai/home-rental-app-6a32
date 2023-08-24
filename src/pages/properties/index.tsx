@@ -104,6 +104,9 @@ export function PropertyListPage(props: PropertyListPageProps) {
     searchResult,
     searchedLat,
     searchedLong,
+    isSearched,
+    longitude,
+    latitude,
   } = useFilter();
   const filterIsEmpty =
     !filteredValue &&
@@ -159,24 +162,14 @@ export function PropertyListPage(props: PropertyListPageProps) {
     maxValue
       ? data?.data.filter(filterMatches)
       : data?.data;
+
   useEffect(() => {
     setFilterNumber(filteredData?.length as unknown as string);
   }, [filteredData, setFilterNumber]);
 
-  const [deleteError, setDeleteError] = useState(null);
   useEffect(() => {
     setFilterNumber(filteredData?.length as unknown as string);
   }, [filteredData, setFilterNumber]);
-
-  const handleDelete = async (id: string) => {
-    setDeleteError(null);
-    try {
-      await deletePropertyById(id);
-      await mutate();
-    } catch (error) {
-      setDeleteError(error);
-    }
-  };
 
   if (isLoading) {
     return (
@@ -186,7 +179,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
     );
   }
 
-  console.log({ searchedLat, searchedLong });
+  // console.log({ searchedLat, searchedLong });
   return (
     <Box
       maxW="7xl"
@@ -211,41 +204,29 @@ export function PropertyListPage(props: PropertyListPageProps) {
           <Flex direction="row" gap={2}>
             {
               <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
-                {filteredData?.length !== 0 && (
+                {filteredData?.length !== 0 &&
+                searchResult.length === 0 &&
+                !isSearched ? (
                   <PropertyGrid>
                     {filteredData?.map((item) => (
                       <PropertyCard data={item} key={item.id} />
                     ))}
                   </PropertyGrid>
-                )}
-
-                {/* {filteredData?.length === 0 && (
-                  <Text
-                    color="gray.500"
-                    textAlign="center"
-                    fontSize="lg"
-                    mt="8"
-                  >
-                    No properties found.
-                  </Text>
-                )}
-
-                {searchResult?.length === 0 && (
-                  <Text
-                    color="gray.500"
-                    textAlign="center"
-                    fontSize="lg"
-                    mt="8"
-                  >
-                    No properties found.
-                  </Text>
-                )} */}
-                {searchResult.length !== 0 && (
+                ) : searchResult.length !== 0 ? (
                   <PropertyGrid>
                     {searchResult?.map((item) => {
                       return <PropertyCard data={item} key={item.id} />;
                     })}
                   </PropertyGrid>
+                ) : (
+                  <Text
+                    color="gray.500"
+                    textAlign="center"
+                    fontSize="lg"
+                    mt="8"
+                  >
+                    No properties found.
+                  </Text>
                 )}
               </Flex>
             }
@@ -253,14 +234,16 @@ export function PropertyListPage(props: PropertyListPageProps) {
         </Box>
 
         <Box flex={1} flexBasis={0} height={500}>
-          {searchResult.length !== 0 ? (
+          {filteredData?.length !== 0 &&
+          searchResult.length === 0 &&
+          !isSearched ? (
+            <ListMap locations={filteredData} />
+          ) : (
             <ListMap
               locations={searchResult}
-              searchedLat={searchedLat}
-              searchedLong={searchedLong}
+              searchedLat={latitude}
+              searchedLong={longitude}
             />
-          ) : (
-            <ListMap locations={filteredData} />
           )}
         </Box>
       </Grid>

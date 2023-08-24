@@ -29,6 +29,7 @@ import { getBookingById } from "apiSdk/bookings";
 import { BookingInterface } from "interfaces/booking";
 import BookingDetailCard from "components/BookingDetailCard";
 import LocationMap from "components/mapbox/LocationMap";
+import BookingMap from "components/mapbox/BookingMap";
 
 function BookingViewPage() {
   const { hasAccess } = useAuthorizationApi();
@@ -141,7 +142,7 @@ function BookingViewPage() {
                   </Box>
 
                   <Box>
-                    <LocationMap
+                    <BookingMap
                       latitude={data.property.latitude}
                       longitude={data.property.longitude}
                     />

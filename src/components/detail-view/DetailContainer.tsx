@@ -251,7 +251,7 @@ export const DetailContainer = (props: any) => {
         <Box flex="1">
           <Promos />
         </Box>
-        {session.user.roles?.[0] === "guest" ? (
+        {session?.user?.roles?.[0] === "guest" ? (
           <Box flex="1" boxShadow="md" bg="white" borderRadius="md" p={8}>
             <Stack spacing={{ base: "4", md: "8" }}>
               <Stack spacing={{ base: "2", md: "4" }}>

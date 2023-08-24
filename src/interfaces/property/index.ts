@@ -36,5 +36,6 @@ export interface PropertyGetQueryInterface extends GetQueryInterface {
   startDate?:Date;
   endDate?:Date
   maxGuest?:string
+  isSearched?:boolean
   company_id?: string;
 }
