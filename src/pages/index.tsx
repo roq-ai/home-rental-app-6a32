@@ -180,7 +180,11 @@ export function PropertyListPage(props: PropertyListPageProps) {
           Properties
         </Text>
       </Flex>
-      {status === "unauthenticated" ? (
+      {isLoading ? (
+        <Flex align="center" justify="center" w="100%" h="100%">
+          <Spinner size="lg" color="black" />
+        </Flex>
+      ) : status === "unauthenticated" ? (
         <Grid templateColumns="2fr 1fr" gap={4}>
           <Box>
             <Flex direction="row" gap={2}>

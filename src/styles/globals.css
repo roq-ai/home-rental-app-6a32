@@ -194,6 +194,13 @@ a {
   border: none;
 }
 
+.roq-chat-window .roq-chat-window__content {
+  position: relative;
+  padding: var(--roq-chat-window-content-padding);
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
 .roq-user-invites-table__tab__table__status__pending {
   color: var(--chakra-colors-state-warning-main);
   background: var(--chakra-colors-state-warning-transparent);

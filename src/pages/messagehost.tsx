@@ -22,6 +22,7 @@ function MessageHost() {
         p={4}
         borderWidth="1px"
         borderColor="gray.200"
+        overflowY="hidden"
       >
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <IconButton
@@ -38,12 +39,16 @@ function MessageHost() {
         </Box>
         <Divider my={3} />
         {conversationId && (
-          <Box width="100%" height="100%">
-            <ChatWindow conversationId={conversationId as string} />
+          <Box width="100%" height="400px">
+            <ChatWindow
+              conversationId={conversationId as string}
+              style={{ overflowY: "hidden" }}
+            />
           </Box>
         )}
       </Box>
     </Stack>
   );
 }
+
 export default compose(withAppLayout())(MessageHost);

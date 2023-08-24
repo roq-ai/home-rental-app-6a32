@@ -60,9 +60,10 @@ function PropertyCreatePage() {
         ...values,
         image_urls: images,
       };
-      await createProperty(propertyData);
+      const createResponse = await createProperty(propertyData);
+      const propertyId = createResponse?.id;
+      router.push(`/properties/view/${propertyId}`);
       resetForm();
-      router.push("/properties");
     } catch (error) {
       setError(error);
     }
