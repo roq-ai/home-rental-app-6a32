@@ -7,7 +7,6 @@ import { getServerSession } from '@roq/nextjs';
 import { GetManyQueryOptions } from 'interfaces';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { roqUserId, user } = await getServerSession(req);
   switch (req.method) {
     case 'GET':
       return getProperties();
@@ -24,15 +23,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       order,
       ...query
     } = parseQueryParams(req.query) as Partial<GetManyQueryOptions>;
-    const limit = parseInt(_limit as string, 10) || 20;
-    const offset = parseInt(_offset as string, 10) || 0;
-    const response = await prisma.property
-      .withAuthorization({
-        roqUserId,
-        tenantId: user.tenantId,
-        roles: user.roles,
-      })
-      .findManyPaginated({
+    
+    const limit = parseInt(_limit as string, 10)  || 20;
+    const offset = parseInt(_offset as string, 10)  || 0;
+    const response = await prisma.property.findMany({
         ...convertQueryToPrismaUtil(query, 'property'),
         take: limit,
         skip: offset,
@@ -46,7 +40,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   async function createProperty() {
     await propertyValidationSchema.validate(req.body);
     const body = { ...req.body };
-    console.log({body})
+    
+    console.log({body},"property body here")
     if (body?.booking?.length > 0) {
       const create_booking = body.booking;
       body.booking = {
@@ -64,5 +59,5 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export default function apiHandler(req: NextApiRequest, res: NextApiResponse) {
-  return errorHandlerMiddleware(authorizationValidationMiddleware(handler))(req, res);
+  return errorHandlerMiddleware(handler)(req, res);
 }

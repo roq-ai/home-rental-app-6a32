@@ -23,7 +23,9 @@ import {
   PropertyGetQueryInterface,
   PropertyInterface,
 } from "interfaces/property";
+import { PaginatedInterface } from "interfaces";
 import { QuantityPicker } from "./detail-view/QuantityPicker";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 // import { SearchBox } from "@mapbox/search-js-react";
 import dynamic from "next/dynamic";
@@ -31,37 +33,6 @@ import dynamic from "next/dynamic";
 const DynamicSearchBox = dynamic(() => import("./mapbox/SearchBox"), {
   ssr: false,
 }) as any;
-
-const LocationList = ({ locations, inputWidth, onLocationSelect }: any) => {
-  return (
-    <Box
-      p="3"
-      boxShadow="2xl"
-      bg="white"
-      borderRadius="md"
-      w={inputWidth}
-      mt="2"
-      overflow="hidden"
-    >
-      {locations.map((property: PropertyInterface, index: any) => (
-        <Box
-          key={index}
-          display="flex"
-          alignItems="center"
-          py="2"
-          cursor="pointer"
-          _hover={{ bg: "gray.100", borderRadius: "md", p: "1" }}
-          onClick={() => {
-            onLocationSelect(property);
-          }}
-        >
-          <Icon as={FaMapMarkerAlt} color="#FD5B61" mr="2" />
-          {property.location}
-        </Box>
-      ))}
-    </Box>
-  );
-};
 
 export const SearchInput = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -118,17 +89,29 @@ export const SearchInput = () => {
     };
   }, [setGuest, setSearchResult, setSearchedLat, setSearchedLong]);
 
+  function formatDate(date: any) {
+    const year = date?.getFullYear() ?? new Date().getFullYear();
+    const month = date?.getMonth() + 1 ?? new Date().getMonth() + 1; // Adding 1 because getMonth() returns 0-11
+    const day = date?.getDate() ?? new Date().getDate();
+
+    // Format the date as "YYYY-MM-DD"
+    return `${year}-${month.toString().padStart(2, "0")}-${day
+      .toString()
+      .padStart(2, "0")}`;
+  }
   const searchFromBE = async (query: PropertyGetQueryInterface) => {
+    const startDateFormatted = formatDate(startDate);
+    const endDateFormatted = formatDate(endDate);
+
     try {
       const propertiesOnSearch = await searchProperties({
-        // startDate: query.startDate,
-        // endDate: query.endDate,
-        // maxGuest: query.maxGuest,
-        // location: query.location,
         latitude: query.latitude,
         longitude: query.longitude,
+        start_date: startDateFormatted,
+        end_date: endDateFormatted,
+        num_of_guest: guest,
       });
-      console.log({ propertiesOnSearch });
+      console.log({ propertiesOnSearch }, "properties on search");
       setSearchResult(propertiesOnSearch);
     } catch (error) {
       console.error("Error fetching properties:", error);
@@ -183,6 +166,7 @@ export const SearchInput = () => {
     () => `/properties?params=${JSON.stringify(params)}`,
     fetcher
   );
+
   const handlePickDateClick = () => {
     setDatePickerVisible(!isDatePickerVisible);
     setWhoVisible(false);
@@ -326,7 +310,8 @@ export const SearchInput = () => {
                 >
                   <QuantityPicker
                     defaultValue={1}
-                    max={10}
+                    min={1}
+                    max={5}
                     label="Add Guest"
                     setGuest={setGuest}
                   />

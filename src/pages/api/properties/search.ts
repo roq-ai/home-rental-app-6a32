@@ -16,6 +16,27 @@ export default async function handler(
     const latitudeOffset = latitude >= 0 ? fiftyKmLatitudeOffset : -fiftyKmLatitudeOffset;
     const longitudeOffset = longitude >= 0 ? fiftyKmLongitudeOffset : -fiftyKmLongitudeOffset;
 
+
+    let result :any[];
+    function generateDateRangeArray(startDate: any, endDate: any) {
+       result = [];
+      const currentDate = new Date(startDate);
+  
+      while (currentDate <= new Date(endDate)) {
+        result.push(new Date(currentDate));
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+  
+      return result;
+    }
+    
+    const startDate = req?.query?.start_date;
+    const endDate = req?.query?.end_date;
+    const guestNumber = req?.query?.num_of_guest as unknown as number;
+    
+    generateDateRangeArray(startDate, endDate);
+    
+
     const properties = await prisma.property.findMany({
       where: {
         latitude: {
@@ -26,11 +47,29 @@ export default async function handler(
           gte: String(longitude - longitudeOffset),
           lte: String(longitude + longitudeOffset),
         },
+        // num_of_guest: {
+        //   gte: guestNumber, // Replace with your desired maximum number of guests
+        // },
+        NOT: {
+          booking: {
+            some: {
+              OR: result.map((date) => ({
+                AND: [
+                  { start_date: { lte: date } },
+                  { end_date: { gte: date } },
+                ],
+              })),
+            },
+          },
+        },
       },
     });
 
     console.log({ properties });
 
     return res.status(200).json(properties);
+  
+    
+  
   }
 }

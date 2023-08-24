@@ -1,6 +1,6 @@
 import { useSession } from "@roq/nextjs";
 import { Grid, Spinner } from "@chakra-ui/react";
-import { Box, Button, Flex, Text, TextProps } from "@chakra-ui/react";
+import { Box, Flex, Text, TextProps } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import {
   useDataTableParams,
@@ -8,11 +8,9 @@ import {
 } from "components/table/hook/use-data-table-params.hook";
 import { useCallback, useEffect, useState } from "react";
 import useSWR from "swr";
-import { PaginatedInterface } from "interfaces";
 import { getHomeProperties } from "apiSdk/properties";
 import { PropertyInterface } from "interfaces/property";
 import { useFilter } from "context/FilterContext";
-import { BiMapPin } from "react-icons/bi";
 import { useRouter } from "next/router";
 import { withAppLayout } from "lib/hocs/with-app-layout.hoc";
 import { compose } from "lib/compose";
@@ -32,7 +30,6 @@ interface PropertyListPageProps {
   tableOnly?: boolean;
   hideActions?: boolean;
 }
-let currentUser: string;
 export function PropertyListPage(props: PropertyListPageProps) {
   const {
     filters = {},
@@ -60,9 +57,10 @@ export function PropertyListPage(props: PropertyListPageProps) {
   });
 
   const fetcher = useCallback(async () => getHomeProperties(), []);
-  const { data, error, isLoading, mutate } = useSWR<
-    PaginatedInterface<PropertyInterface>
-  >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
+  const { data, error, isLoading, mutate } = useSWR(
+    () => `/properties?params=${JSON.stringify(params)}`,
+    fetcher
+  );
   console.log({ data });
 
   const [showMap, setShowMap] = useState(false);
@@ -142,12 +140,11 @@ export function PropertyListPage(props: PropertyListPageProps) {
   useEffect(() => {
     setFilterNumber(filteredData?.length as unknown as string);
   }, [filteredData, setFilterNumber]);
+  let currentUser: any;
 
   const { session, status } = useSession();
   currentUser = session?.user?.roles?.[0];
   const router = useRouter();
-
-  console.log({ status });
 
   useEffect(() => {
     if (currentUser === "host") {

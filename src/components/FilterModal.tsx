@@ -93,7 +93,10 @@ const FormModal = () => {
     setMinValueContext("");
     setMaxValueContext("");
   };
-
+  console.log("amentities", selectedAmenities);
+  console.log("value 1", selectedBeds);
+  console.log("value 2", selectedBeds);
+  console.log("value 3", selectedPropertyType);
   return (
     <Box>
       <Button
@@ -132,7 +135,6 @@ const FormModal = () => {
             "&::-webkit-scrollbar-track": {
               backgroundColor: "#f0e6f6",
             },
-            overflowX: "hidden",
           }}
         >
           <ModalHeader mx="auto">Filters</ModalHeader>

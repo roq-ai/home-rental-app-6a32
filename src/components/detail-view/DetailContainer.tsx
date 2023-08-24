@@ -42,13 +42,14 @@ export const DetailContainer = (props: any) => {
   const [endDate, setEndDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
   const [reserveIsLoading, setReserveIsLoading] = useState(false);
+  const [guest, setGuest] = useState<string>('1');
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
     key: "selection",
   };
   const {
-    data: fetchedData,
+    data: fetchedData,  
     error,
     isLoading,
   } = useSWR<UserInterface[]>("/users", () =>
@@ -64,6 +65,18 @@ export const DetailContainer = (props: any) => {
       .toString()
       .padStart(2, "0")}`;
   }
+  
+ 
+  const {
+    data: existingBookings,
+    error: existingBookingsError,
+    isLoading: existingBookingsLoading,
+    mutate,
+  } = useSWR<PaginatedInterface<BookingInterface>>(
+    () => "/bookings",
+    () => getBookings()
+  );
+ 
 
   function areAllDatesOutsideRange(
     dateToCheckStart: any,
@@ -86,15 +99,7 @@ export const DetailContainer = (props: any) => {
     }
     return true; // All dates are outside the range
   }
-  const {
-    data: existingBookings,
-    error: existingBookingsError,
-    isLoading: existingBookingsLoading,
-    mutate,
-  } = useSWR<PaginatedInterface<BookingInterface>>(
-    () => "/bookings",
-    () => getBookings()
-  );
+
 
   const isPropertyAvailable = () => {
     if (existingBookingsError || existingBookingsLoading) {
@@ -102,29 +107,25 @@ export const DetailContainer = (props: any) => {
     }
     const propertyId = data?.id;
     const bookingsForProperty = existingBookings.data.filter(
+      
       (booking) => booking.property_id === propertyId
-    );
-
-    return bookingsForProperty.every((booking) => {
-      const bookingStartDate = new Date(booking.start_date);
-      const bookingEndDate = new Date(booking.end_date);
-
-      // Check if the requested dates fall outside the existing booking's range
-      const startDateOnly = formatDate(bookingStartDate);
-      const endDateOnly = formatDate(bookingEndDate);
-      const startDateFormatted = formatDate(startDate);
-      const endDateFormatted = formatDate(endDate);
-      // The property is available if the requested dates don't overlap with any existing booking
-
-      const value = areAllDatesOutsideRange(
-        startDateFormatted,
-        endDateFormatted,
-        startDateOnly,
-        endDateOnly
       );
-      return value;
-    });
-  };
+      
+      return bookingsForProperty.every((booking) => {
+        const bookingStartDate = new Date(booking.start_date);
+        const bookingEndDate = new Date(booking.end_date);
+        
+        // Check if the requested dates fall outside the existing booking's range
+        const startDateOnly = formatDate(bookingStartDate);
+        const endDateOnly = formatDate(bookingEndDate);
+        const startDateFormatted = formatDate(startDate);
+        const endDateFormatted = formatDate(endDate);
+        // The property is available if the requested dates don't overlap with any existing booking
+        
+        const value = areAllDatesOutsideRange(startDateFormatted,endDateFormatted,startDateOnly,endDateOnly)
+        return value;
+      });
+    };
 
   const handleSelect = (ranges: any) => {
     console.log(ranges, "ranges");
@@ -143,6 +144,7 @@ export const DetailContainer = (props: any) => {
   const { numDays, totalPrice } = calculateTotalPrice();
   const handleReserveClick = async () => {
     setReserveIsLoading(true);
+    console.log(guest,"guest number");
     try {
       const startDateFormatted = formatDate(startDate);
       const endDateFormatted = formatDate(endDate);
@@ -165,7 +167,7 @@ export const DetailContainer = (props: any) => {
         end_date: endDateFormatted,
         guest_id: fetchedData?.[0]?.id,
         property_id: data?.id,
-        num_of_guest: "",
+        num_of_guest: parseInt(guest),
         num_of_night: String(numDays),
         total_price: String(totalPrice),
       };
@@ -345,7 +347,7 @@ export const DetailContainer = (props: any) => {
                 justify="space-evenly"
               >
                 <Box flex="1">
-                  <QuantityPicker defaultValue={1} max={5} />
+                  <QuantityPicker defaultValue={1} min={1} max={5} setGuest={setGuest}/>
                 </Box>
               </HStack>
 

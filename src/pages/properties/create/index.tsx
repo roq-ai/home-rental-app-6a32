@@ -82,7 +82,7 @@ function PropertyCreatePage() {
       name: "",
       description: "",
       price: "",
-      num_of_guest: "",
+      num_of_guest: 1,
       num_of_beds: "",
       num_of_baths: "",
       amenities: [],
@@ -160,8 +160,15 @@ function PropertyCreatePage() {
             props={{
               name: "num_of_guest",
               placeholder: "Max Guest",
-              value: formik.values?.num_of_guest,
-              onChange: formik.handleChange,
+              value: String(formik.values?.num_of_guest),
+              onChange: (event: any) => {
+                formik.handleChange(event);
+                const intValue = parseInt(event.target.value, 10);
+                formik.setFieldValue(
+                  "num_of_guest",
+                  isNaN(intValue) ? "" : intValue
+                );
+              },
             }}
           />
           <TextInput
@@ -299,7 +306,7 @@ function PropertyCreatePage() {
               alignItems="center"
               gap="0.5rem"
               mr="4"
-              onClick={() => router.push("/properties")}
+              onClick={() => router.push("/my-properties")}
               _hover={{
                 bg: "neutral.transparent",
                 color: "neutral.main",

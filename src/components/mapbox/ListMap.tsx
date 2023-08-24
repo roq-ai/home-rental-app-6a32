@@ -1,37 +1,27 @@
 import { useRef, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { getCenter } from "geolib";
 import { PropertyInterface } from "interfaces/property";
 import { renderToStaticMarkup } from "react-dom/server";
-import { PriceTag } from "components/property-list/PriceTag";
-import Image from "next/image";
 import { useFilter } from "context/FilterContext";
 
 const PopupContent = ({ data }: any) => {
   return (
-    <Box
-      style={{ padding: "6px", backgroundColor: "#fff", borderRadius: "8px" }}
+    <div
+      style={{ padding: "16px", backgroundColor: "#fff", borderRadius: "8px" }}
     >
-      <Stack direction={"column"} fontSize={"sm"}>
-        <Image
-          src={data.image_urls?.[0]}
-          alt={data.name}
-          width={200}
-          height={200}
-        />
-        <Box mt={1}>
-          <Text fontSize="md" fontWeight="medium" color="gray.900">
-            {data.location.split(",")}
-          </Text>
-
-          <Text fontSize="sm" fontWeight="normal" color="gray.400">
-            {data.name}
-          </Text>
-          <PriceTag currency="USD" price={data.price} />
-        </Box>
-      </Stack>
-    </Box>
+      <h3>{data.name}</h3>
+      <p>Latitude: {data.latitude}</p>
+      <p>Longitude: {data.longitude}</p>
+      {/* <Image
+        src={data.image_urls?.[0]}
+        alt={data.name}
+        width={200}
+        height={200}
+      /> */}
+      {/* Add other relevant information */}
+    </div>
   );
 };
 
@@ -65,18 +55,20 @@ const ListMap = ({ locations }: any) => {
       const popup = new mapboxgl.Popup({
         closeButton: false,
         closeOnClick: false,
-        offset: 10,
-      }).setHTML(popupContent);
+        offset: 25,
+      }).setHTML(popupContent); // Use setHTML to set the HTML content
 
       const marker = new mapboxgl.Marker()
         .setLngLat([location.longitude, location.latitude])
         .addTo(map.current)
         .setPopup(popup);
 
+      // Show popup on mouseenter
       marker.getElement()?.addEventListener("mouseenter", () => {
         popup.addTo(map.current);
       });
 
+      // Remove popup on mouseleave
       marker.getElement()?.addEventListener("mouseleave", () => {
         popup.remove();
       });

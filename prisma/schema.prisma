@@ -13,10 +13,10 @@ model booking {
   id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   start_date        DateTime  @db.Date
   end_date          DateTime  @db.Date
-  num_of_guest      String    @db.VarChar(255)
+  num_of_guest      Int?      @db.Integer
   num_of_night      String    @db.VarChar(255)
   total_price       String    @db.VarChar(255)
-  roqConversationId String?    @db.Uuid
+  roqConversationId String?   @db.Uuid
   guest_id          String?   @db.Uuid
   property_id       String?   @db.Uuid
   created_at        DateTime  @default(now()) @db.Timestamp(6)
@@ -42,7 +42,7 @@ model property {
   name         String    @db.VarChar(255)
   description  String?   @db.VarChar(255)
   price        String    @db.VarChar(255)
-  num_of_guest String    @db.VarChar(255)
+  num_of_guest Int?      @db.Integer
   num_of_beds  String    @db.VarChar(255)
   num_of_baths String    @db.VarChar(255)
   amenities    String[]  @db.VarChar(255)

@@ -6,7 +6,7 @@ import {
 } from "@roq/nextjs";
 import { Grid, Spinner } from "@chakra-ui/react";
 import { compose } from "lib/compose";
-import { Box, Button, Flex, Text, TextProps } from "@chakra-ui/react";
+import { Box, Flex, Text, TextProps } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import {
   useDataTableParams,
@@ -14,14 +14,12 @@ import {
 } from "components/table/hook/use-data-table-params.hook";
 import { useCallback, useEffect, useState } from "react";
 import useSWR from "swr";
-import { PaginatedInterface } from "interfaces";
 import { withAppLayout } from "lib/hocs/with-app-layout.hoc";
-import { getProperties, deletePropertyById } from "apiSdk/properties";
+import { getProperties } from "apiSdk/properties";
 import { PropertyInterface } from "interfaces/property";
 import { PropertyGrid } from "components/property-list/PropertyGrid";
 import PropertyCard from "components/property-list/PropertyList";
 import { useFilter } from "context/FilterContext";
-import { BiMapPin } from "react-icons/bi";
 import ListMap from "components/mapbox/ListMap";
 
 type ColumnType = ColumnDef<PropertyInterface, unknown>;
@@ -87,11 +85,11 @@ export function PropertyListPage(props: PropertyListPageProps) {
       params.filters,
     ]
   );
-  const { data, error, isLoading, mutate } = useSWR<
-    PaginatedInterface<PropertyInterface>
-  >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
-
-  const [showMap, setShowMap] = useState(false);
+  const { data, error, isLoading, mutate } = useSWR(
+    () => `/properties?params=${JSON.stringify(params)}`,
+    fetcher
+  );
+  const [showMap, setShowMap] = useState(true);
   const {
     filteredValue,
     selectedAmenities,
@@ -153,15 +151,15 @@ export function PropertyListPage(props: PropertyListPageProps) {
     );
   };
 
-  const filteredData =
+  const filteredData: any =
     selectedAmenities.length > 0 ||
     selectedBeds ||
     selectedBaths ||
     selectedPropertyType ||
     minValue ||
     maxValue
-      ? data?.data.filter(filterMatches)
-      : data?.data;
+      ? data?.filter(filterMatches)
+      : data;
 
   useEffect(() => {
     setFilterNumber(filteredData?.length as unknown as string);
@@ -179,7 +177,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
     );
   }
 
-  // console.log({ searchedLat, searchedLong });
   return (
     <Box
       maxW="7xl"
@@ -199,7 +196,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
           Properties
         </Text>
       </Flex>
-      <Grid templateColumns="2fr 1fr" gap={4}>
+      <Grid templateColumns={{ base: "1fr", lg: "2fr 1fr" }} gap={4}>
         <Box>
           <Flex direction="row" gap={2}>
             {
@@ -208,7 +205,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
                 searchResult.length === 0 &&
                 !isSearched ? (
                   <PropertyGrid>
-                    {filteredData?.map((item) => (
+                    {filteredData?.map((item: any) => (
                       <PropertyCard data={item} key={item.id} />
                     ))}
                   </PropertyGrid>
@@ -258,6 +255,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
             leftIcon={<BiMapPin />}
             onClick={() => setShowMap(!showMap)}
             zIndex={900002}
+            display={{ base: "none", lg: "block" }}
             fontSize="1rem"
             fontWeight="bold"
             background="black"
@@ -271,7 +269,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
               backgroundColor: "black",
             }}
           >
-            {showMap ? "Hide Map" : "Show Map"}
+            {showMap ? "Show Map":"Hide Map"  }
           </Button>
         </Box>
       </Flex> */}

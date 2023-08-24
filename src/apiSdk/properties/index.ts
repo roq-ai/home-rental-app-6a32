@@ -1,6 +1,6 @@
 import axios from 'axios';
 import queryString from 'query-string';
-import { PropertyInterface, PropertyGetQueryInterface } from 'interfaces/property';
+import { PropertyInterface, PropertyGetQueryInterface, searchInterface } from 'interfaces/property';
 import { GetQueryInterface, PaginatedInterface } from '../../interfaces';
 
 export const getProperties = async (
@@ -41,7 +41,7 @@ export const deletePropertyById = async (id: string) => {
   const response = await axios.delete(`/api/properties/${id}`);
   return response.data;
 };
-export const searchProperties = async (query?: PropertyGetQueryInterface) => {
+export const searchProperties = async (query?: searchInterface) => {
   const response = await axios.get(`/api/properties/search${query ? `?${queryString.stringify(query)}` : ''}`);
   return response.data;
 };

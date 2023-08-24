@@ -1,7 +1,15 @@
-import { signIn, signUp, useSession } from "@roq/nextjs";
+import { signIn, signUp, requireNextAuth, useSession } from "@roq/nextjs";
 import HomeLayout from "layout/home-layout";
-import { Box, Heading, Text, Stack, Image, Link } from "@chakra-ui/react";
-import { FC, useEffect } from "react";
+import {
+  Box,
+  Heading,
+  Text,
+  Stack,
+  Image,
+  Link,
+  Spinner,
+} from "@chakra-ui/react";
+import { FC, useEffect, useState } from "react";
 import { CustomButton } from "components/custom-button";
 import Head from "next/head";
 import { PoweredBy } from "components/powered-by";
@@ -49,20 +57,26 @@ const Card: FC<{
 );
 let currentUser: any;
 function HomePage() {
-  const { session, status } = useSession();
+  const { session } = useSession();
   currentUser = session?.user?.roles?.[0];
   const router = useRouter();
+  const [redirectTo, setRedirectTo] = useState("/");
 
-  // Wait for the session to load before performing redirection
+  // Update redirectTo based on currentUser
   useEffect(() => {
     if (currentUser === "host") {
-      router.push("/my-properties");
+      setRedirectTo("/my-properties");
     } else if (currentUser === "guest") {
-      router.push("/properties");
+      setRedirectTo("/properties");
     }
-  }, [currentUser, router]);
-  console.log({ currentUser });
-  console.log({ router });
+  }, []);
+  //   useEffect(() => {
+  //     if (currentUser === "host") {
+  //       router.replace("/my-properties");
+  //     } else if (currentUser === "guest") {
+  //       router.replace("/properties");
+  //     }
+  //   }, [currentUser, router]);
 
   return (
     <>
@@ -156,5 +170,13 @@ function HomePage() {
     </>
   );
 }
-
-export default HomePage;
+let redirectToPath = "/";
+if (currentUser === "host") {
+  redirectToPath = "/my-properties";
+} else if (currentUser === "guest") {
+  redirectToPath = "/properties";
+}
+export default requireNextAuth({
+  redirectIfAuthenticated: true,
+  redirectTo: "properties",
+})(HomePage);
