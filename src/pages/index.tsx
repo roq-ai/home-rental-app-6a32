@@ -1,5 +1,5 @@
 import { useSession } from "@roq/nextjs";
-import { Grid, Spinner } from "@chakra-ui/react";
+import { Button, Grid, Spinner } from "@chakra-ui/react";
 import { Box, Flex, Text, TextProps } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import {
@@ -17,6 +17,7 @@ import { compose } from "lib/compose";
 import ListMap from "components/mapbox/ListMap";
 import { PropertyGrid } from "components/property-list/PropertyGrid";
 import PropertyCard from "components/property-list/PropertyList";
+import { BiMapPin } from "react-icons/bi";
 
 type ColumnType = ColumnDef<PropertyInterface, unknown>;
 
@@ -153,13 +154,13 @@ export function PropertyListPage(props: PropertyListPageProps) {
     }
   }, [currentUser, router]);
 
-  if (isLoading) {
-    return (
-      <Flex align="center" justify="center" w="100%" h="100%">
-        <Spinner size="lg" color="black" />
-      </Flex>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <Flex align="center" justify="center" w="100%" h="100%">
+  //       <Spinner size="lg" color="black" />
+  //     </Flex>
+  //   );
+  // }
 
   return (
     <Box
@@ -180,62 +181,66 @@ export function PropertyListPage(props: PropertyListPageProps) {
           Properties
         </Text>
       </Flex>
-      {isLoading ? (
-        <Flex align="center" justify="center" w="100%" h="100%">
+      {data == undefined ? (
+        <Flex align="center" justify="center" w="100%" h="60vh">
           <Spinner size="lg" color="black" />
         </Flex>
       ) : status === "unauthenticated" ? (
-        <Grid templateColumns="2fr 1fr" gap={4}>
-          <Box>
-            <Flex direction="row" gap={2}>
-              {
-                <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
-                  {filteredData?.length !== 0 &&
-                  searchResult.length === 0 &&
-                  !isSearched ? (
-                    <PropertyGrid>
-                      {filteredData?.map((item: any) => (
-                        <PropertyCard data={item} key={item.id} />
-                      ))}
-                    </PropertyGrid>
-                  ) : searchResult.length !== 0 ? (
-                    <PropertyGrid>
-                      {searchResult?.map((item) => {
-                        return <PropertyCard data={item} key={item.id} />;
-                      })}
-                    </PropertyGrid>
-                  ) : (
-                    <Text
-                      color="gray.500"
-                      textAlign="center"
-                      fontSize="lg"
-                      mt="8"
-                    >
-                      No properties found.
-                    </Text>
-                  )}
-                </Flex>
-              }
-            </Flex>
-          </Box>
+        <Box>
+          {!showMap && (
+            <Box>
+              <Flex direction="row" gap={2}>
+                {
+                  <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
+                    {filteredData?.length !== 0 &&
+                    searchResult.length === 0 &&
+                    !isSearched ? (
+                      <PropertyGrid>
+                        {filteredData?.map((item: any) => (
+                          <PropertyCard data={item} key={item.id} />
+                        ))}
+                      </PropertyGrid>
+                    ) : searchResult.length !== 0 ? (
+                      <PropertyGrid>
+                        {searchResult?.map((item) => {
+                          return <PropertyCard data={item} key={item.id} />;
+                        })}
+                      </PropertyGrid>
+                    ) : (
+                      <Text
+                        color="gray.500"
+                        textAlign="center"
+                        fontSize="lg"
+                        mt="8"
+                      >
+                        No properties found.
+                      </Text>
+                    )}
+                  </Flex>
+                }
+              </Flex>
+            </Box>
+          )}
 
-          <Box flex={1} flexBasis={0} height={500}>
-            {filteredData?.length !== 0 &&
-            searchResult.length === 0 &&
-            !isSearched ? (
-              <ListMap locations={filteredData} />
-            ) : (
-              <ListMap
-                locations={searchResult}
-                searchedLat={latitude}
-                searchedLong={longitude}
-              />
-            )}
-          </Box>
-        </Grid>
+          {data && showMap && (
+            <Box flex={1} flexBasis={0} height={500} rounded="md">
+              {filteredData?.length !== 0 &&
+              searchResult.length === 0 &&
+              !isSearched ? (
+                <ListMap locations={filteredData} />
+              ) : (
+                <ListMap
+                  locations={searchResult}
+                  searchedLat={latitude}
+                  searchedLong={longitude}
+                />
+              )}
+            </Box>
+          )}
+        </Box>
       ) : null}
 
-      {/* <Flex direction="column" align="center" mt={4}>
+      <Flex direction="column" align="center" mt={4}>
         <Box
           position="fixed"
           bottom="1rem"
@@ -262,7 +267,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
             {showMap ? "Hide Map" : "Show Map"}
           </Button>
         </Box>
-      </Flex> */}
+      </Flex>
     </Box>
   );
 }

@@ -14,11 +14,8 @@ function Search() {
     isSetSearched,
   } = useFilter();
 
-  useEffect(() => {});
-
   const handleRetrieve = (res: any) => {
     const { latitude, longitude } = res.features?.[0]?.properties?.coordinates;
-    console.log({ res });
     setLatitude(latitude);
     setLongitude(longitude);
     setFilteredValue(res.features?.[0]?.properties?.name);
@@ -29,6 +26,8 @@ function Search() {
     if (value === "") {
       isSetSearched(false);
       setSearchResult([]);
+      setLatitude("");
+      setLongitude("");
     }
   };
   return (

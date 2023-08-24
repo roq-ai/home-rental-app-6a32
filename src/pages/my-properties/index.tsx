@@ -14,6 +14,7 @@ import {
   IconButton,
   Input,
   Link,
+  Spinner,
   Text,
   TextProps,
 } from "@chakra-ui/react";
@@ -216,8 +217,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
     }
   };
 
-  
-
   return (
     <Box
       maxW="7xl"
@@ -268,30 +267,35 @@ export function PropertyListPage(props: PropertyListPageProps) {
           </Button>
         </NextLink>
       )}
-
-      <Flex direction="row" gap={2}>
-        {!showMap && (
-          <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
-            {filteredData?.length === 0 ? (
-              <Text color="gray.500" textAlign="center" fontSize="lg" mt="8">
-                No properties found.
-              </Text>
-            ) : searchResult.length !== 0 ? (
-              <PropertyGrid>
-                {searchResult?.map((item) => (
-                  <PropertyCard data={item} key={item.id} />
-                ))}
-              </PropertyGrid>
-            ) : (
-              <PropertyGrid>
-                {filteredData?.map((item) => (
-                  <PropertyCard data={item} key={item.id} />
-                ))}
-              </PropertyGrid>
-            )}
-          </Flex>
-        )}
-      </Flex>
+      {data == undefined ? (
+        <Flex align="center" justify="center" w="100%" h="60vh">
+          <Spinner size="lg" color="black" />
+        </Flex>
+      ) : (
+        <Flex direction="row" gap={2}>
+          {!showMap && (
+            <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
+              {filteredData?.length === 0 ? (
+                <Text color="gray.500" textAlign="center" fontSize="lg" mt="8">
+                  No properties found.
+                </Text>
+              ) : searchResult.length !== 0 ? (
+                <PropertyGrid>
+                  {searchResult?.map((item) => (
+                    <PropertyCard data={item} key={item.id} />
+                  ))}
+                </PropertyGrid>
+              ) : (
+                <PropertyGrid>
+                  {filteredData?.map((item) => (
+                    <PropertyCard data={item} key={item.id} />
+                  ))}
+                </PropertyGrid>
+              )}
+            </Flex>
+          )}
+        </Flex>
+      )}
       {showMap && (
         <Box flex={1} flexBasis={0} height={500}>
           <ListMap locations={filteredData} />

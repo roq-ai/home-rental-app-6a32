@@ -77,7 +77,7 @@ const Map = ({
       }
       map.remove();
     };
-  }, [latitude, longitude]);
+  }, [latitude, longitude, onLocationSelect, setLatitude, setLongitude]);
 
   return (
     <Box>
