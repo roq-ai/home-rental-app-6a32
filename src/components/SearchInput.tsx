@@ -59,6 +59,7 @@ export const SearchInput = () => {
   const [endDate, setEndDate] = useState<Date>();
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
   const [isWhoVisible, setWhoVisible] = useState(false);
+
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
@@ -233,7 +234,7 @@ export const SearchInput = () => {
             width="full"
           >
             <Box ml={3}>
-              <DynamicSearchBox />
+              <DynamicSearchBox expanded={expanded} />
             </Box>
             <Button
               size="sm"
