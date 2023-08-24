@@ -11,6 +11,7 @@ import { IoLocation } from "react-icons/io5";
 import { Gallery } from "./image-carousel/Gallery";
 import { ChatWindow, useAuthorizationApi } from "@roq/nextjs";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function BookingDetailCard({ data }: any) {
   const checkIn = new Intl.DateTimeFormat("en-US", {
@@ -68,6 +69,25 @@ export default function BookingDetailCard({ data }: any) {
           <Box flex={1} borderBottom={"1px"} borderColor={"gray.300"} />
         </Stack>
         <Divider mt="3" />
+        <Link
+          href={{
+            pathname: "/messagehost",
+            query: { conversationId: data.roqConversationId, id: data.id },
+          }}
+        >
+          <Stack
+            direction={"row"}
+            spacing={4}
+            align={"center"}
+            mt={3}
+            cursor="pointer"
+          >
+            <BiMessageAdd />
+            <Flex direction="column">
+              <Text fontSize="sm">Message Host</Text>
+            </Flex>
+          </Stack>
+        </Link>
 
         <Divider mt="3" />
         <Stack direction={"row"} spacing={4} align={"center"} mt={3}>
@@ -77,13 +97,6 @@ export default function BookingDetailCard({ data }: any) {
           </Flex>
         </Stack>
       </Box>
-      <Stack spacing={4} mt={3}>
-        {data?.roqConversationId && (
-          <Box width="auto" height="auto">
-            <ChatWindow conversationId={data?.roqConversationId} />
-          </Box>
-        )}
-      </Stack>
     </Box>
   );
 }
