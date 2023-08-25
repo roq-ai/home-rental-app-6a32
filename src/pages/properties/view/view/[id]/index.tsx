@@ -8,7 +8,6 @@ import {
   AccessOperationEnum,
   AccessServiceEnum,
   requireNextAuth,
-  useSession,
   withAuthorization,
 } from "@roq/nextjs";
 
@@ -20,8 +19,6 @@ import LocationMap from "components/mapbox/LocationMap";
 function PropertyViewPage() {
   const router = useRouter();
   const id = router.query.id as string;
-  const { session } = useSession();
-  const currentUser = session?.user?.roles?.[0];
   const { data, error, isLoading, mutate } = useSWR<PropertyInterface>(
     () => (id ? `/properties/${id}` : null),
     () => getPropertyById(id)
@@ -41,7 +38,7 @@ function PropertyViewPage() {
           items={[
             {
               label: "Properties",
-              link: currentUser === "host" ? "/my-properties" : "/properties",
+              link: "/properties",
             },
             {
               label: "Property Details",
@@ -61,7 +58,7 @@ function PropertyViewPage() {
 
 export default compose(
   requireNextAuth({
-    redirectTo: "/",
+    redirectTo: "/login",
   }),
   withAuthorization({
     service: AccessServiceEnum.PROJECT,

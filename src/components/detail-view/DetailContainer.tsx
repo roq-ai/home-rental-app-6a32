@@ -42,14 +42,14 @@ export const DetailContainer = (props: any) => {
   const [endDate, setEndDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
   const [reserveIsLoading, setReserveIsLoading] = useState(false);
-  const [guest, setGuest] = useState<string>('1');
+  const [guest, setGuest] = useState<string>("1");
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
     key: "selection",
   };
   const {
-    data: fetchedData,  
+    data: fetchedData,
     error,
     isLoading,
   } = useSWR<UserInterface[]>("/users", () =>
@@ -65,8 +65,7 @@ export const DetailContainer = (props: any) => {
       .toString()
       .padStart(2, "0")}`;
   }
-  
- 
+
   const {
     data: existingBookings,
     error: existingBookingsError,
@@ -76,56 +75,6 @@ export const DetailContainer = (props: any) => {
     () => "/bookings",
     () => getBookings()
   );
- 
-
-  function areAllDatesOutsideRange(
-    dateToCheckStart: any,
-    dateToCheckEnd: any,
-    startDate: any,
-    endDate: any
-  ) {
-    for (
-      let currentDate = new Date(dateToCheckStart);
-      currentDate <= new Date(dateToCheckEnd);
-      currentDate.setDate(currentDate.getDate() + 1)
-    ) {
-      const currentDateFormatted = formatDate(currentDate);
-      if (
-        currentDateFormatted >= startDate &&
-        currentDateFormatted <= endDate
-      ) {
-        return false; // At least one date falls within the range
-      }
-    }
-    return true; // All dates are outside the range
-  }
-
-
-  const isPropertyAvailable = () => {
-    if (existingBookingsError || existingBookingsLoading) {
-      return false;
-    }
-    const propertyId = data?.id;
-    const bookingsForProperty = existingBookings.data.filter(
-      
-      (booking) => booking.property_id === propertyId
-      );
-      
-      return bookingsForProperty.every((booking) => {
-        const bookingStartDate = new Date(booking.start_date);
-        const bookingEndDate = new Date(booking.end_date);
-        
-        // Check if the requested dates fall outside the existing booking's range
-        const startDateOnly = formatDate(bookingStartDate);
-        const endDateOnly = formatDate(bookingEndDate);
-        const startDateFormatted = formatDate(startDate);
-        const endDateFormatted = formatDate(endDate);
-        // The property is available if the requested dates don't overlap with any existing booking
-        
-        const value = areAllDatesOutsideRange(startDateFormatted,endDateFormatted,startDateOnly,endDateOnly)
-        return value;
-      });
-    };
 
   const handleSelect = (ranges: any) => {
     console.log(ranges, "ranges");
@@ -144,23 +93,10 @@ export const DetailContainer = (props: any) => {
   const { numDays, totalPrice } = calculateTotalPrice();
   const handleReserveClick = async () => {
     setReserveIsLoading(true);
-    console.log(guest,"guest number");
+    console.log(guest, "guest number");
     try {
       const startDateFormatted = formatDate(startDate);
       const endDateFormatted = formatDate(endDate);
-
-      if (!isPropertyAvailable()) {
-        toast({
-          title: "Property Already Reserved",
-          description:
-            "This property is already reserved for the selected dates.",
-          status: "warning",
-          duration: 5000,
-          isClosable: true,
-          position: "top",
-        });
-        return;
-      }
 
       const bookingData = {
         start_date: startDateFormatted,
@@ -173,9 +109,25 @@ export const DetailContainer = (props: any) => {
       };
 
       const bookingresponse = await createBooking(bookingData);
-      console.log(bookingresponse,"booking data here")
-      const bookingId = bookingresponse?.id;
-      router.push(`/bookings/view/${bookingId}`);
+      console.log(bookingresponse?.error, "booking data here");
+      console.log(bookingresponse, "response");
+      if (bookingresponse && bookingresponse.identifier) {
+        toast({
+          title: "Property Already Reserved",
+          description:
+            "This property is already reserved for the selected dates.",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
+      } else if (
+        (bookingresponse && bookingresponse.identifier == null) ||
+        bookingresponse.identifier == null
+      ) {
+        const bookingId = bookingresponse?.id;
+        router.push(`/bookings/view/${bookingId}`);
+      }
     } catch (error) {
     } finally {
       setReserveIsLoading(false);
@@ -348,7 +300,12 @@ export const DetailContainer = (props: any) => {
                 justify="space-evenly"
               >
                 <Box flex="1">
-                  <QuantityPicker defaultValue={1} min={1} max={5} setGuest={setGuest}/>
+                  <QuantityPicker
+                    defaultValue={1}
+                    min={1}
+                    max={data.num_of_guest}
+                    setGuest={setGuest}
+                  />
                 </Box>
               </HStack>
 

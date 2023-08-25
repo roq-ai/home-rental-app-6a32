@@ -65,34 +65,10 @@ export const SearchInput = () => {
     endDate: endDate,
     key: "selection",
   };
-  // useEffect(() => {
-  //   const handleBeforeUnload = () => {
-  //     setSearchInput("");
-  //     setSearchResult([]);
-  //     setSearchedLat("");
-  //     setSearchedLong("");
-  //     setGuest("");
-  //     setStartDate(null);
-  //     setEndDate(null);
-  //   };
-
-  //   window.addEventListener("beforeunload", handleBeforeUnload);
-
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleBeforeUnload);
-  //     setSearchInput("");
-  //     setSearchResult([]);
-  //     setSearchedLat("");
-  //     setSearchedLong("");
-  //     setGuest("");
-  //     setStartDate(null);
-  //     setEndDate(null);
-  //   };
-  // }, [setGuest, setSearchResult, setSearchedLat, setSearchedLong]);
 
   function formatDate(date: any) {
     const year = date?.getFullYear() ?? new Date().getFullYear();
-    
+
     const month = date?.getMonth() + 1 ?? new Date().getMonth() + 1; // Adding 1 because getMonth() returns 0-11
     const day = date?.getDate() ?? new Date().getDate();
 
@@ -102,23 +78,26 @@ export const SearchInput = () => {
       .padStart(2, "0")}`;
   }
   const searchFromBE = async (query: PropertyGetQueryInterface) => {
-
     isSetSearched(true);
-    console.log(startDate,"hello please")
-    
+    console.log(startDate, "hello please");
+
     let startDateFormatted;
     let endDateFormatted;
-    if(startDate == null || startDate == undefined || endDate == null || endDate == undefined){
+    if (
+      startDate == null ||
+      startDate == undefined ||
+      endDate == null ||
+      endDate == undefined
+    ) {
       const currentDate = new Date();
       startDateFormatted = formatDate(currentDate);
-      endDateFormatted = formatDate(currentDate)
-      console.log("test4",startDateFormatted)
-    }else{
-
+      endDateFormatted = formatDate(currentDate);
+      console.log("test4", startDateFormatted);
+    } else {
       startDateFormatted = formatDate(startDate);
       endDateFormatted = formatDate(endDate);
     }
-    console.log(startDateFormatted,"hello here")
+    console.log(startDateFormatted, "hello here");
     try {
       const currentDate = new Date();
       const propertiesOnSearch = await searchProperties({
@@ -128,7 +107,7 @@ export const SearchInput = () => {
         end_date: endDateFormatted,
         num_of_guest: guest ? parseInt(guest) : 1,
       });
-      
+
       setSearchResult(propertiesOnSearch);
     } catch (error) {
       console.error("Error fetching properties:", error);
@@ -138,8 +117,8 @@ export const SearchInput = () => {
   const quantityPickerRef = useRef(null);
 
   const handleSelect = (ranges: any) => {
-    console.log("hello2")
-    console.log(ranges,"ranges")
+    console.log("hello2");
+    console.log(ranges, "ranges");
     setStartDate(ranges.selection.startDate);
     setEndDate(ranges.selection.endDate);
   };

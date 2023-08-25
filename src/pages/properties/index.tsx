@@ -15,7 +15,7 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import useSWR from "swr";
 import { withAppLayout } from "lib/hocs/with-app-layout.hoc";
-import { getProperties } from "apiSdk/properties";
+import { getProperties, getPropertyProperties } from "apiSdk/properties";
 import { PropertyInterface } from "interfaces/property";
 import { PropertyGrid } from "components/property-list/PropertyGrid";
 import PropertyCard from "components/property-list/PropertyList";
@@ -64,7 +64,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
 
   const fetcher = useCallback(
     async () =>
-      getProperties({
+      getPropertyProperties({
         relations: ["company", "booking.count"],
         limit: params.pageSize,
         offset: params.pageNumber * params.pageSize,
@@ -87,7 +87,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
     ]
   );
   const { data, error, isLoading, mutate } = useSWR(
-    () => `/properties?params=${JSON.stringify(params)}`,
+    () => `/properties/properties?params=${JSON.stringify(params)}`,
     fetcher
   );
   const [showMap, setShowMap] = useState(true);
@@ -210,7 +210,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
           >
             <Box height="500px" overflowY={showMap && "auto"}>
               <Flex direction="row" gap={2}>
-                {(
+                {
                   <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
                     {filteredData?.length !== 0 && !isSearched ? (
                       <PropertyGrid
@@ -224,8 +224,12 @@ export function PropertyListPage(props: PropertyListPageProps) {
                         ))}
                       </PropertyGrid>
                     ) : searchResult.length !== 0 ? (
-                      <PropertyGrid medium={showMap ? 3 : 3} large={showMap ? 2 : 4} extra={showMap ? 2 : 4} small={2}>
-
+                      <PropertyGrid
+                        medium={showMap ? 3 : 3}
+                        large={showMap ? 2 : 4}
+                        extra={showMap ? 2 : 4}
+                        small={2}
+                      >
                         {searchResult?.map((item) => {
                           return <PropertyCard data={item} key={item.id} />;
                         })}
@@ -241,7 +245,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
                       </Text>
                     )}
                   </Flex>
-                )}
+                }
               </Flex>
             </Box>
 
@@ -265,7 +269,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
           </Grid>
         </Box>
       )}
-      <Flex direction="column" align="center" mt={4} >
+      <Flex direction="column" align="center" mt={4}>
         <Box
           position="fixed"
           bottom="1rem"

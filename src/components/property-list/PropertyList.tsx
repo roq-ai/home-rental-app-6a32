@@ -2,10 +2,18 @@ import { Box, Text, Stack, useColorModeValue } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { PriceTag } from "./PriceTag";
 import { Gallery } from "components/image-carousel/Gallery";
+import { useSession } from "@roq/nextjs";
 
 export default function PropertyCard({ data }: any) {
+  const { status } = useSession();
+
   return (
-    <NextLink href={`/properties/view/${data.id}`} key={data.id}>
+    <NextLink
+      href={
+        status === "authenticated" ? `/properties/view/${data.id}` : `/login`
+      }
+      key={data.id}
+    >
       <Box>
         <Box
           maxW={"300px"}

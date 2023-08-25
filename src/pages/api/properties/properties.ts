@@ -35,19 +35,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       order,
       ...query
     } = parseQueryParams(req.query) as Partial<GetManyQueryOptions>;
-    const user = await prisma.user.findMany({
-      where: { roq_user_id: roqUserId },
-      include: { company: true },
-    });
-    const company = await prisma.company.findFirst({where : {user_id : user[0].id}})
-    
+
     const limit = parseInt(_limit as string, 10)  || 20;
     const offset = parseInt(_offset as string, 10)  || 0;
     const response = await prisma.property.findMany({
         ...convertQueryToPrismaUtil(query, 'property'),
-        where:{
-          company_id:company.id
-        },
+        
         take: limit,
         skip: offset,
         ...(order?.length && {
@@ -58,27 +51,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.status(200).json(response);
   }
 
-  async function createProperty() {
-    const body = { ...req.body };
-    
-    if (body?.booking?.length > 0) {
-      const create_booking = body.booking;
-      body.booking = {
-        create: create_booking,
-      };
-    } else {
-      delete body.booking;
-    }
-    const user = await prisma.user.findMany({
-      where: { roq_user_id: roqUserId },
-      include: { company: true },
-    });
-    const company = await prisma.company.findFirst({where : {user_id : user[0].id}})
-    const data = await prisma.property.create({
-      data: { ...body, company_id: company.id},
-    });
-    return res.status(200).json(data);
-  }
+ 
 }
 
 export default function apiHandler(req: NextApiRequest, res: NextApiResponse) {

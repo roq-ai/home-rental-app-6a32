@@ -52,15 +52,44 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   async function createBooking() {
+    let result: any[];
+
+    function generateDateRangeArray(startDate: any, endDate: any) {
+      result = [];
+      const currentDate = new Date(startDate);
+
+      while (currentDate <= new Date(endDate)) {
+        result.push(new Date(currentDate));
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+
+      return result;
+    }
+
+
     await bookingValidationSchema.validate(req.body);
-    const startDate = req?.body?.start_date
-    const endDate = req?.body?.end_date
+    const startDate = req?.body?.start_date;
+    const endDate = req?.body?.end_date;
+    generateDateRangeArray(startDate, endDate);
 
     const startDateFormatted = new Date(startDate);
     const endDateFormatted = new Date(endDate);
     const body = { ...req.body };
+    console.log(body,"the body")
     body.start_date = startDateFormatted;
     body.end_date = endDateFormatted;
+
+    const numberOfBookingNotAvailable = await prisma.booking.count({
+      where: {
+        property_id: body?.property_id,
+
+          OR: result.map((date) => ({
+            start_date: { lte: date },
+            end_date: { gte: date },
+          })),
+      },
+    });
+    console.log(numberOfBookingNotAvailable,"please 1")
     const property = await prisma.property.findFirst({
       where: { id: body.property_id },
       include: { company: true },
@@ -82,14 +111,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           tags: ["test"],
         },
       });
-   
-    const data = await prisma.booking.create({
-      data: {
-        ...body,
-        roqConversationId: conversationId.createConversation.id,
-      },
-    });
-    return res.status(200).json(data);
+    if (numberOfBookingNotAvailable == 0) {
+      const data = await prisma.booking.create({
+        data: {
+          ...body,
+          roqConversationId: conversationId.createConversation.id,
+        },
+      });
+      return res.status(200).json(data);
+    } else {
+      return res.status(203).send({ success: false, error: "reserved",identifier:'alreadyBooked' });
+    }
   }
 }
 
@@ -99,5 +131,4 @@ export default function apiHandler(req: NextApiRequest, res: NextApiResponse) {
     res
   );
 }
-
 

@@ -269,7 +269,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         </Box>
         <Box mt="auto" px={8} pb={4}>
           {session?.user?.roles?.[0] == "host" && (
-            <Link
+            <a
               href={routes.frontend.invites.index}
               style={{ textDecoration: "none" }}
             >
@@ -296,7 +296,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
               >
                 Invite Members
               </Button>
-            </Link>
+            </a>
           )}
         </Box>
         <Box px={8} py={4} borderTop="1px solid" borderColor="base.300">
@@ -342,7 +342,7 @@ const NavItem = ({
   ...rest
 }: NavItemProps) => {
   return (
-    <Link href={path} style={{ textDecoration: "none" }}>
+    <a href={path} style={{ textDecoration: "none" }}>
       <Flex
         align="center"
         px="8"
@@ -370,7 +370,7 @@ const NavItem = ({
         )}
         {children}
       </Flex>
-    </Link>
+    </a>
   );
 };
 
