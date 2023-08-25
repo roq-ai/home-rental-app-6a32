@@ -3,7 +3,7 @@ import { SearchBox } from "@mapbox/search-js-react";
 import { useFilter } from "context/FilterContext";
 
 function Search({ expanded }) {
-  const searchBoxRef = useRef(null); // Create a ref for the SearchBox
+  const searchBoxRef = useRef(null); 
   const [searched, setSearched] = useState("");
   console.log({ searched });
   const {

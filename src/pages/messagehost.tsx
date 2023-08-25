@@ -33,13 +33,13 @@ function MessageHost() {
             fontWeight="bold"
           />
           <Text fontSize="xl" fontWeight="bold">
-            Chat with Host
+            Message
           </Text>
           <Box width="24px" />
         </Box>
         <Divider my={3} />
         {conversationId && (
-          <Box width="100%" height="400px">
+          <Box width="100%" height="450px">
             <ChatWindow
               conversationId={conversationId as string}
               style={{ overflowY: "hidden" }}

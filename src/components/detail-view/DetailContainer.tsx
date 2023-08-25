@@ -173,6 +173,7 @@ export const DetailContainer = (props: any) => {
       };
 
       const bookingresponse = await createBooking(bookingData);
+      console.log(bookingresponse,"booking data here")
       const bookingId = bookingresponse?.id;
       router.push(`/bookings/view/${bookingId}`);
     } catch (error) {

@@ -64,6 +64,7 @@ const FormModal = () => {
     setMinValue: setMinValueContext,
     setMaxValue: setMaxValueContext,
     FilterNumber,
+    isSetSearched
   } = useFilter();
 
   const toggleAmenity = (amenityName: string) => {
@@ -97,6 +98,12 @@ const FormModal = () => {
   console.log("value 1", selectedBeds);
   console.log("value 2", selectedBeds);
   console.log("value 3", selectedPropertyType);
+
+
+  const onClickButton = () => {
+    isSetSearched(false)
+    onOpen()
+  };
   return (
     <Box>
       <Button
@@ -105,7 +112,7 @@ const FormModal = () => {
         background="primary.main"
         color="white"
         borderRadius="2xl"
-        onClick={onOpen}
+        onClick={onClickButton}
         _hover={{
           background: "primary.main",
           color: "white",

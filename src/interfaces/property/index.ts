@@ -5,7 +5,7 @@ import { GetQueryInterface } from "interfaces";
 export interface searchInterface {
   start_date?: string;
   end_date?: string;
-  num_of_guest?: string;
+  num_of_guest?: number;
   latitude?: string;
   longitude?: string;
 }

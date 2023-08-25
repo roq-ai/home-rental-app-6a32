@@ -41,8 +41,8 @@ const ListMap = ({ locations }: any) => {
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [
-        longitude ? Number(longitude) : 0,
-        latitude ? Number(latitude) : 0,
+        locations?.longitude ? Number(locations?.longitude) : 0,
+        locations?.latitude ? Number(locations?.latitude) : 0,
       ],
       zoom: longitude ? 6 : 1,
     });
@@ -80,7 +80,7 @@ const ListMap = ({ locations }: any) => {
         map.current.remove();
       }
     };
-  }, [latitude, locations, longitude, mapCenter.latitude, mapCenter.longitude]);
+  }, [locations, mapCenter.latitude, mapCenter.longitude]);
 
   return (
     <Box

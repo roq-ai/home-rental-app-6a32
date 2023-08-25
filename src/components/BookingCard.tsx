@@ -24,7 +24,7 @@ export default function BookingCard({ data }: any) {
     <NextLink href={`/bookings/view/${data.id}`} key={data.id}>
       <Box>
         <Box
-          maxW={"320px"}
+          maxW={"300px"}
           w={"full"}
           bg={useColorModeValue("white", "gray.900")}
           rounded={"md"}

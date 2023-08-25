@@ -128,6 +128,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
     FilterNumber,
     setFilterNumber,
     searchResult,
+    isSearched,
   } = useFilter();
   const filterIsEmpty =
     !filteredValue &&
@@ -275,23 +276,29 @@ export function PropertyListPage(props: PropertyListPageProps) {
         <Flex direction="row" gap={2}>
           {!showMap && (
             <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
-              {filteredData?.length === 0 ? (
-                <Text color="gray.500" textAlign="center" fontSize="lg" mt="8">
-                  No properties found.
-                </Text>
-              ) : searchResult.length !== 0 ? (
-                <PropertyGrid>
-                  {searchResult?.map((item) => (
-                    <PropertyCard data={item} key={item.id} />
-                  ))}
-                </PropertyGrid>
-              ) : (
-                <PropertyGrid>
-                  {filteredData?.map((item) => (
-                    <PropertyCard data={item} key={item.id} />
-                  ))}
-                </PropertyGrid>
-              )}
+                  {filteredData?.length !== 0 &&
+                  !isSearched ? (
+                    <PropertyGrid>
+                      {filteredData?.map((item: any) => (
+                        <PropertyCard data={item} key={item.id} />
+                      ))}
+                    </PropertyGrid>
+                  ) : searchResult.length !== 0 ? (
+                    <PropertyGrid>
+                      {searchResult?.map((item) => {
+                        return <PropertyCard data={item} key={item.id} />;
+                      })}
+                    </PropertyGrid>
+                  ) : (
+                    <Text
+                      color="gray.500"
+                      textAlign="center"
+                      fontSize="lg"
+                      mt="8"
+                    >
+                      No properties found.
+                    </Text>
+                  )}
             </Flex>
           )}
         </Flex>

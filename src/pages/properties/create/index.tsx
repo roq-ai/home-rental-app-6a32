@@ -225,7 +225,7 @@ function PropertyCreatePage() {
           <TextInput
             label={"Address"}
             props={{
-              name: "Location",
+              name: "location",
               placeholder: "Location",
               value: formik.values?.location,
               onChange: formik.handleChange,

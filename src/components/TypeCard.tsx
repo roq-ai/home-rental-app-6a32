@@ -1,5 +1,6 @@
 import { Box, HStack, Text } from "@chakra-ui/react";
 import { useRadioGroup, useRadio } from "@chakra-ui/radio";
+import { useFilter } from "context/FilterContext";
 
 function RadioCard(props: any) {
   const { getInputProps, getRadioProps } = useRadio(props);
@@ -41,10 +42,11 @@ export default function TypeCard({
   setSelectedPropertyTypeContext,
 }: any) {
   const options = ["Apartment", "House", "Guest House"];
-
+  const { selectedPropertyType } = useFilter();
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "Property Type",
     defaultValue: "",
+    value: selectedPropertyType,
     onChange: (value) => {
       if (value === setSelectedPropertyType) {
         setSelectedPropertyType("");

@@ -91,6 +91,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
     fetcher
   );
   const [showMap, setShowMap] = useState(false);
+  
   const {
     filteredValue,
     selectedAmenities,
@@ -177,7 +178,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
   //     </Flex>
   //   );
   // }
-
+  console.log(searchResult,"searched result")
   return (
     <Box
       maxW="7xl"
@@ -208,7 +209,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
               {!showMap && (
                 <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
                   {filteredData?.length !== 0 &&
-                  searchResult.length === 0 &&
                   !isSearched ? (
                     <PropertyGrid>
                       {filteredData?.map((item: any) => (
@@ -241,7 +241,9 @@ export function PropertyListPage(props: PropertyListPageProps) {
               {filteredData?.length !== 0 &&
               searchResult.length === 0 &&
               !isSearched ? (
-                <ListMap locations={filteredData} />
+                <div>
+                  <ListMap locations={filteredData} />
+                </div>
               ) : (
                 <ListMap
                   locations={searchResult}
@@ -278,7 +280,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
               backgroundColor: "black",
             }}
           >
-            {showMap ? "Show Map" : "Hide Map"}
+            {showMap ? "Hide Map" : "Show Map"}
           </Button>
         </Box>
       </Flex>

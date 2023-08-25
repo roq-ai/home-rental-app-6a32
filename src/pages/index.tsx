@@ -189,36 +189,31 @@ export function PropertyListPage(props: PropertyListPageProps) {
         <Box>
           {!showMap && (
             <Box>
-              <Flex direction="row" gap={2}>
-                {
-                  <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
-                    {filteredData?.length !== 0 &&
-                    searchResult.length === 0 &&
-                    !isSearched ? (
-                      <PropertyGrid>
-                        {filteredData?.map((item: any) => (
-                          <PropertyCard data={item} key={item.id} />
-                        ))}
-                      </PropertyGrid>
-                    ) : searchResult.length !== 0 ? (
-                      <PropertyGrid>
-                        {searchResult?.map((item) => {
-                          return <PropertyCard data={item} key={item.id} />;
-                        })}
-                      </PropertyGrid>
-                    ) : (
-                      <Text
-                        color="gray.500"
-                        textAlign="center"
-                        fontSize="lg"
-                        mt="8"
-                      >
-                        No properties found.
-                      </Text>
-                    )}
-                  </Flex>
-                }
-              </Flex>
+              <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
+                  {filteredData?.length !== 0 &&
+                  !isSearched ? (
+                    <PropertyGrid>
+                      {filteredData?.map((item: any) => (
+                        <PropertyCard data={item} key={item.id} />
+                      ))}
+                    </PropertyGrid>
+                  ) : searchResult.length !== 0 ? (
+                    <PropertyGrid>
+                      {searchResult?.map((item) => {
+                        return <PropertyCard data={item} key={item.id} />;
+                      })}
+                    </PropertyGrid>
+                  ) : (
+                    <Text
+                      color="gray.500"
+                      textAlign="center"
+                      fontSize="lg"
+                      mt="8"
+                    >
+                      No properties found.
+                    </Text>
+                  )}
+                </Flex>
             </Box>
           )}
 

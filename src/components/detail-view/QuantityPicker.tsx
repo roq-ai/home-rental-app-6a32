@@ -25,6 +25,7 @@ export const QuantityPicker = (props: QuantityPickerProps) => {
   const { min , max, rootProps, label, setGuest, ...rest } = props;
 
   const [value, setValue] = useControllableState(rest);
+
   const handleDecrement = () => {
     if (value > min) {
       const updatedValue = value - 1; // Updated value

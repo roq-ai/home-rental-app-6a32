@@ -92,6 +92,7 @@ export const SearchInput = () => {
 
   function formatDate(date: any) {
     const year = date?.getFullYear() ?? new Date().getFullYear();
+    
     const month = date?.getMonth() + 1 ?? new Date().getMonth() + 1; // Adding 1 because getMonth() returns 0-11
     const day = date?.getDate() ?? new Date().getDate();
 
@@ -101,17 +102,33 @@ export const SearchInput = () => {
       .padStart(2, "0")}`;
   }
   const searchFromBE = async (query: PropertyGetQueryInterface) => {
-    const startDateFormatted = formatDate(startDate);
-    const endDateFormatted = formatDate(endDate);
 
+    isSetSearched(true);
+    console.log(startDate,"hello please")
+    
+    let startDateFormatted;
+    let endDateFormatted;
+    if(startDate == null || startDate == undefined || endDate == null || endDate == undefined){
+      const currentDate = new Date();
+      startDateFormatted = formatDate(currentDate);
+      endDateFormatted = formatDate(currentDate)
+      console.log("test4",startDateFormatted)
+    }else{
+
+      startDateFormatted = formatDate(startDate);
+      endDateFormatted = formatDate(endDate);
+    }
+    console.log(startDateFormatted,"hello here")
     try {
+      const currentDate = new Date();
       const propertiesOnSearch = await searchProperties({
         latitude: query.latitude,
         longitude: query.longitude,
         start_date: startDateFormatted,
         end_date: endDateFormatted,
-        num_of_guest: guest,
+        num_of_guest: guest ? parseInt(guest) : 1,
       });
+      
       setSearchResult(propertiesOnSearch);
     } catch (error) {
       console.error("Error fetching properties:", error);
@@ -121,6 +138,8 @@ export const SearchInput = () => {
   const quantityPickerRef = useRef(null);
 
   const handleSelect = (ranges: any) => {
+    console.log("hello2")
+    console.log(ranges,"ranges")
     setStartDate(ranges.selection.startDate);
     setEndDate(ranges.selection.endDate);
   };
@@ -330,7 +349,6 @@ export const SearchInput = () => {
                 color: "white",
               }}
               onClick={() => {
-                isSetSearched(true);
                 mutate(
                   searchFromBE({
                     latitude: latitude,

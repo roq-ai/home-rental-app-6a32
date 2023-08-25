@@ -59,7 +59,7 @@ export const FilterProvider = ({ children }: any) => {
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
   const [searchResult, setSearchResult] = useState([]);
-  const [guest, setGuest] = useState("");
+  const [guest, setGuest] = useState(1);
   const [searchedLat, setSearchedLat] = useState("");
   const [searchedLong, setSearchedLong] = useState("");
   const [isSearched, isSetSearched] = useState(false);
