@@ -65,30 +65,30 @@ export const SearchInput = () => {
     endDate: endDate,
     key: "selection",
   };
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      setSearchInput("");
-      setSearchResult([]);
-      setSearchedLat("");
-      setSearchedLong("");
-      setGuest("");
-      setStartDate(null);
-      setEndDate(null);
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     setSearchInput("");
+  //     setSearchResult([]);
+  //     setSearchedLat("");
+  //     setSearchedLong("");
+  //     setGuest("");
+  //     setStartDate(null);
+  //     setEndDate(null);
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-      setSearchInput("");
-      setSearchResult([]);
-      setSearchedLat("");
-      setSearchedLong("");
-      setGuest("");
-      setStartDate(null);
-      setEndDate(null);
-    };
-  }, [setGuest, setSearchResult, setSearchedLat, setSearchedLong]);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //     setSearchInput("");
+  //     setSearchResult([]);
+  //     setSearchedLat("");
+  //     setSearchedLong("");
+  //     setGuest("");
+  //     setStartDate(null);
+  //     setEndDate(null);
+  //   };
+  // }, [setGuest, setSearchResult, setSearchedLat, setSearchedLong]);
 
   function formatDate(date: any) {
     const year = date?.getFullYear() ?? new Date().getFullYear();

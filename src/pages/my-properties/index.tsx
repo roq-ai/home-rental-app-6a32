@@ -278,13 +278,15 @@ export function PropertyListPage(props: PropertyListPageProps) {
             <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
                   {filteredData?.length !== 0 &&
                   !isSearched ? (
-                    <PropertyGrid>
+                    <PropertyGrid medium={showMap ? 3 : 3} large={showMap ? 2 : 4} extra={showMap ? 2 : 4} small={2}>
+
                       {filteredData?.map((item: any) => (
                         <PropertyCard data={item} key={item.id} />
                       ))}
                     </PropertyGrid>
                   ) : searchResult.length !== 0 ? (
-                    <PropertyGrid>
+                    <PropertyGrid medium={showMap ? 3 : 3} large={showMap ? 2 : 4} extra={showMap ? 2 : 4} small={2}>
+
                       {searchResult?.map((item) => {
                         return <PropertyCard data={item} key={item.id} />;
                       })}

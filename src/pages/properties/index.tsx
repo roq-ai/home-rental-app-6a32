@@ -90,8 +90,8 @@ export function PropertyListPage(props: PropertyListPageProps) {
     () => `/properties?params=${JSON.stringify(params)}`,
     fetcher
   );
-  const [showMap, setShowMap] = useState(false);
-  
+  const [showMap, setShowMap] = useState(true);
+
   const {
     filteredValue,
     selectedAmenities,
@@ -178,7 +178,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
   //     </Flex>
   //   );
   // }
-  console.log(searchResult,"searched result")
+  console.log(searchResult, "searched result");
   return (
     <Box
       maxW="7xl"
@@ -204,58 +204,68 @@ export function PropertyListPage(props: PropertyListPageProps) {
         </Flex>
       ) : (
         <Box>
-          <Box>
-            <Flex direction="row" gap={2}>
-              {!showMap && (
-                <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
-                  {filteredData?.length !== 0 &&
-                  !isSearched ? (
-                    <PropertyGrid>
-                      {filteredData?.map((item: any) => (
-                        <PropertyCard data={item} key={item.id} />
-                      ))}
-                    </PropertyGrid>
-                  ) : searchResult.length !== 0 ? (
-                    <PropertyGrid>
-                      {searchResult?.map((item) => {
-                        return <PropertyCard data={item} key={item.id} />;
-                      })}
-                    </PropertyGrid>
-                  ) : (
-                    <Text
-                      color="gray.500"
-                      textAlign="center"
-                      fontSize="lg"
-                      mt="8"
-                    >
-                      No properties found.
-                    </Text>
-                  )}
-                </Flex>
-              )}
-            </Flex>
-          </Box>
+          <Grid
+            templateColumns={{ lg: showMap ? "1fr 1fr" : "1fr", md: "1fr" }}
+            gap={4}
+          >
+            <Box height="500px" overflowY={showMap && "auto"}>
+              <Flex direction="row" gap={2}>
+                {(
+                  <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
+                    {filteredData?.length !== 0 && !isSearched ? (
+                      <PropertyGrid
+                        medium={showMap ? 3 : 3}
+                        large={showMap ? 2 : 4}
+                        extra={showMap ? 2 : 4}
+                        small={2}
+                      >
+                        {filteredData?.map((item: any) => (
+                          <PropertyCard data={item} key={item.id} />
+                        ))}
+                      </PropertyGrid>
+                    ) : searchResult.length !== 0 ? (
+                      <PropertyGrid medium={showMap ? 3 : 3} large={showMap ? 2 : 4} extra={showMap ? 2 : 4} small={2}>
 
-          {data && showMap && (
-            <Box flex={1} flexBasis={0} height={500}>
-              {filteredData?.length !== 0 &&
-              searchResult.length === 0 &&
-              !isSearched ? (
-                <div>
-                  <ListMap locations={filteredData} />
-                </div>
-              ) : (
-                <ListMap
-                  locations={searchResult}
-                  searchedLat={latitude}
-                  searchedLong={longitude}
-                />
-              )}
+                        {searchResult?.map((item) => {
+                          return <PropertyCard data={item} key={item.id} />;
+                        })}
+                      </PropertyGrid>
+                    ) : (
+                      <Text
+                        color="gray.500"
+                        textAlign="center"
+                        fontSize="lg"
+                        mt="8"
+                      >
+                        No properties found.
+                      </Text>
+                    )}
+                  </Flex>
+                )}
+              </Flex>
             </Box>
-          )}
+
+            {data && showMap && (
+              <Box flex={1} flexBasis={0} height={500}>
+                {filteredData?.length !== 0 &&
+                searchResult.length === 0 &&
+                !isSearched ? (
+                  <div>
+                    <ListMap locations={filteredData} />
+                  </div>
+                ) : (
+                  <ListMap
+                    locations={searchResult}
+                    searchedLat={latitude}
+                    searchedLong={longitude}
+                  />
+                )}
+              </Box>
+            )}
+          </Grid>
         </Box>
       )}
-      <Flex direction="column" align="center" mt={4}>
+      <Flex direction="column" align="center" mt={4} >
         <Box
           position="fixed"
           bottom="1rem"
@@ -266,7 +276,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
             leftIcon={<BiMapPin />}
             onClick={() => setShowMap(!showMap)}
             zIndex={900002}
-            display={{ base: "none", lg: "block" }}
             fontSize="1rem"
             fontWeight="bold"
             background="black"
