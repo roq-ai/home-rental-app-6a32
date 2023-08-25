@@ -278,7 +278,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
               backgroundColor: "black",
             }}
           >
-            {showMap ? "Show Map" : "Hide Map"}
+            {showMap ? "Hide Map" : "Show Map"}
           </Button>
         </Box>
       </Flex>
