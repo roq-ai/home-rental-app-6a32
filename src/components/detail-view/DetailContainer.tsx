@@ -17,7 +17,7 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { useEffect, useRef, useState } from "react";
 import { Promos } from "./Promos";
-import { createBooking, getBookings } from "apiSdk/bookings";
+import { createBooking } from "apiSdk/bookings";
 import { useRouter } from "next/router";
 import {
   AccessOperationEnum,
@@ -28,13 +28,11 @@ import {
 import useSWR from "swr";
 import { getUsers } from "apiSdk/users";
 import { UserInterface } from "interfaces/user";
-import { PaginatedInterface } from "interfaces";
-import { BookingInterface } from "interfaces/booking";
 
 import { FiEdit2 } from "react-icons/fi";
 import NextLink from "next/link";
 export const DetailContainer = (props: any) => {
-  const { session } = useSession();
+  const { session, status } = useSession();
   const { data, rootProps } = props;
   const router = useRouter();
   const { hasAccess } = useAuthorizationApi();
@@ -57,24 +55,13 @@ export const DetailContainer = (props: any) => {
   );
   function formatDate(date: any) {
     const year = date.getFullYear();
-    const month = date.getMonth() + 1; // Adding 1 because getMonth() returns 0-11
+    const month = date.getMonth() + 1;
     const day = date.getDate();
 
-    // Format the date as "YYYY-MM-DD"
     return `${year}-${month.toString().padStart(2, "0")}-${day
       .toString()
       .padStart(2, "0")}`;
   }
-
-  const {
-    data: existingBookings,
-    error: existingBookingsError,
-    isLoading: existingBookingsLoading,
-    mutate,
-  } = useSWR<PaginatedInterface<BookingInterface>>(
-    () => "/bookings",
-    () => getBookings()
-  );
 
   const handleSelect = (ranges: any) => {
     console.log(ranges, "ranges");
@@ -93,7 +80,9 @@ export const DetailContainer = (props: any) => {
   const { numDays, totalPrice } = calculateTotalPrice();
   const handleReserveClick = async () => {
     setReserveIsLoading(true);
-    console.log(guest, "guest number");
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
     try {
       const startDateFormatted = formatDate(startDate);
       const endDateFormatted = formatDate(endDate);
@@ -109,8 +98,7 @@ export const DetailContainer = (props: any) => {
       };
 
       const bookingresponse = await createBooking(bookingData);
-      console.log(bookingresponse?.error, "booking data here");
-      console.log(bookingresponse, "response");
+
       if (bookingresponse && bookingresponse.identifier) {
         toast({
           title: "Property Already Reserved",
@@ -155,6 +143,8 @@ export const DetailContainer = (props: any) => {
     };
   }, []);
 
+  console.log("from container", { data });
+
   return (
     <>
       {hasAccess(
@@ -182,7 +172,7 @@ export const DetailContainer = (props: any) => {
             leftIcon={
               <FiEdit2 width="12px" height="12px" color="state.info.main" />
             }
-            alignSelf="flex-end" // Add this line to align the button to the end
+            alignSelf="flex-end"
           >
             Edit
           </Button>
@@ -206,7 +196,8 @@ export const DetailContainer = (props: any) => {
         <Box flex="1">
           <Promos />
         </Box>
-        {session?.user?.roles?.[0] === "guest" ? (
+        {session?.user?.roles?.[0] === "guest" ||
+        status === "unauthenticated" ? (
           <Box flex="1" boxShadow="md" bg="white" borderRadius="md" p={8}>
             <Stack spacing={{ base: "4", md: "8" }}>
               <Stack spacing={{ base: "2", md: "4" }}>

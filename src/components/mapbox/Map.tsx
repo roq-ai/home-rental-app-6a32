@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import { Box } from "@chakra-ui/react";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;
 
 const Map = ({
-    onLocationSelect,
-    setLongitude,
-    setLatitude,
-    latitude,
-    longitude,
-}:any) => {
+  onLocationSelect,
+  setLongitude,
+  setLatitude,
+  latitude,
+  longitude,
+}: any) => {
   const [map, setMap] = useState(null);
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const Map = ({
       mapInstance.addControl(geocoder);
 
       setMap(mapInstance);
-      
+
       geocoder.on("result", function (e) {
         const longitude = String(e.result.geometry.coordinates[0]);
         const latitude = String(e.result.geometry.coordinates[1]);
@@ -38,7 +39,6 @@ const Map = ({
         setLongitude(longitude);
         setLatitude(latitude);
         onLocationSelect({ name, longitude, latitude });
-       
       });
     };
 
@@ -47,7 +47,7 @@ const Map = ({
     }
   }, [latitude, longitude, map, onLocationSelect, setLatitude, setLongitude]);
 
-  return <div id="map" style={{ width: "100%", height: "500px" }} />;
+  return <Box id="map" style={{ width: "100%", height: "500px" }} />;
 };
 
 export default Map;

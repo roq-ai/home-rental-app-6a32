@@ -7,14 +7,14 @@ import { HttpMethod, convertMethodToOperation, convertQueryToPrismaUtil } from '
 import { getServerSession } from '@roq/nextjs';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { roqUserId, user } = await getServerSession(req);
-  await prisma.property
-    .withAuthorization({
-      roqUserId,
-      tenantId: user.tenantId,
-      roles: user.roles,
-    })
-    .hasAccess(req.query.id as string, convertMethodToOperation(req.method as HttpMethod));
+  // const { roqUserId, user } = await getServerSession(req);
+  // await prisma.property
+  //   .withAuthorization({
+  //     roqUserId,
+  //     tenantId: user.tenantId,
+  //     roles: user.roles,
+  //   })
+  //   .hasAccess(req.query.id as string, convertMethodToOperation(req.method as HttpMethod));
 
   switch (req.method) {
     case 'GET':

@@ -4,48 +4,24 @@ import {
   requireNextAuth,
   withAuthorization,
   useAuthorizationApi,
-  useSession,
 } from "@roq/nextjs";
 import { compose } from "lib/compose";
-import {
-  Box,
-  Button,
-  Flex,
-  IconButton,
-  Input,
-  Link,
-  Spinner,
-  Text,
-  TextProps,
-} from "@chakra-ui/react";
-import { ColumnDef } from "@tanstack/react-table";
-import Table from "components/table";
+import { Box, Button, Flex, Spinner, Text, TextProps } from "@chakra-ui/react";
 import {
   useDataTableParams,
   ListDataFiltersType,
 } from "components/table/hook/use-data-table-params.hook";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import { FiEdit2, FiPlus, FiTrash } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 import useSWR from "swr";
-import { PaginatedInterface } from "interfaces";
 import { withAppLayout } from "lib/hocs/with-app-layout.hoc";
-import {
-  getProperties,
-  deletePropertyById,
-  getPropertyById,
-  searchProperties,
-} from "apiSdk/properties";
+import { getProperties } from "apiSdk/properties";
 import { PropertyInterface } from "interfaces/property";
 import { PropertyGrid } from "components/property-list/PropertyGrid";
 import PropertyCard from "components/property-list/PropertyList";
 import { useFilter } from "context/FilterContext";
-import { BiMapPin } from "react-icons/bi";
 import ListMap from "components/mapbox/ListMap";
-import { getCompanyById } from "apiSdk/companies";
-
-type ColumnType = ColumnDef<PropertyInterface, unknown>;
 
 interface PropertyListPageProps {
   filters?: ListDataFiltersType;
@@ -113,9 +89,10 @@ export function PropertyListPage(props: PropertyListPageProps) {
       params.filters,
     ]
   );
-  const { data, error, isLoading, mutate } = useSWR<
-    PaginatedInterface<PropertyInterface>
-  >(() => `/properties?params=${JSON.stringify(params)}`, fetcher);
+  const { data, error, isLoading, mutate } = useSWR(
+    () => `/properties?params=${JSON.stringify(params)}`,
+    fetcher
+  );
   const [showMap, setShowMap] = useState(false);
   const {
     filteredValue,
@@ -125,7 +102,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
     selectedPropertyType,
     minValue,
     maxValue,
-    FilterNumber,
     setFilterNumber,
     searchResult,
     isSearched,
@@ -141,12 +117,11 @@ export function PropertyListPage(props: PropertyListPageProps) {
 
   useEffect(() => {
     if (filterIsEmpty) {
-      mutate(); // Trigger refetch when all filters are empty
+      mutate();
     }
   }, [filterIsEmpty, mutate]);
 
   const filterMatches = (item: PropertyInterface) => {
-    // Filter based on amenities
     if (
       selectedAmenities.length > 0 &&
       (!item.amenities || item.amenities.length === 0)
@@ -182,7 +157,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
     );
   };
 
-  const filteredData =
+  const filteredData: any =
     selectedAmenities.length > 0 ||
     selectedBeds ||
     selectedBaths ||
@@ -192,31 +167,12 @@ export function PropertyListPage(props: PropertyListPageProps) {
       ? data?.filter(filterMatches)
       : data;
   useEffect(() => {
-    setFilterNumber(filteredData?.length as unknown as string);
+    setFilterNumber(filteredData?.length);
   }, [filteredData, setFilterNumber]);
 
-  const router = useRouter();
-  const [deleteError, setDeleteError] = useState(null);
   useEffect(() => {
-    setFilterNumber(filteredData?.length as unknown as string);
+    setFilterNumber(filteredData?.length);
   }, [filteredData, setFilterNumber]);
-
-  const handleDelete = async (id: string) => {
-    setDeleteError(null);
-    try {
-      await deletePropertyById(id);
-      await mutate();
-    } catch (error) {
-      setDeleteError(error);
-    }
-  };
-  const handleView = (row: PropertyInterface) => {
-    if (
-      hasAccess("property", AccessOperationEnum.READ, AccessServiceEnum.PROJECT)
-    ) {
-      router.push(`/properties/view/${row.id}`);
-    }
-  };
 
   return (
     <Box

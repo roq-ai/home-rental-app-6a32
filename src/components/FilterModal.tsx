@@ -64,7 +64,8 @@ const FormModal = () => {
     setMinValue: setMinValueContext,
     setMaxValue: setMaxValueContext,
     FilterNumber,
-    isSetSearched
+    isSetSearched,
+    selectedAmenities: contextAmen,
   } = useFilter();
 
   const toggleAmenity = (amenityName: string) => {
@@ -94,15 +95,10 @@ const FormModal = () => {
     setMinValueContext("");
     setMaxValueContext("");
   };
-  console.log("amentities", selectedAmenities);
-  console.log("value 1", selectedBeds);
-  console.log("value 2", selectedBeds);
-  console.log("value 3", selectedPropertyType);
-
 
   const onClickButton = () => {
-    isSetSearched(false)
-    onOpen()
+    isSetSearched(false);
+    onOpen();
   };
   return (
     <Box>

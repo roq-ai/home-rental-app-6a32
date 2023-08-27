@@ -3,13 +3,6 @@ import Breadcrumbs from "components/breadcrumb";
 import AppLayout from "layout/app-layout";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import { compose } from "lib/compose";
-import {
-  AccessOperationEnum,
-  AccessServiceEnum,
-  requireNextAuth,
-  withAuthorization,
-} from "@roq/nextjs";
 
 import { getPropertyById } from "apiSdk/properties";
 import { PropertyInterface } from "interfaces/property";
@@ -38,7 +31,7 @@ function PropertyViewPage() {
           items={[
             {
               label: "Properties",
-              link: "/properties",
+              link: "/",
             },
             {
               label: "Property Details",
@@ -56,13 +49,4 @@ function PropertyViewPage() {
   );
 }
 
-export default compose(
-  requireNextAuth({
-    redirectTo: "/login",
-  }),
-  withAuthorization({
-    service: AccessServiceEnum.PROJECT,
-    entity: "property",
-    operation: AccessOperationEnum.READ,
-  })
-)(PropertyViewPage);
+export default PropertyViewPage;

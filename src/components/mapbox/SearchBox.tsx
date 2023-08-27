@@ -1,27 +1,35 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SearchBox } from "@mapbox/search-js-react";
 import { useFilter } from "context/FilterContext";
+import { useToast } from "@chakra-ui/react";
 
 function Search({ expanded }: any) {
   const searchBoxRef = useRef(null);
   const [searched, setSearched] = useState("");
-  console.log({ searched });
   const {
     setFilteredValue,
     setSearchResult,
     setLatitude,
     setLongitude,
     isSearched,
-
     isSetSearched,
   } = useFilter();
 
+  const toast = useToast();
   const handleRetrieve = (res: any) => {
-    const { latitude, longitude } = res.features?.[0]?.properties?.coordinates;
-
-    setLatitude(latitude);
-    setLongitude(longitude);
-
+    const response = res.features?.[0]?.properties?.coordinates;
+    if (!response?.latitude && !response?.longitude) {
+      toast({
+        title: "Invalid location",
+        description: "Search Valid,Please search again with another location",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+    setLatitude(response?.latitude);
+    setLongitude(response?.longitude);
     setFilteredValue(res.features?.[0]?.properties?.name);
     setSearched(res.features?.[0]?.properties?.name);
   };

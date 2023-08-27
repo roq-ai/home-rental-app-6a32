@@ -29,14 +29,10 @@ import { compose } from "lib/compose";
 
 import { createProperty } from "apiSdk/properties";
 import { propertyValidationSchema } from "validationSchema/properties";
-import { CompanyInterface } from "interfaces/company";
-import { getCompanies } from "apiSdk/companies";
 import { PropertyInterface } from "interfaces/property";
-import useSWR from "swr";
 import Map from "components/mapbox/Map";
 
 function PropertyCreatePage() {
-  const TOKEN = process.env.NEXT_PUBLIC_MAP_TOKEN;
   const router = useRouter();
   const [error, setError] = useState(null);
   const [images, setImages] = useState([]);

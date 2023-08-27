@@ -10,7 +10,9 @@ export default function PropertyCard({ data }: any) {
   return (
     <NextLink
       href={
-        status === "authenticated" ? `/properties/view/${data.id}` : `/login`
+        status === "unauthenticated"
+          ? `/properties/view/view/${data.id}`
+          : `/properties/view/${data.id}`
       }
       key={data.id}
     >

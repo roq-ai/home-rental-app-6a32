@@ -85,7 +85,12 @@ const ListMap = ({ locations }: any) => {
   return (
     <Box
       ref={mapContainerRef}
-      style={{ width: "auto", height: "70vh", overflow: "hidden" }}
+      style={{
+        width: "auto",
+        height: "70vh",
+        // overflow: "hidden",
+        position: "sticky",
+      }}
     />
   );
 };

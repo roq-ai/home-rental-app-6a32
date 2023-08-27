@@ -59,17 +59,6 @@ let currentUser: any;
 function HomePage() {
   const { session } = useSession();
   currentUser = session?.user?.roles?.[0];
-  const router = useRouter();
-  const [redirectTo, setRedirectTo] = useState("/");
-
-  // Update redirectTo based on currentUser
-  useEffect(() => {
-    if (currentUser === "host") {
-      setRedirectTo("/my-properties");
-    } else if (currentUser === "guest") {
-      setRedirectTo("/properties");
-    }
-  }, [currentUser, router]);
 
   return (
     <>
@@ -163,13 +152,8 @@ function HomePage() {
     </>
   );
 }
-let redirectToPath = "/";
-if (currentUser === "host") {
-  redirectToPath = "/my-properties";
-} else if (currentUser === "guest") {
-  redirectToPath = "/properties";
-}
+
 export default requireNextAuth({
   redirectIfAuthenticated: true,
-  redirectTo: "properties",
+  redirectTo: "/properties",
 })(HomePage);

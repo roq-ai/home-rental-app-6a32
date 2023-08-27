@@ -10,11 +10,11 @@ import {
   HStack,
   IconButton,
   IconProps,
-  Text,
   useBreakpointValue,
   useDisclosure,
   Icon,
   Link as ChakraLink,
+  Spinner,
 } from "@chakra-ui/react";
 import {
   ChatMessageBell,
@@ -27,11 +27,9 @@ import {
   AccessOperationEnum,
 } from "@roq/nextjs";
 import ConfigureCodeBanner from "components/configure-code-banner";
-import { useBanner } from "lib/hooks/use-banner";
 import { HelpBox } from "components/help-box";
 import { PoweredBy } from "components/powered-by";
 import React, { ReactNode, useCallback, useEffect, useState } from "react";
-import { useColorModeValue } from "@chakra-ui/react";
 import { GithubIcon } from "icons/github-icon";
 import { SlackIcon } from "icons/slack-icon";
 import { TwitterIcon } from "icons/twitter-icon";
@@ -39,42 +37,22 @@ import { YoutubeIcon } from "icons/youtube-icon";
 import { AppLogo } from "layout/app-logo";
 import Link from "next/link";
 import { IconType } from "react-icons";
-import * as inflection from "inflection";
 
 import { ChatIcon } from "icons/chat-icon";
-import { CustomerIcon } from "icons/customer-icon";
 import { HamburgerIcon } from "icons/hamburger-icon";
-import { HomeIcon } from "icons/home-icon";
 import { InviteMemberIcon } from "icons/invite-member-icon";
 import { LogoIcon } from "icons/logo-icon";
 import { NotificationIcon } from "icons/notification-icon";
-import { ReservationIcon } from "icons/reservation-icon";
-import { RestaurantIcon } from "icons/restaurant-icon";
-import { TableIcon } from "icons/table-icon";
-import { UserIcon } from "icons/user-icon";
 import { useRouter } from "next/router";
 import { routes } from "routes";
 import useSWR from "swr";
-import {
-  FiMail,
-  FiUsers,
-  FiMenu,
-  FiUser,
-  FiMessageCircle,
-  FiFile,
-  FiBox,
-  FiCalendar,
-  FiBriefcase,
-  FiHome,
-  FiLogIn,
-} from "react-icons/fi";
+import { FiCalendar, FiHome, FiLogIn } from "react-icons/fi";
 
 import { CompanyInterface } from "interfaces/company";
 import { getCompanies } from "apiSdk/companies";
 import { SearchInput } from "components/SearchInput";
 import FormModal from "components/FilterModal";
-import { BiLogIn } from "react-icons/bi";
-
+import { useTransition } from "react";
 interface LinkItemProps {
   name: string;
   icon?: IconType;
@@ -106,60 +84,74 @@ const sidebarFooterLinks = [
   },
 ];
 
+import { Suspense } from "react";
+
+function Loader() {
+  return (
+    <Flex align="center" justify="center" w="100%" h="60vh">
+      <Spinner size="lg" color="black" />
+    </Flex>
+  );
+}
+
 export default function AppLayout({ children, breadcrumbs }: AppLayoutProps) {
   const { status } = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isMd = useBreakpointValue({ base: false, md: true });
   const [isBannerVisible, setIsBannerVisible] = useState(false);
 
-  useEffect(() => {
-    if (isMd && isOpen) {
-      onClose();
-    }
-  }, [isMd, isOpen, onClose]);
+  // useEffect(() => {
+  //   if (isMd && isOpen) {
+  //     onClose();
+  //   }
+  // }, [isMd, isOpen, onClose]);
 
   return (
-    <Box h={isBannerVisible ? "calc(100vh - 40px)" : "100vh"} bg={"base.100"}>
-      <ConfigureCodeBanner
-        isBannerVisible={isBannerVisible}
-        setIsBannerVisible={setIsBannerVisible}
-      />
-      <HelpBox />
-      {status === "authenticated" ? (
-        <SidebarContent
-          transition="none"
-          h={isBannerVisible ? "calc(100vh - 40px)" : "100vh"}
-          onClose={() => onClose}
-          display={{ base: "none", md: "block" }}
+    <Suspense fallback={<Loader />}>
+      <Box h={isBannerVisible ? "calc(100vh - 40px)" : "100vh"} bg={"base.100"}>
+        <ConfigureCodeBanner
+          isBannerVisible={isBannerVisible}
+          setIsBannerVisible={setIsBannerVisible}
         />
-      ) : null}
-
-      <Drawer
-        autoFocus={false}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="xs"
-      >
-        <DrawerContent>
+        <HelpBox />
+        {status === "authenticated" ? (
           <SidebarContent
-            onClose={onClose}
-            display={{ base: "block", md: "none" }}
+            transition="none"
+            h={isBannerVisible ? "calc(100vh - 40px)" : "100vh"}
+            onClose={() => onClose}
+            display={{ base: "none", md: "block" }}
           />
-        </DrawerContent>
-      </Drawer>
-      {/* mobilenav */}
-      <MobileNav onOpen={onOpen} isBannerVisible={isBannerVisible} />
+        ) : null}
+        <Drawer
+          autoFocus={false}
+          isOpen={isOpen}
+          placement="left"
+          onClose={onClose}
+          returnFocusOnClose={false}
+          onOverlayClick={onClose}
+          size="xs"
+        >
+          <DrawerContent>
+            <SidebarContent
+              onClose={onClose}
+              display={{ base: "block", md: "none" }}
+            />
+          </DrawerContent>
+        </Drawer>
+        {/* mobilenav */}
+        <MobileNav onOpen={onOpen} isBannerVisible={isBannerVisible} />
 
-      <Box ml={{ base: 0, md: `${status === "authenticated" ? 60 : 0}` }} p="8">
-        {/* Breadcrumbs */}
-        {breadcrumbs ? breadcrumbs : null}
-        {/* Content */}
-        {children}
+        <Box
+          ml={{ base: 0, md: `${status === "authenticated" ? 60 : 0}` }}
+          p="8"
+        >
+          {/* Breadcrumbs */}
+          {breadcrumbs ? breadcrumbs : null}
+          {/* Content */}
+          {children}
+        </Box>
       </Box>
-    </Box>
+    </Suspense>
   );
 }
 
@@ -392,7 +384,6 @@ const MobileNav = ({ onOpen, isBannerVisible, ...rest }: MobileProps) => {
     onOpen: onFilterOpen,
     onClose: onFilterClose,
   } = useDisclosure();
-  const [filteredValue, setFilteredValue] = useState("");
   return (
     <Flex
       px={{ base: 4, md: 8 }}

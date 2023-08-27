@@ -10,7 +10,6 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
-import { FaMapMarkerAlt } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css";
@@ -19,15 +18,9 @@ import useSWR from "swr";
 import { getProperties, searchProperties } from "apiSdk/properties";
 import { useFilter } from "context/FilterContext";
 import { useDataTableParams } from "./table/hook/use-data-table-params.hook";
-import {
-  PropertyGetQueryInterface,
-  PropertyInterface,
-} from "interfaces/property";
-import { PaginatedInterface } from "interfaces";
+import { PropertyGetQueryInterface } from "interfaces/property";
 import { QuantityPicker } from "./detail-view/QuantityPicker";
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
-// import { SearchBox } from "@mapbox/search-js-react";
 import dynamic from "next/dynamic";
 
 const DynamicSearchBox = dynamic(() => import("./mapbox/SearchBox"), {
@@ -35,21 +28,12 @@ const DynamicSearchBox = dynamic(() => import("./mapbox/SearchBox"), {
 }) as any;
 
 export const SearchInput = () => {
-  const [searchInput, setSearchInput] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [searchProperty, setSearchProperty] = useState(null);
-  const [showLocationList, setShowLocationList] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const {
-    filteredValue,
-    setFilteredValue,
     setSearchResult,
     setGuest,
     guest,
-    searchResult,
-    setSearchedLat,
-    setSearchedLong,
     latitude,
     longitude,
     isSearched,
@@ -69,7 +53,7 @@ export const SearchInput = () => {
   function formatDate(date: any) {
     const year = date?.getFullYear() ?? new Date().getFullYear();
 
-    const month = date?.getMonth() + 1 ?? new Date().getMonth() + 1; // Adding 1 because getMonth() returns 0-11
+    const month = date?.getMonth() + 1 ?? new Date().getMonth() + 1;
     const day = date?.getDate() ?? new Date().getDate();
 
     // Format the date as "YYYY-MM-DD"

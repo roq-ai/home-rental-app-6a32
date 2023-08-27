@@ -7,7 +7,6 @@ import {
 import { Button, Grid, Spinner } from "@chakra-ui/react";
 import { compose } from "lib/compose";
 import { Box, Flex, Text, TextProps } from "@chakra-ui/react";
-import { ColumnDef } from "@tanstack/react-table";
 import {
   useDataTableParams,
   ListDataFiltersType,
@@ -15,15 +14,13 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import useSWR from "swr";
 import { withAppLayout } from "lib/hocs/with-app-layout.hoc";
-import { getProperties, getPropertyProperties } from "apiSdk/properties";
+import { getPropertyProperties } from "apiSdk/properties";
 import { PropertyInterface } from "interfaces/property";
 import { PropertyGrid } from "components/property-list/PropertyGrid";
 import PropertyCard from "components/property-list/PropertyList";
 import { useFilter } from "context/FilterContext";
 import ListMap from "components/mapbox/ListMap";
 import { BiMapPin } from "react-icons/bi";
-
-type ColumnType = ColumnDef<PropertyInterface, unknown>;
 
 interface PropertyListPageProps {
   filters?: ListDataFiltersType;
@@ -109,7 +106,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
     latitude,
   } = useFilter();
   const filterIsEmpty =
-    !filteredValue &&
     selectedAmenities.length === 0 &&
     !selectedBeds &&
     !selectedBaths &&
@@ -167,18 +163,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
     setFilterNumber(filteredData?.length as unknown as string);
   }, [filteredData, setFilterNumber]);
 
-  useEffect(() => {
-    setFilterNumber(filteredData?.length as unknown as string);
-  }, [filteredData, setFilterNumber]);
-
-  // if (isLoading) {
-  //   return (
-  //     <Flex align="center" justify="center" w="100%" h="100%">
-  //       <Spinner size="lg" color="black" />
-  //     </Flex>
-  //   );
-  // }
-  console.log(searchResult, "searched result");
   return (
     <Box
       maxW="7xl"
@@ -198,17 +182,32 @@ export function PropertyListPage(props: PropertyListPageProps) {
           Properties
         </Text>
       </Flex>
-      {data == undefined ? (
-        <Flex align="center" justify="center" w="100%" h="60vh">
-          <Spinner size="lg" color="black" />
-        </Flex>
-      ) : (
+      {
         <Box>
           <Grid
             templateColumns={{ lg: showMap ? "1fr 1fr" : "1fr", md: "1fr" }}
             gap={4}
           >
-            <Box height="500px" overflowY={showMap && "auto"}>
+            <Box
+              height="500px"
+              overflowY={showMap ? "auto" : "hidden"}
+              css={{
+                maxHeight: "70vh",
+                scrollbarWidth: "thin",
+                scrollbarColor: "#333 #333",
+                "&::-webkit-scrollbar": {
+                  width: "4px",
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  backgroundColor: "#333",
+                  borderRadius: "3px",
+                },
+                "&::-webkit-scrollbar-track": {
+                  backgroundColor: "#f0e6f6",
+                },
+                overflowX: "hidden",
+              }}
+            >
               <Flex direction="row" gap={2}>
                 {
                   <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
@@ -254,9 +253,9 @@ export function PropertyListPage(props: PropertyListPageProps) {
                 {filteredData?.length !== 0 &&
                 searchResult.length === 0 &&
                 !isSearched ? (
-                  <div>
+                  <Box>
                     <ListMap locations={filteredData} />
-                  </div>
+                  </Box>
                 ) : (
                   <ListMap
                     locations={searchResult}
@@ -268,7 +267,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
             )}
           </Grid>
         </Box>
-      )}
+      }
       <Flex direction="column" align="center" mt={4}>
         <Box
           position="fixed"
