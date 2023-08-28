@@ -14,7 +14,12 @@ function MessageHost() {
   };
 
   return (
-    <Stack spacing={4} mt={6} width="80%" mx="auto">
+    <Stack
+      spacing={4}
+      mt={6}
+      width={{ sm: "100%", md: "80%", lg: "70%" }}
+      mx="auto"
+    >
       <Box
         bg="white"
         // boxShadow="lg"
@@ -39,10 +44,10 @@ function MessageHost() {
         </Box>
         <Divider my={3} />
         {conversationId && (
-          <Box width="100%" height="450px">
+          <Box width="100%" height="500px">
             <ChatWindow
               conversationId={conversationId as string}
-              style={{ overflowY: "hidden" }}
+              style={{ overflowY: "scroll" }}
             />
           </Box>
         )}

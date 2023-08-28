@@ -44,7 +44,7 @@ const ListMap = ({ locations }: any) => {
         locations?.longitude ? Number(locations?.longitude) : Number(longitude),
         locations?.latitude ? Number(locations?.latitude) : Number(latitude),
       ],
-      zoom: longitude ? 6 : 1,
+      zoom: longitude ? 10 : 1,
     });
 
     locations?.forEach((location: any) => {
