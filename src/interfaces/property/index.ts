@@ -24,6 +24,7 @@ export interface PropertyInterface {
   location?: string;
   longitude: string;
   latitude: string;
+  coords:string;
   company_id?: string;
   created_at?: any;
   updated_at?: any;

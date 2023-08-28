@@ -2,7 +2,7 @@ version: '3'
 
 services:
   roqstarterdb:
-    image: postgres:14.2-alpine
+    image: postgis/postgis:14-3.1
     restart: always
     environment:
       POSTGRES_USER: roqdev
@@ -12,3 +12,15 @@ services:
       PGDATABASE: roqdev
     ports:
       - "5436:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  pg_data:
+    

@@ -40,15 +40,16 @@ export default async function handler(
     console.log(latitudeOffset,longitudeOffset,"offset")
     let typeOfSearch ;
 
-    const seachByAllLocation = [
+    const searchSpecificLocation = [
       {
-        latitude: {
-          gte: String(latitude - latitudeOffset),
-          lte: String(latitude + latitudeOffset),
-        },
-        longitude: {
-          gte: String(longitude - longitudeOffset),
-          lte: String(longitude + longitudeOffset),
+        coords: {
+          ST_DWithin: {
+            point: {
+              x: longitude,
+              y: latitude,
+            },
+            distance: 50000, // Distance in meters (50 km)
+          },
         },
       },
       {
@@ -72,7 +73,7 @@ export default async function handler(
       },
     ]
 
-    const searchForSpecificLocation = [
+    const searchInAllLocation = [
       
       {
         num_of_guest: {
@@ -95,11 +96,11 @@ export default async function handler(
       },
     ]
     if(req.query.latitude == null || req.query.latitude == "" || req.query.longitude ==null || req.query.longitude == ""){
-      typeOfSearch = searchForSpecificLocation
+      typeOfSearch = searchInAllLocation
       console.log("all location")
     }
     else{
-      typeOfSearch = seachByAllLocation
+      typeOfSearch = searchSpecificLocation
       console.log("not all")
     }
 
