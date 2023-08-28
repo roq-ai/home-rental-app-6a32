@@ -107,7 +107,7 @@ export default function AppLayout({ children, breadcrumbs }: AppLayoutProps) {
   // }, [isMd, isOpen, onClose]);
 
   return (
-    <Suspense fallback={<Loader />}>
+    // <Suspense fallback={<Loader />}>
       <Box h={isBannerVisible ? "calc(100vh - 40px)" : "100vh"} bg={"base.100"}>
         <ConfigureCodeBanner
           isBannerVisible={isBannerVisible}
@@ -147,11 +147,10 @@ export default function AppLayout({ children, breadcrumbs }: AppLayoutProps) {
         >
           {/* Breadcrumbs */}
           {breadcrumbs ? breadcrumbs : null}
-          {/* Content */}
           {children}
         </Box>
       </Box>
-    </Suspense>
+    // </Suspense>
   );
 }
 

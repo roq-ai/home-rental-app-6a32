@@ -189,24 +189,24 @@ export function PropertyListPage(props: PropertyListPageProps) {
             gap={4}
           >
             <Box
-              height="500px"
+              // maxHeight="70vh"
               overflowY={showMap ? "auto" : "hidden"}
-              css={{
-                maxHeight: "70vh",
-                scrollbarWidth: "thin",
-                scrollbarColor: "#333 #333",
-                "&::-webkit-scrollbar": {
-                  width: "4px",
-                },
-                "&::-webkit-scrollbar-thumb": {
-                  backgroundColor: "#333",
-                  borderRadius: "3px",
-                },
-                "&::-webkit-scrollbar-track": {
-                  backgroundColor: "#f0e6f6",
-                },
-                overflowX: "hidden",
-              }}
+              // css={{
+              //   maxHeight: "70vh",
+              //   scrollbarWidth: "thin",
+              //   scrollbarColor: "#333 #333",
+              //   "&::-webkit-scrollbar": {
+              //     width: "4px",
+              //   },
+              //   "&::-webkit-scrollbar-thumb": {
+              //     backgroundColor: "#333",
+              //     borderRadius: "3px",
+              //   },
+              //   "&::-webkit-scrollbar-track": {
+              //     backgroundColor: "#f0e6f6",
+              //   },
+              //   overflowX: "hidden",
+              // }}
             >
               <Flex direction="row" gap={2}>
                 {
