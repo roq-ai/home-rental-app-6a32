@@ -10,15 +10,14 @@ import {
 } from "@chakra-ui/react";
 import { MdGraphicEq } from "react-icons/md";
 
-const PriceRangeSlider = ({ setMaxValueContext, setMinValueContext }: any) => {
-  const minValue = 0;
-  const maxValue = 4000;
-
-  const [sliderValues, setSliderValues] = useState<[number, number]>([
-    minValue,
-    maxValue,
-  ]);
-
+const PriceRangeSlider = ({
+  setMaxValueContext,
+  setMinValueContext,
+  sliderValues,
+  setSliderValues,
+  minValue,
+  maxValue,
+}: any) => {
   useEffect(() => {
     setMinValueContext(sliderValues[0]);
     setMaxValueContext(sliderValues[1]);

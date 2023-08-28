@@ -5,25 +5,18 @@ import {
   useDataTableParams,
   ListDataFiltersType,
 } from "components/table/hook/use-data-table-params.hook";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { getHomeProperties } from "apiSdk/properties";
 import { PropertyInterface } from "interfaces/property";
 import { useFilter } from "context/FilterContext";
 import { useRouter } from "next/router";
-import { withAppLayout } from "lib/hocs/with-app-layout.hoc";
-import { compose } from "lib/compose";
 import ListMap from "components/mapbox/ListMap";
 import { PropertyGrid } from "components/property-list/PropertyGrid";
 import PropertyCard from "components/property-list/PropertyList";
 import { BiMapPin } from "react-icons/bi";
 import React from "react";
 import AppLayout from "layout/app-layout";
-
-// async function outerCompose() {
-//   const dynamicCompose = await import("../lib/compose");
-//   return dynamicCompose.compose(withAppLayout());
-// }
 
 interface PropertyListPageProps {
   filters?: ListDataFiltersType;

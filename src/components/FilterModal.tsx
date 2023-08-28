@@ -49,13 +49,14 @@ const FormModal = () => {
     onClose();
   };
 
+  const [sliderValues, setSliderValues] = useState<[number, number]>([0, 4000]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [selectedBeds, setSelectedBeds] = useState<string>("");
   const [selectedBaths, setSelectedBaths] = useState<string>("");
   const [selectedPropertyType, setSelectedPropertyType] = useState<string>("");
-  const [minValue, setMinValue] = useState("");
-  const [maxValue, setMaxValue] = useState("");
+  const [minValue, setMinValue] = useState(0);
+  const [maxValue, setMaxValue] = useState(4000);
   const {
     setSelectedAmenities: setSelectedAmenitiesContext,
     setSelectedBaths: setSelectedBathsContext,
@@ -65,7 +66,6 @@ const FormModal = () => {
     setMaxValue: setMaxValueContext,
     FilterNumber,
     isSetSearched,
-    selectedAmenities: contextAmen,
   } = useFilter();
 
   const toggleAmenity = (amenityName: string) => {
@@ -86,8 +86,7 @@ const FormModal = () => {
     setSelectedBeds("");
     setSelectedBaths("");
     setSelectedPropertyType("");
-    setMinValue("");
-    setMaxValue("");
+    setSliderValues([0, 4000]);
     setSelectedAmenitiesContext([]);
     setSelectedBedsContext("");
     setSelectedBathsContext("");
@@ -231,6 +230,10 @@ const FormModal = () => {
                   <PriceRangeSlider
                     setMaxValueContext={setMaxValueContext}
                     setMinValueContext={setMinValueContext}
+                    setSliderValues={setSliderValues}
+                    sliderValues={sliderValues}
+                    minValue={minValue}
+                    maxValue={maxValue}
                   />
                   <Divider
                     color="black"
@@ -239,7 +242,6 @@ const FormModal = () => {
                     mt="3"
                     mb="3"
                   />
-
                   <Box>
                     <Text fontSize="md" size="md" fontWeight="bold" mb="4">
                       Property Type

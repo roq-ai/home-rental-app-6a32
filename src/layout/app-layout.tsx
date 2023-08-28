@@ -100,11 +100,11 @@ export default function AppLayout({ children, breadcrumbs }: AppLayoutProps) {
   const isMd = useBreakpointValue({ base: false, md: true });
   const [isBannerVisible, setIsBannerVisible] = useState(false);
 
-  // useEffect(() => {
-  //   if (isMd && isOpen) {
-  //     onClose();
-  //   }
-  // }, [isMd, isOpen, onClose]);
+  useEffect(() => {
+    if (isMd && isOpen) {
+      onClose();
+    }
+  }, [isMd, isOpen, onClose]);
 
   return (
     <Suspense fallback={<Loader />}>

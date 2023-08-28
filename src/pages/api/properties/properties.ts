@@ -1,27 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "server/db";
 import {
-  authorizationValidationMiddleware,
-  errorHandlerMiddleware,
+  errorHandlerMiddleware
 } from "server/middlewares";
-import { propertyValidationSchema } from "validationSchema/properties";
 import {
   convertQueryToPrismaUtil,
   getOrderByOptions,
   parseQueryParams,
 } from "server/utils";
-import { getServerSession } from "@roq/nextjs";
 import { GetManyQueryOptions } from "interfaces";
-import { UserInterface } from "interfaces/user";
-import companies from "pages/companies";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const {roqUserId} = await getServerSession(req)
   switch (req.method) {
     case "GET":
       return getProperties();
-    case "POST":
-      return createProperty();
     default:
       return res
         .status(405)
