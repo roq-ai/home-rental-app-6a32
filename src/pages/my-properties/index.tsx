@@ -93,6 +93,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
     () => `/properties?params=${JSON.stringify(params)}`,
     fetcher
   );
+  console.log(data,"all datas")
   const [showMap, setShowMap] = useState(false);
   const {
     filteredValue,

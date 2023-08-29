@@ -46,8 +46,6 @@ function PropertyCreatePage() {
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
 
-  console.log({ longitude, latitude });
-
   const handleSubmit = async (
     values: PropertyInterface,
     { resetForm }: FormikHelpers<any>
@@ -86,6 +84,7 @@ function PropertyCreatePage() {
       location: "",
       latitude: "",
       longitude: "",
+      coords: "",
     },
     validationSchema: propertyValidationSchema,
     onSubmit: handleSubmit,
@@ -216,6 +215,10 @@ function PropertyCreatePage() {
               formik.setFieldValue("location", name ?? "");
               formik.setFieldValue("longitude", longitude);
               formik.setFieldValue("latitude", latitude);
+              formik.setFieldValue(
+                "coords",
+                `POINT(${parseFloat(longitude)} ${parseFloat(latitude)})`
+              );
             }}
           />
           <TextInput

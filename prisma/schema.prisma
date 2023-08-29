@@ -38,24 +38,29 @@ model company {
 }
 
 model property {
-  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name         String    @db.VarChar(255)
-  description  String?   @db.VarChar(255)
-  price        String    @db.VarChar(255)
-  num_of_guest Int?      @db.Integer
-  num_of_beds  String    @db.VarChar(255)
-  num_of_baths String    @db.VarChar(255)
-  amenities    String[]  @db.VarChar(255)
+  id           String                               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String                               @db.VarChar(255)
+  description  String?                              @db.VarChar(255)
+  price        String                               @db.VarChar(255)
+  num_of_guest Int?                                 @db.Integer
+  num_of_beds  String                               @db.VarChar(255)
+  num_of_baths String                               @db.VarChar(255)
+  amenities    String[]                             @db.VarChar(255)
   image_urls   String[]
-  type         String    @db.VarChar(255)
-  location     String?   @db.VarChar(255)
-  longitude    String    @db.VarChar(255)
-  latitude     String    @db.VarChar(255)
-  company_id   String?   @db.Uuid
-  created_at   DateTime  @default(now()) @db.Timestamp(6)
-  updated_at   DateTime  @default(now()) @db.Timestamp(6)
-  booking      booking[]
-  company      company?  @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  type         String                               @db.VarChar(255)
+  coords       Unsupported("geometry(Point, 4326)")?
+
+  location   String?   @db.VarChar(255)
+  longitude  String    @db.VarChar(255)
+  latitude   String    @db.VarChar(255)
+  company_id String?   @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamp(6)
+  updated_at DateTime  @default(now()) @db.Timestamp(6)
+  booking    booking[]
+  company    company?  @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  // the index for that column
+  @@index([coords], name: "location_idx", type: Gist)
 }
 
 model user {
