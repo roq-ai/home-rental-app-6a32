@@ -53,7 +53,7 @@ export default async function handler(
       },
       {
         num_of_guest: {
-          gte: parseInt(guestNumber),
+          gte: guestNumber,
         },
       },
       {
@@ -76,7 +76,7 @@ export default async function handler(
       
       {
         num_of_guest: {
-          gte: parseInt(guestNumber),
+          gte: guestNumber,
         },
       },
       {

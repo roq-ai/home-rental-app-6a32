@@ -89,7 +89,7 @@ export const SearchInput = () => {
         longitude: query.longitude,
         start_date: startDateFormatted,
         end_date: endDateFormatted,
-        num_of_guest: guest ? parseInt(guest) : 1,
+        num_of_guest: guest ? guest : 1,
       });
 
       setSearchResult(propertiesOnSearch);
@@ -101,8 +101,6 @@ export const SearchInput = () => {
   const quantityPickerRef = useRef(null);
 
   const handleSelect = (ranges: any) => {
-    console.log("hello2");
-    console.log(ranges, "ranges");
     setStartDate(ranges.selection.startDate);
     setEndDate(ranges.selection.endDate);
   };

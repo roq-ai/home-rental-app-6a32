@@ -47,26 +47,26 @@ export const Gallery = (props: any) => {
         }}
       >
         {/* <NextLink href={`/properties/view/${data?.id}`} key={data?.id}> */}
-          <Carousel ref={ref} width="300px">
-            {images?.map((image, i) => (
-              <CarouselSlide key={i}>
-                <AspectRatio
-                  ratio={aspectRatio}
-                  transition="all 200ms"
-                  opacity={currentSlide === i ? 1 : 0.4}
-                  _hover={{ opacity: 1 }}
-                >
-                  <Image
-                    borderRadius="10"
-                    src={image}
-                    objectFit="cover"
-                    alt={image.alt}
-                    fallback={<Skeleton />}
-                  />
-                </AspectRatio>
-              </CarouselSlide>
-            ))}
-          </Carousel>
+        <Carousel ref={ref} width="300px">
+          {images?.map((image: any, i: number) => (
+            <CarouselSlide key={i}>
+              <AspectRatio
+                ratio={aspectRatio}
+                transition="all 200ms"
+                opacity={currentSlide === i ? 1 : 0.4}
+                _hover={{ opacity: 1 }}
+              >
+                <Image
+                  borderRadius="10"
+                  src={image}
+                  objectFit="cover"
+                  alt={image.alt}
+                  fallback={<Skeleton />}
+                />
+              </AspectRatio>
+            </CarouselSlide>
+          ))}
+        </Carousel>
         {/* </NextLink> */}
         {hasPrevious && (
           <CarouselIconButton
@@ -98,7 +98,7 @@ export const Gallery = (props: any) => {
           bottom="0"
           py="4"
         >
-          {images?.map((_, index) => (
+          {images?.map((_: any, index: number) => (
             <Circle
               key={index}
               size="2"

@@ -40,7 +40,7 @@ export const DetailContainer = (props: any) => {
   const [endDate, setEndDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
   const [reserveIsLoading, setReserveIsLoading] = useState(false);
-  const [guest, setGuest] = useState<string>("1");
+  const [guest, setGuest] = useState(1);
   const selectionRange = {
     startDate: startDate,
     endDate: endDate,
@@ -92,7 +92,7 @@ export const DetailContainer = (props: any) => {
         end_date: endDateFormatted,
         guest_id: fetchedData?.[0]?.id,
         property_id: data?.id,
-        num_of_guest: parseInt(guest),
+        num_of_guest: guest,
         num_of_night: String(numDays),
         total_price: String(totalPrice),
       };

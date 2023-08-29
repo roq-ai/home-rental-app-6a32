@@ -26,8 +26,8 @@ type FilterContextType = {
   setLongitude: React.Dispatch<React.SetStateAction<string>>;
   searchResult: PropertyInterface[];
   setSearchResult: React.Dispatch<React.SetStateAction<PropertyInterface[]>>;
-  guest: string;
-  setGuest: React.Dispatch<React.SetStateAction<string>>;
+  guest: number;
+  setGuest: React.Dispatch<React.SetStateAction<number>>;
   searchedLat: string;
   setSearchedLat: React.Dispatch<React.SetStateAction<string>>;
   searchedLong: string;

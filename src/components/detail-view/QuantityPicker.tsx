@@ -18,11 +18,11 @@ interface QuantityPickerProps extends UseControllableStateProps<number> {
   min?: number;
   label?: string;
   rootProps?: FormControlProps;
-  setGuest?: React.Dispatch<React.SetStateAction<string>>;
+  setGuest?: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const QuantityPicker = (props: QuantityPickerProps) => {
-  const { min , max, rootProps, label, setGuest, ...rest } = props;
+  const { min, max, rootProps, label, setGuest, ...rest } = props;
 
   const [value, setValue] = useControllableState(rest);
 
@@ -31,7 +31,7 @@ export const QuantityPicker = (props: QuantityPickerProps) => {
       const updatedValue = value - 1; // Updated value
       setValue(updatedValue);
       if (setGuest) {
-        setGuest(String(updatedValue)); // Use the updatedValue here
+        setGuest(updatedValue); // Use the updatedValue here
       }
     }
   };
@@ -41,11 +41,10 @@ export const QuantityPicker = (props: QuantityPickerProps) => {
       const updatedValue = value + 1; // Updated value
       setValue(updatedValue);
       if (setGuest) {
-        setGuest(String(updatedValue)); // Use the updatedValue here
+        setGuest(updatedValue); // Use the updatedValue here
       }
     }
   };
-
 
   return (
     <FormControl {...rootProps}>
