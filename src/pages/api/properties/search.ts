@@ -33,11 +33,9 @@ export default async function handler(
 
     const startDate = req?.query?.start_date;
     const endDate = req?.query?.end_date;
-    const guestNumber = req?.query?.num_of_guest as unknown as number;
+    const guestNumber = parseInt(req?.query?.num_of_guest as string) ;
     generateDateRangeArray(startDate, endDate);
-    console.log(startDate, endDate, "startend");
-    console.log(latitude,longitude,"latlong1")
-    console.log(latitudeOffset,longitudeOffset,"offset")
+
     let typeOfSearch ;
 
     const seachByAllLocation = [
@@ -94,13 +92,11 @@ export default async function handler(
         },
       },
     ]
-    if(req.query.latitude == null || req.query.latitude == "" || req.query.longitude ==null || req.query.longitude == ""){
+    if(req.query.latitude === null || req.query.latitude === "" || req.query.longitude === null || req.query.longitude === ""){
       typeOfSearch = searchForSpecificLocation
-      console.log("all location")
     }
     else{
       typeOfSearch = seachByAllLocation
-      console.log("not all")
     }
 
     const properties = await prisma.property.findMany({
@@ -108,8 +104,6 @@ export default async function handler(
         AND: typeOfSearch,
       },
     });
-
-    console.log({ properties });
 
     return res.status(200).json(properties);
   }

@@ -48,7 +48,6 @@ function BookingCreatePage() {
       setError(error);
     }
   };
-  // console.log("router", router.query);
 
   const formik = useFormik<BookingInterface>({
     initialValues: {
@@ -56,7 +55,6 @@ function BookingCreatePage() {
       end_date: new Date(new Date().toDateString()),
       guest_id: (router.query.guest_id as string) ?? null,
       property_id: (router.query.property_id as string) ?? null,
-  
     },
     validationSchema: bookingValidationSchema,
     onSubmit: handleSubmit,

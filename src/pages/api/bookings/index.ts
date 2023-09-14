@@ -75,7 +75,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const startDateFormatted = new Date(startDate);
     const endDateFormatted = new Date(endDate);
     const body = { ...req.body };
-    console.log(body,"the body")
     body.start_date = startDateFormatted;
     body.end_date = endDateFormatted;
 
@@ -89,7 +88,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           })),
       },
     });
-    console.log(numberOfBookingNotAvailable,"please 1")
     const property = await prisma.property.findFirst({
       where: { id: body.property_id },
       include: { company: true },
@@ -99,7 +97,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       .users({ filter: { tenantId: { equalTo: property.company.tenant_id } } });
 
     const usersId = usersOfcompany.users.data.map((user) => user.id);
-    console.log("property", { property });
     const conversationId = await roqClient
       .asUser(roqUserId)
       .createConversation({

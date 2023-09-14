@@ -1,14 +1,13 @@
 import { SimpleGrid, SimpleGridProps } from "@chakra-ui/react";
 import { Children, isValidElement, useMemo } from "react";
-interface allInputFields extends SimpleGridProps{
-  base?:number;
-  small?:number;
-  medium?:number;
-  large?:number;
-  extra?:number;
+interface allInputFields extends SimpleGridProps {
+  base?: number;
+  small?: number;
+  medium?: number;
+  large?: number;
+  extra?: number;
 }
 export const PropertyGrid = (props: allInputFields) => {
-  console.log(props?.large,"the large")
   const columns = useMemo(() => {
     const count = Children.toArray(props.children).filter(
       isValidElement

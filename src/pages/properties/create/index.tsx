@@ -46,8 +46,6 @@ function PropertyCreatePage() {
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
 
-  console.log({ longitude, latitude });
-
   const handleSubmit = async (
     values: PropertyInterface,
     { resetForm }: FormikHelpers<any>

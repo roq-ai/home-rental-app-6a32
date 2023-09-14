@@ -52,7 +52,6 @@ export const SearchInput = () => {
 
   function formatDate(date: any) {
     const year = date?.getFullYear() ?? new Date().getFullYear();
-
     const month = date?.getMonth() + 1 ?? new Date().getMonth() + 1;
     const day = date?.getDate() ?? new Date().getDate();
 
@@ -63,8 +62,6 @@ export const SearchInput = () => {
   }
   const searchFromBE = async (query: PropertyGetQueryInterface) => {
     isSetSearched(true);
-    console.log(startDate, "hello please");
-
     let startDateFormatted;
     let endDateFormatted;
     if (
@@ -76,12 +73,11 @@ export const SearchInput = () => {
       const currentDate = new Date();
       startDateFormatted = formatDate(currentDate);
       endDateFormatted = formatDate(currentDate);
-      console.log("test4", startDateFormatted);
     } else {
       startDateFormatted = formatDate(startDate);
       endDateFormatted = formatDate(endDate);
     }
-    console.log(startDateFormatted, "hello here");
+
     try {
       const currentDate = new Date();
       const propertiesOnSearch = await searchProperties({

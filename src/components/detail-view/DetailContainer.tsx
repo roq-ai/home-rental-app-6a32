@@ -64,7 +64,6 @@ export const DetailContainer = (props: any) => {
   }
 
   const handleSelect = (ranges: any) => {
-    console.log(ranges, "ranges");
     setStartDate(ranges.selection.startDate);
     setEndDate(ranges.selection.endDate);
   };
@@ -142,8 +141,6 @@ export const DetailContainer = (props: any) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  console.log("from container", { data });
 
   return (
     <>
