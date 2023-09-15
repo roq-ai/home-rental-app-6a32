@@ -65,7 +65,7 @@ function PropertyCreatePage() {
     }
   };
 
-  const handleUploadSuccess = ({ url }: any) => {
+  const handleUploadSuccess = ({ url }: { url: string }) => {
     setImages((prevImages) => [...prevImages, url]);
     formik.setFieldValue("image_urls", images);
   };
@@ -210,7 +210,15 @@ function PropertyCreatePage() {
             latitude={latitude}
             setLongitude={setLongitude}
             setLatitude={setLatitude}
-            onLocationSelect={({ name, longitude, latitude }: any) => {
+            onLocationSelect={({
+              name,
+              longitude,
+              latitude,
+            }: {
+              name: string;
+              latitude: string;
+              longitude: string;
+            }) => {
               formik.setFieldValue("location", name ?? "");
               formik.setFieldValue("longitude", longitude);
               formik.setFieldValue("latitude", latitude);

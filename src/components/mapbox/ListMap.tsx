@@ -6,7 +6,11 @@ import { PropertyInterface } from "interfaces/property";
 import { renderToStaticMarkup } from "react-dom/server";
 import { useFilter } from "context/FilterContext";
 
-const PopupContent = ({ data }: any) => {
+const PopupContent = ({
+  data,
+}: {
+  data: { name: string; latitude: string; longitude: string };
+}) => {
   return (
     <div
       style={{ padding: "16px", backgroundColor: "#fff", borderRadius: "8px" }}
@@ -24,8 +28,11 @@ const PopupContent = ({ data }: any) => {
     </div>
   );
 };
-
-const ListMap = ({ locations }: any) => {
+interface MapCenterProps {
+  latitude: number;
+  longitude: number;
+}
+const ListMap = ({ locations }: { locations: PropertyInterface[] }) => {
   const { latitude, longitude } = useFilter();
   const mapContainerRef = useRef(null);
   const map = useRef(null);
@@ -33,21 +40,18 @@ const ListMap = ({ locations }: any) => {
     longitude: location.longitude,
     latitude: location.latitude,
   }));
-  const mapCenter: any = getCenter(coordinates);
+  const mapCenter = getCenter(coordinates) as MapCenterProps;
 
   useEffect(() => {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;
     map.current = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [
-        locations?.longitude ? Number(locations?.longitude) : Number(longitude),
-        locations?.latitude ? Number(locations?.latitude) : Number(latitude),
-      ],
+      center: [Number(longitude), Number(latitude)],
       zoom: longitude ? 10 : 1,
     });
 
-    locations?.forEach((location: any) => {
+    locations?.forEach((location) => {
       const popupContent = renderToStaticMarkup(
         <PopupContent data={location} />
       );
@@ -59,7 +63,10 @@ const ListMap = ({ locations }: any) => {
       }).setHTML(popupContent); // Use setHTML to set the HTML content
 
       const marker = new mapboxgl.Marker()
-        .setLngLat([location.longitude, location.latitude])
+        .setLngLat([
+          location.longitude as unknown as number,
+          location.latitude as unknown as number,
+        ])
         .addTo(map.current)
         .setPopup(popup);
 

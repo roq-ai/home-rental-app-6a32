@@ -41,11 +41,12 @@ function PropertyViewPage() {
         />
       }
     >
-      <Box maxW={"6xl"}>
-        <DetailContainer data={data} />
-        <Box borderWidth="2px" minH="480px" rounded="xl" borderStyle="dashed">
-          <LocationMap latitude={data?.latitude} longitude={data?.longitude} />
-        </Box>
+      <DetailContainer data={data} />
+      <Box borderWidth="2px" minH="480px" rounded="xl" borderStyle="dashed">
+        <LocationMap
+          latitude={data?.latitude as unknown as number}
+          longitude={data?.longitude as unknown as number}
+        />
       </Box>
     </AppLayout>
   );

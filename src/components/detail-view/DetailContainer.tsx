@@ -15,7 +15,7 @@ import { QuantityPicker } from "./QuantityPicker";
 import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import { useEffect, useRef, useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 import { Promos } from "./Promos";
 import { createBooking } from "apiSdk/bookings";
 import { useRouter } from "next/router";
@@ -31,7 +31,7 @@ import { UserInterface } from "interfaces/user";
 
 import { FiEdit2 } from "react-icons/fi";
 import NextLink from "next/link";
-export const DetailContainer = (props: any) => {
+export const DetailContainer = (props: { data: any; rootProps?: any }) => {
   const { session, status } = useSession();
   const { data, rootProps } = props;
   const router = useRouter();
@@ -53,7 +53,7 @@ export const DetailContainer = (props: any) => {
   } = useSWR<UserInterface[]>("/users", () =>
     getUsers({ roq_user_id: session.roqUserId }).then(({ data }) => data)
   );
-  function formatDate(date: any) {
+  function formatDate(date: Date) {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();

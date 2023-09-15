@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
@@ -6,13 +6,20 @@ import { Box } from "@chakra-ui/react";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;
 
+interface MapProps {
+  latitude: string;
+  longitude: string;
+  setLongitude: Dispatch<SetStateAction<string>>;
+  setLatitude: Dispatch<SetStateAction<string>>;
+  onLocationSelect: ({ name, longitude, latitude }: any) => void;
+}
 const Map = ({
   onLocationSelect,
   setLongitude,
   setLatitude,
   latitude,
   longitude,
-}: any) => {
+}: MapProps) => {
   const [map, setMap] = useState(null);
 
   useEffect(() => {
@@ -20,7 +27,7 @@ const Map = ({
       const mapInstance = new mapboxgl.Map({
         container: "map", // HTML element ID
         style: "mapbox://styles/mapbox/streets-v11",
-        center: [longitude as any, latitude as any],
+        center: [longitude as unknown as number, latitude as unknown as number],
         zoom: longitude || latitude ? 6 : 1,
       });
 

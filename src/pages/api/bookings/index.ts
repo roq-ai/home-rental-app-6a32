@@ -54,7 +54,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   async function createBooking() {
     let result: any[];
 
-    function generateDateRangeArray(startDate: any, endDate: any) {
+    function generateDateRangeArray(startDate: string | number | Date, endDate: string | number | Date) {
       result = [];
       const currentDate = new Date(startDate);
 

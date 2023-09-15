@@ -223,7 +223,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
                   extra={showMap ? 2 : 4}
                   small={2}
                 >
-                  {filteredData?.map((item: any) => (
+                  {filteredData?.map((item: PropertyInterface) => (
                     <PropertyCard data={item} key={item.id} />
                   ))}
                 </PropertyGrid>

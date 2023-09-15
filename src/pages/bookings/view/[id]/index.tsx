@@ -143,8 +143,8 @@ function BookingViewPage() {
 
                   <Box>
                     <BookingMap
-                      latitude={data.property.latitude}
-                      longitude={data.property.longitude}
+                      latitude={data.property.latitude as unknown as number}
+                      longitude={data.property.longitude as unknown as number}
                     />
                   </Box>
                 </Stack>

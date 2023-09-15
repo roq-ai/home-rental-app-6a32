@@ -8,7 +8,13 @@ import {
   Button,
   Text,
 } from "@chakra-ui/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { FiSearch } from "react-icons/fi";
 import { DateRangePicker } from "react-date-range";
@@ -50,7 +56,7 @@ export const SearchInput = () => {
     key: "selection",
   };
 
-  function formatDate(date: any) {
+  function formatDate(date: Date) {
     const year = date?.getFullYear() ?? new Date().getFullYear();
     const month = date?.getMonth() + 1 ?? new Date().getMonth() + 1;
     const day = date?.getDate() ?? new Date().getDate();
@@ -153,7 +159,7 @@ export const SearchInput = () => {
     setDatePickerVisible(false);
   };
 
-  const handleClickOutside = (event: any) => {
+  const handleClickOutside = (event: { target: any }) => {
     if (
       datePickerRef.current &&
       !datePickerRef.current.contains(event.target)

@@ -223,11 +223,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
                     <ListMap locations={filteredData} />
                   </Box>
                 ) : (
-                  <ListMap
-                    locations={searchResult}
-                    searchedLat={latitude}
-                    searchedLong={longitude}
-                  />
+                  <ListMap locations={searchResult} />
                 )}
               </Box>
             )}

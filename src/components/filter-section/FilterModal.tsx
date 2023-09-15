@@ -44,7 +44,7 @@ const amenitiesList: Amenity[] = [
   { id: 5, name: "Parking" },
 ];
 const FilterModal = () => {
-  const handleSubmit = (values: any, actions: any) => {
+  const handleSubmit = (_values: any, actions: { setSubmitting: (arg0: boolean) => void; }) => {
     actions.setSubmitting(false);
     onClose();
   };

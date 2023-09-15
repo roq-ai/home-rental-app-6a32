@@ -19,7 +19,7 @@ export default async function handler(
       longitude >= 0 ? fiftyKmLongitudeOffset : -fiftyKmLongitudeOffset;
 
     let result: any[];
-    function generateDateRangeArray(startDate: any, endDate: any) {
+    function generateDateRangeArray(startDate: Date, endDate: Date) {
       result = [];
       const currentDate = new Date(startDate);
 
@@ -31,8 +31,8 @@ export default async function handler(
       return result;
     }
 
-    const startDate = req?.query?.start_date;
-    const endDate = req?.query?.end_date;
+    const startDate = req?.query?.start_date as unknown as Date;
+    const endDate = req?.query?.end_date as unknown as Date;
     const guestNumber = parseInt(req?.query?.num_of_guest as string) ;
     generateDateRangeArray(startDate, endDate);
 

@@ -3,8 +3,9 @@ import NextLink from "next/link";
 import { PriceTag } from "./PriceTag";
 import { Gallery } from "components/image-carousel/Gallery";
 import { useSession } from "@roq/nextjs";
+import { PropertyInterface } from "interfaces/property";
 
-export default function PropertyCard({ data }: any) {
+export default function PropertyCard({ data }: { data: PropertyInterface }) {
   const { status } = useSession();
 
   return (
@@ -54,7 +55,10 @@ export default function PropertyCard({ data }: any) {
                 >
                   {data.name}
                 </Text>
-                <PriceTag currency="USD" price={data.price} />
+                <PriceTag
+                  currency="USD"
+                  price={data.price as unknown as number}
+                />
               </Stack>
             </Stack>
           </NextLink>

@@ -1,5 +1,5 @@
 import { Box, HStack, Text } from "@chakra-ui/react";
-import { useRadioGroup, useRadio } from "@chakra-ui/radio";
+import { useRadioGroup, useRadio, UseRadioProps } from "@chakra-ui/radio";
 import { useFilter } from "context/FilterContext";
 
 function RadioCard(props: any) {

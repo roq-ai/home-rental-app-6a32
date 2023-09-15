@@ -193,7 +193,15 @@ function PropertyEditPage() {
             latitude={data.latitude}
             setLongitude={setLongitude}
             setLatitude={setLatitude}
-            onLocationSelect={({ name, longitude, latitude }: any) => {
+            onLocationSelect={({
+              name,
+              longitude,
+              latitude,
+            }: {
+              name: string;
+              longitude: string;
+              latitude: string;
+            }) => {
               formik.setFieldValue("location", name ?? "");
               formik.setFieldValue("longitude", longitude);
               formik.setFieldValue("latitude", latitude);

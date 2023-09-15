@@ -3,7 +3,7 @@ import { SearchBox } from "@mapbox/search-js-react";
 import { useFilter } from "context/FilterContext";
 import { useToast } from "@chakra-ui/react";
 
-function Search({ expanded }: any) {
+function Search({ expanded }: { expanded: boolean }) {
   const searchBoxRef = useRef(null);
   const [searched, setSearched] = useState("");
   const {
