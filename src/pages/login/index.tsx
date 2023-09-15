@@ -85,7 +85,7 @@ function HomePage() {
             py="2"
           >
             <Text align="center" fontSize="sm" color="white">
-              Photo by{" "}
+              Photo from{" "}
               <Link
                 href="https://unsplash.com/@brina_blum?utm_source=roq-generator&utm_medium=referral"
                 isExternal
