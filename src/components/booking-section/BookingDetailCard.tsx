@@ -8,9 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { BiMessageAdd } from "react-icons/bi";
 import { IoLocation } from "react-icons/io5";
-import { Gallery } from "./image-carousel/Gallery";
-import { ChatWindow, useAuthorizationApi } from "@roq/nextjs";
-import { useRouter } from "next/router";
+import { Gallery } from "../image-carousel/Gallery";
 import Link from "next/link";
 
 export default function BookingDetailCard({ data }: any) {
@@ -24,8 +22,6 @@ export default function BookingDetailCard({ data }: any) {
     month: "short",
     day: "numeric",
   }).format(new Date(data.end_date));
-  const { hasAccess } = useAuthorizationApi();
-  const router = useRouter();
 
   return (
     <Box>

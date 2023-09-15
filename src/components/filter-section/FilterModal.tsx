@@ -43,7 +43,7 @@ const amenitiesList: Amenity[] = [
   { id: 4, name: "Spa" },
   { id: 5, name: "Parking" },
 ];
-const FormModal = () => {
+const FilterModal = () => {
   const handleSubmit = (values: any, actions: any) => {
     actions.setSubmitting(false);
     onClose();
@@ -307,4 +307,4 @@ const FormModal = () => {
   );
 };
 
-export default FormModal;
+export default FilterModal;

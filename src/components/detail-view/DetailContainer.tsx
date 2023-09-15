@@ -77,6 +77,7 @@ export const DetailContainer = (props: any) => {
   };
   const toast = useToast();
   const { numDays, totalPrice } = calculateTotalPrice();
+
   const handleReserveClick = async () => {
     setReserveIsLoading(true);
     if (status === "unauthenticated") {

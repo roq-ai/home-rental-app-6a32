@@ -250,7 +250,6 @@ export const SearchInput = () => {
               >
                 <DateRangePicker
                   showMonthAndYearPickers={false}
-                  // editableDateInputs={true}
                   ranges={[selectionRange]}
                   minDate={new Date()}
                   onChange={handleSelect}
@@ -310,9 +309,6 @@ export const SearchInput = () => {
                   searchFromBE({
                     latitude: latitude,
                     longitude: longitude,
-                    // startDate: startDate,
-                    // endDate: endDate,
-                    // maxGuest: guest,
                   }) as any
                 );
               }}

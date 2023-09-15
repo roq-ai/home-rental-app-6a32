@@ -35,25 +35,9 @@ interface PropertyListPageProps {
 }
 
 export function PropertyListPage(props: PropertyListPageProps) {
-  const {
-    filters = {},
-    titleProps = {},
-    showSearchFilter = true,
-    hidePagination,
-    hideTableBorders,
-    pageSize,
-    tableOnly,
-    hideActions,
-  } = props;
+  const { filters = {}, titleProps = {}, pageSize } = props;
   const { hasAccess } = useAuthorizationApi();
-  const {
-    onFiltersChange,
-    onSearchTermChange,
-    params,
-    onPageChange,
-    onPageSizeChange,
-    setParams,
-  } = useDataTableParams({
+  const { params } = useDataTableParams({
     filters,
     searchTerm: "",
     pageSize,

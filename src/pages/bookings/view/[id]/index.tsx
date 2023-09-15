@@ -27,7 +27,7 @@ import { FiEdit2 } from "react-icons/fi";
 
 import { getBookingById } from "apiSdk/bookings";
 import { BookingInterface } from "interfaces/booking";
-import BookingDetailCard from "components/BookingDetailCard";
+import BookingDetailCard from "components/booking-section/BookingDetailCard";
 import LocationMap from "components/mapbox/LocationMap";
 import BookingMap from "components/mapbox/BookingMap";
 

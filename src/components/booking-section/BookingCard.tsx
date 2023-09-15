@@ -6,7 +6,7 @@ import {
   Divider,
   Flex,
 } from "@chakra-ui/react";
-import { Gallery } from "./image-carousel/Gallery";
+import { Gallery } from "../image-carousel/Gallery";
 import NextLink from "next/link";
 
 export default function BookingCard({ data }: any) {

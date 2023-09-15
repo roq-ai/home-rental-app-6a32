@@ -34,20 +34,8 @@ interface PropertyListPageProps {
 }
 
 export function PropertyListPage(props: PropertyListPageProps) {
-  const {
-    filters = {},
-    titleProps = {},
-
-    pageSize,
-  } = props;
-  const {
-    onFiltersChange,
-    onSearchTermChange,
-    params,
-    onPageChange,
-    onPageSizeChange,
-    setParams,
-  } = useDataTableParams({
+  const { filters = {}, titleProps = {}, pageSize } = props;
+  const { params } = useDataTableParams({
     filters,
     searchTerm: "",
     pageSize,
@@ -90,7 +78,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
   const [showMap, setShowMap] = useState(true);
 
   const {
-    filteredValue,
     selectedAmenities,
     selectedBeds,
     selectedBaths,
@@ -99,8 +86,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
     maxValue,
     setFilterNumber,
     searchResult,
-    searchedLat,
-    searchedLong,
     isSearched,
     longitude,
     latitude,
@@ -188,26 +173,7 @@ export function PropertyListPage(props: PropertyListPageProps) {
             templateColumns={{ lg: showMap ? "1fr 1fr" : "1fr", md: "1fr" }}
             gap={4}
           >
-            <Box
-              // maxHeight="70vh"
-              overflowY={showMap ? "auto" : "hidden"}
-              // css={{
-              //   maxHeight: "70vh",
-              //   scrollbarWidth: "thin",
-              //   scrollbarColor: "#333 #333",
-              //   "&::-webkit-scrollbar": {
-              //     width: "4px",
-              //   },
-              //   "&::-webkit-scrollbar-thumb": {
-              //     backgroundColor: "#333",
-              //     borderRadius: "3px",
-              //   },
-              //   "&::-webkit-scrollbar-track": {
-              //     backgroundColor: "#f0e6f6",
-              //   },
-              //   overflowX: "hidden",
-              // }}
-            >
+            <Box overflowY={showMap ? "auto" : "hidden"}>
               <Flex direction="row" gap={2}>
                 {
                   <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>

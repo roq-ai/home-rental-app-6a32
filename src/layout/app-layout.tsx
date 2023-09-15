@@ -51,8 +51,7 @@ import { FiCalendar, FiHome, FiLogIn } from "react-icons/fi";
 import { CompanyInterface } from "interfaces/company";
 import { getCompanies } from "apiSdk/companies";
 import { SearchInput } from "components/SearchInput";
-import FormModal from "components/FilterModal";
-import { useTransition } from "react";
+import FilterModal from "components/filter-section/FilterModal";
 interface LinkItemProps {
   name: string;
   icon?: IconType;
@@ -376,13 +375,7 @@ const MobileNav = ({ onOpen, isBannerVisible, ...rest }: MobileProps) => {
     router.pathname === "/properties" ||
     router.pathname === "/my-properties" ||
     status === "unauthenticated";
-
   const { hasAccess } = useAuthorizationApi();
-  const {
-    isOpen: isFilterOpen,
-    onOpen: onFilterOpen,
-    onClose: onFilterClose,
-  } = useDisclosure();
   return (
     <Flex
       px={{ base: 4, md: 8 }}
@@ -438,7 +431,7 @@ const MobileNav = ({ onOpen, isBannerVisible, ...rest }: MobileProps) => {
             >
               <SearchInput />
             </Box>
-            <FormModal />
+            <FilterModal />
           </>
         )}
         {status === "authenticated" ? (

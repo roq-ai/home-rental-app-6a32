@@ -1,20 +1,11 @@
 import { signIn, signUp, requireNextAuth, useSession } from "@roq/nextjs";
 import HomeLayout from "layout/home-layout";
-import {
-  Box,
-  Heading,
-  Text,
-  Stack,
-  Image,
-  Link,
-  Spinner,
-} from "@chakra-ui/react";
-import { FC, useEffect, useState } from "react";
+import { Box, Heading, Text, Stack, Image, Link } from "@chakra-ui/react";
+import { FC } from "react";
 import { CustomButton } from "components/custom-button";
 import Head from "next/head";
 import { PoweredBy } from "components/powered-by";
 import { HelpBox } from "components/help-box";
-import { useRouter } from "next/router";
 
 const Card: FC<{
   userTypeName: string;

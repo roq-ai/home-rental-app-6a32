@@ -21,7 +21,7 @@ import { PaginatedInterface } from "interfaces";
 import { withAppLayout } from "lib/hocs/with-app-layout.hoc";
 import { getBookings } from "apiSdk/bookings";
 import { BookingInterface } from "interfaces/booking";
-import BookingCard from "components/BookingCard";
+import BookingCard from "components/booking-section/BookingCard";
 
 interface BookingListPageProps {
   filters?: ListDataFiltersType;
