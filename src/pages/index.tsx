@@ -178,16 +178,17 @@ export function PropertyListPage(props: PropertyListPageProps) {
                 maxHeight: "100vh",
                 overflowY: "auto",
                 scrollbarWidth: "thin",
-                scrollbarColor: "#333 #333",
+                scrollbarColor: "#FFF",
+                paddingRight: 10,
                 "&::-webkit-scrollbar": {
                   width: "4px",
                 },
                 "&::-webkit-scrollbar-thumb": {
-                  backgroundColor: "#333",
+                  backgroundColor: "#FFF",
                   borderRadius: "3px",
                 },
                 "&::-webkit-scrollbar-track": {
-                  backgroundColor: "#f0e6f6",
+                  backgroundColor: "#FFF",
                 },
                 overflowX: "hidden",
               }}

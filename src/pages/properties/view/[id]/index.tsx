@@ -1,4 +1,4 @@
-import { Box, Flex, Spinner } from "@chakra-ui/react";
+import { Box, Flex, Spinner, Grid, GridItem } from "@chakra-ui/react";
 import Breadcrumbs from "components/breadcrumb";
 import AppLayout from "layout/app-layout";
 import { useRouter } from "next/router";
@@ -34,6 +34,10 @@ function PropertyViewPage() {
     );
   }
 
+  if (!data) {
+    return <></>;
+  }
+
   return (
     <AppLayout
       breadcrumbs={
@@ -51,10 +55,19 @@ function PropertyViewPage() {
         />
       }
     >
-      <DetailContainer data={data} />
-      <Box borderWidth="2px" minH="480px" rounded="xl" borderStyle="dashed">
-        <LocationMap latitude={data?.latitude} longitude={data?.longitude} />
-      </Box>
+      <Grid>
+        <GridItem>
+          <DetailContainer data={data} />
+        </GridItem>
+        <GridItem>
+          <Box borderWidth="2px" minH="480px" rounded="xl" borderStyle="dashed">
+            <LocationMap
+              latitude={data?.latitude}
+              longitude={data?.longitude}
+            />
+          </Box>
+        </GridItem>
+      </Grid>
     </AppLayout>
   );
 }
