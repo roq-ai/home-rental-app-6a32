@@ -55,19 +55,26 @@ function PropertyViewPage() {
         />
       }
     >
-      <Grid>
-        <GridItem>
-          <DetailContainer data={data} />
-        </GridItem>
-        <GridItem>
-          <Box borderWidth="2px" minH="480px" rounded="xl" borderStyle="dashed">
-            <LocationMap
-              latitude={data?.latitude}
-              longitude={data?.longitude}
-            />
-          </Box>
-        </GridItem>
-      </Grid>
+      <Box maxW={"6xl"}>
+        <Grid>
+          <GridItem>
+            <DetailContainer data={data} />
+          </GridItem>
+          <GridItem>
+            <Box
+              borderWidth="2px"
+              minH="480px"
+              rounded="xl"
+              borderStyle="dashed"
+            >
+              <LocationMap
+                latitude={data?.latitude}
+                longitude={data?.longitude}
+              />
+            </Box>
+          </GridItem>
+        </Grid>
+      </Box>
     </AppLayout>
   );
 }

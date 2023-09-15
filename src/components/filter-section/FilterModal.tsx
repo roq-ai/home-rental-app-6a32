@@ -272,7 +272,6 @@ const FilterModal = () => {
                     </Button>
                     <Box>
                       <Button
-                        leftIcon={<BiFilter />}
                         variant="solid"
                         background="black"
                         color="white"
@@ -284,7 +283,7 @@ const FilterModal = () => {
                         }}
                         size="md"
                       >
-                        Show Filter
+                        Apply Filter
                         <Badge
                           color="black"
                           bg="white"

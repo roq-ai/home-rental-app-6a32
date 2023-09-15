@@ -47,7 +47,6 @@ export default function PropertyCard({ data }: any) {
                 >
                   {data.location.split(",")}
                 </Text>
-
                 <Text
                   fontSize="sm"
                   fontWeight="normal"

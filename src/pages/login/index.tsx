@@ -54,11 +54,11 @@ function HomePage() {
   return (
     <>
       <Head>
-        <title>{`Home Rental App`}</title>
+        <title>{`ROQ BnB`}</title>
 
         <meta
           name="description"
-          content="Experience seamless home rentals with Home Rental App - your ultimate platform for easy search, detailed listings, efficient booking, and effective communication for both guests and hosts."
+          content="Experience seamless home rentals with ROQ BnB - your ultimate platform for easy search, detailed listings, efficient booking, and effective communication for both guests and hosts."
         />
       </Head>
       <HomeLayout>
@@ -111,7 +111,7 @@ function HomePage() {
         >
           <Box>
             <Heading mb={{ base: "12px", lg: "20px" }} size="2xl">
-              {`Home Rental App`}
+              {`ROQ BnB`}
             </Heading>
             <Text
               size="2xl"
@@ -119,7 +119,7 @@ function HomePage() {
               color="base.content"
               opacity="0.6"
             >
-              {`Experience seamless home rentals with Home Rental App - your ultimate platform for easy search, detailed listings, efficient booking, and effective communication for both guests and hosts.`}
+              {`Experience seamless home rentals with ROQ BnB - your ultimate platform for easy search, detailed listings, efficient booking, and effective communication for both guests and hosts.`}
             </Text>
             <Box
               className="roles-container"

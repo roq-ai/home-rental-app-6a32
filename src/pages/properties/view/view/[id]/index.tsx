@@ -41,9 +41,11 @@ function PropertyViewPage() {
         />
       }
     >
-      <DetailContainer data={data} />
-      <Box borderWidth="2px" minH="480px" rounded="xl" borderStyle="dashed">
-        <LocationMap latitude={data?.latitude} longitude={data?.longitude} />
+      <Box maxW={"6xl"}>
+        <DetailContainer data={data} />
+        <Box borderWidth="2px" minH="480px" rounded="xl" borderStyle="dashed">
+          <LocationMap latitude={data?.latitude} longitude={data?.longitude} />
+        </Box>
       </Box>
     </AppLayout>
   );
