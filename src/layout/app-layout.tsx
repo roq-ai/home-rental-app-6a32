@@ -106,50 +106,45 @@ export default function AppLayout({ children, breadcrumbs }: AppLayoutProps) {
   }, [isMd, isOpen, onClose]);
 
   return (
-    <Suspense fallback={<Loader />}>
-      <Box h={isBannerVisible ? "calc(100vh - 40px)" : "100vh"} bg={"base.100"}>
-        <ConfigureCodeBanner
-          isBannerVisible={isBannerVisible}
-          setIsBannerVisible={setIsBannerVisible}
+    <Box h={isBannerVisible ? "calc(100vh - 40px)" : "100vh"} bg={"base.100"}>
+      <ConfigureCodeBanner
+        isBannerVisible={isBannerVisible}
+        setIsBannerVisible={setIsBannerVisible}
+      />
+      <HelpBox />
+      {status === "authenticated" ? (
+        <SidebarContent
+          transition="none"
+          h={isBannerVisible ? "calc(100vh - 40px)" : "100vh"}
+          onClose={() => onClose}
+          display={{ base: "none", md: "block" }}
         />
-        <HelpBox />
-        {status === "authenticated" ? (
+      ) : null}
+      <Drawer
+        autoFocus={false}
+        isOpen={isOpen}
+        placement="left"
+        onClose={onClose}
+        returnFocusOnClose={false}
+        onOverlayClick={onClose}
+        size="xs"
+      >
+        <DrawerContent>
           <SidebarContent
-            transition="none"
-            h={isBannerVisible ? "calc(100vh - 40px)" : "100vh"}
-            onClose={() => onClose}
-            display={{ base: "none", md: "block" }}
+            onClose={onClose}
+            display={{ base: "block", md: "none" }}
           />
-        ) : null}
-        <Drawer
-          autoFocus={false}
-          isOpen={isOpen}
-          placement="left"
-          onClose={onClose}
-          returnFocusOnClose={false}
-          onOverlayClick={onClose}
-          size="xs"
-        >
-          <DrawerContent>
-            <SidebarContent
-              onClose={onClose}
-              display={{ base: "block", md: "none" }}
-            />
-          </DrawerContent>
-        </Drawer>
-        {/* mobilenav */}
-        <MobileNav onOpen={onOpen} isBannerVisible={isBannerVisible} />
+        </DrawerContent>
+      </Drawer>
+      {/* mobilenav */}
+      <MobileNav onOpen={onOpen} isBannerVisible={isBannerVisible} />
 
-        <Box
-          ml={{ base: 0, md: `${status === "authenticated" ? 60 : 0}` }}
-          p="8"
-        >
-          {/* Breadcrumbs */}
-          {breadcrumbs ? breadcrumbs : null}
-          {children}
-        </Box>
+      <Box ml={{ base: 0, md: `${status === "authenticated" ? 60 : 0}` }} p="8">
+        {/* Breadcrumbs */}
+        {breadcrumbs ? breadcrumbs : null}
+        {children}
       </Box>
-    </Suspense>
+    </Box>
   );
 }
 

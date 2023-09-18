@@ -10,8 +10,13 @@ import { BiMessageAdd } from "react-icons/bi";
 import { IoLocation } from "react-icons/io5";
 import { Gallery } from "../image-carousel/Gallery";
 import Link from "next/link";
+import { BookingInterface } from "interfaces/booking";
 
-export default function BookingDetailCard({ data }: any) {
+export default function BookingDetailCard({
+  data,
+}: {
+  data: BookingInterface;
+}) {
   const checkIn = new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",

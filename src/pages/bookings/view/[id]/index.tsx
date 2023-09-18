@@ -91,7 +91,7 @@ function BookingViewPage() {
                     Booking Details
                   </Text>
                 </Box>
-                {hasAccess(
+                {/* {hasAccess(
                   "booking",
                   AccessOperationEnum.UPDATE,
                   AccessServiceEnum.PROJECT
@@ -124,7 +124,7 @@ function BookingViewPage() {
                         Edit
                       </Button>
                     </NextLink>
-                  )}
+                  )} */}
               </Flex>
 
               <Box

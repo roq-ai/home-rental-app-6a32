@@ -87,8 +87,6 @@ export function PropertyListPage(props: PropertyListPageProps) {
     setFilterNumber,
     searchResult,
     isSearched,
-    longitude,
-    latitude,
   } = useFilter();
   const filterIsEmpty =
     selectedAmenities.length === 0 &&

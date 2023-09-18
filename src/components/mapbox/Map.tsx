@@ -11,7 +11,11 @@ interface MapProps {
   longitude: string;
   setLongitude: Dispatch<SetStateAction<string>>;
   setLatitude: Dispatch<SetStateAction<string>>;
-  onLocationSelect: ({ name, longitude, latitude }: any) => void;
+  onLocationSelect: (location: {
+    name: string;
+    longitude: string;
+    latitude: string;
+  }) => void;
 }
 const Map = ({
   onLocationSelect,
@@ -25,7 +29,7 @@ const Map = ({
   useEffect(() => {
     const initializeMap = () => {
       const mapInstance = new mapboxgl.Map({
-        container: "map", // HTML element ID
+        container: "map",
         style: "mapbox://styles/mapbox/streets-v11",
         center: [longitude as unknown as number, latitude as unknown as number],
         zoom: longitude || latitude ? 6 : 1,

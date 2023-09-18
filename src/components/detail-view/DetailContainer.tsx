@@ -31,7 +31,12 @@ import { UserInterface } from "interfaces/user";
 
 import { FiEdit2 } from "react-icons/fi";
 import NextLink from "next/link";
-export const DetailContainer = (props: { data: any; rootProps?: any }) => {
+import { PropertyInterface } from "interfaces/property";
+
+export const DetailContainer = (props: {
+  data: Partial<PropertyInterface>;
+  rootProps?: any;
+}) => {
   const { session, status } = useSession();
   const { data, rootProps } = props;
   const router = useRouter();
@@ -72,7 +77,7 @@ export const DetailContainer = (props: { data: any; rootProps?: any }) => {
     const oneDay = 24 * 60 * 60 * 1000;
     const numDays =
       Math.round(Math.abs((Number(endDate) - Number(startDate)) / oneDay)) + 1;
-    const totalPrice = data?.price * numDays;
+    const totalPrice = Number(data?.price) * numDays;
     return { numDays, totalPrice };
   };
   const toast = useToast();
@@ -127,7 +132,7 @@ export const DetailContainer = (props: { data: any; rootProps?: any }) => {
     setDatePickerVisible(!isDatePickerVisible);
   };
 
-  const handleClickOutside = (event: any) => {
+  const handleClickOutside = (event: { target: any }) => {
     if (
       datePickerRef.current &&
       !datePickerRef.current.contains(event.target)
@@ -209,7 +214,7 @@ export const DetailContainer = (props: { data: any; rootProps?: any }) => {
                   justify="space-between"
                 >
                   <PriceTag
-                    price={data?.price}
+                    price={Number(data?.price)}
                     currency="USD"
                     rootProps={{ fontSize: "md" }}
                   />

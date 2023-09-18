@@ -46,7 +46,7 @@ export const useFilter = () => {
   return context;
 };
 
-export const FilterProvider = ({ children }: any) => {
+export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
   const [filteredValue, setFilteredValue] = useState("");
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [selectedBeds, setSelectedBeds] = useState<string>("");

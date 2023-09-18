@@ -17,7 +17,7 @@ import { TextInput } from "components/text-input";
 import AppLayout from "layout/app-layout";
 import { FormikHelpers, useFormik } from "formik";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import {
   AccessOperationEnum,
   AccessServiceEnum,
@@ -153,7 +153,7 @@ function PropertyCreatePage() {
               name: "num_of_guest",
               placeholder: "Max Guest",
               value: String(formik.values?.num_of_guest),
-              onChange: (event: any) => {
+              onChange: (event: ChangeEvent<HTMLInputElement>) => {
                 formik.handleChange(event);
                 const intValue = parseInt(event.target.value, 10);
                 formik.setFieldValue(

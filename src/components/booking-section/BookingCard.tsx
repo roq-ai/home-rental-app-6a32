@@ -8,8 +8,9 @@ import {
 } from "@chakra-ui/react";
 import { Gallery } from "../image-carousel/Gallery";
 import NextLink from "next/link";
+import { BookingInterface } from "interfaces/booking";
 
-export default function BookingCard({ data }: any) {
+export default function BookingCard({ data }: { data: BookingInterface }) {
   const checkIn = new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",
