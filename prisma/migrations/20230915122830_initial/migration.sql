@@ -1,8 +1,15 @@
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
 -- CreateTable
 CREATE TABLE "booking" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "start_date" DATE NOT NULL,
     "end_date" DATE NOT NULL,
+    "num_of_guest" INTEGER,
+    "num_of_night" VARCHAR(255) NOT NULL,
+    "total_price" VARCHAR(255) NOT NULL,
+    "roqConversationId" UUID,
     "guest_id" UUID,
     "property_id" UUID,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -29,7 +36,16 @@ CREATE TABLE "property" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "name" VARCHAR(255) NOT NULL,
     "description" VARCHAR(255),
-    "location" VARCHAR(255) NOT NULL,
+    "price" VARCHAR(255) NOT NULL,
+    "num_of_guest" INTEGER,
+    "num_of_beds" VARCHAR(255) NOT NULL,
+    "num_of_baths" VARCHAR(255) NOT NULL,
+    "amenities" VARCHAR(255)[],
+    "image_urls" TEXT[],
+    "type" VARCHAR(255) NOT NULL,
+    "location" VARCHAR(255),
+    "longitude" VARCHAR(255) NOT NULL,
+    "latitude" VARCHAR(255) NOT NULL,
     "company_id" UUID,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -65,4 +81,3 @@ ALTER TABLE "company" ADD CONSTRAINT "company_user_id_fkey" FOREIGN KEY ("user_i
 
 -- AddForeignKey
 ALTER TABLE "property" ADD CONSTRAINT "property_company_id_fkey" FOREIGN KEY ("company_id") REFERENCES "company"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-

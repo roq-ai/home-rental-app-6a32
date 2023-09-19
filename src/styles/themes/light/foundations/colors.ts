@@ -1,24 +1,24 @@
 export const colors = {
   primary: {
-    main: '#6E73F7',
+    main: '#ff385c',
     transparent: 'rgba(110, 115, 247, 0.2)',
-    focus: '#4E41D9',
+    focus: '#ff585c',
     content: '#fff',
   },
   secondary: {
-    main: '#14B887',
+    main: '#ff385c',
     transparent: 'rgba(20, 184, 135, 0.2)',
-    focus: '#008A61',
+    focus: '#ff385c',
     content: '#fff',
   },
   accent: {
-    main: '#D9367C',
+    main: '#ff385c',
     transparent: 'rgba(217, 54, 124, 0.2)',
     focus: '#A71152',
     content: '#fff',
   },
   neutral: {
-    main: '#383E6A',
+    main: '#ff385c',
     transparent: 'rgba(56, 62, 106, 0.15)',
     focus: '#161931',
     content: '#EAF0F6',

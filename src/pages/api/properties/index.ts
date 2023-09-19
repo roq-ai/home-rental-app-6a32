@@ -1,21 +1,31 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { roqClient } from 'server/roq';
-import { prisma } from 'server/db';
-import { authorizationValidationMiddleware, errorHandlerMiddleware } from 'server/middlewares';
-import { propertyValidationSchema } from 'validationSchema/properties';
-import { convertQueryToPrismaUtil, getOrderByOptions, parseQueryParams } from 'server/utils';
-import { getServerSession } from '@roq/nextjs';
-import { GetManyQueryOptions } from 'interfaces';
+import type { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from "server/db";
+import {
+  authorizationValidationMiddleware,
+  errorHandlerMiddleware,
+} from "server/middlewares";
+import { propertyValidationSchema } from "validationSchema/properties";
+import {
+  convertQueryToPrismaUtil,
+  getOrderByOptions,
+  parseQueryParams,
+} from "server/utils";
+import { getServerSession } from "@roq/nextjs";
+import { GetManyQueryOptions } from "interfaces";
+import { UserInterface } from "interfaces/user";
+import companies from "pages/companies";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { roqUserId, user } = await getServerSession(req);
+  const {roqUserId} = await getServerSession(req)
   switch (req.method) {
-    case 'GET':
+    case "GET":
       return getProperties();
-    case 'POST':
+    case "POST":
       return createProperty();
     default:
-      return res.status(405).json({ message: `Method ${req.method} not allowed` });
+      return res
+        .status(405)
+        .json({ message: `Method ${req.method} not allowed` });
   }
 
   async function getProperties() {
@@ -25,28 +35,32 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       order,
       ...query
     } = parseQueryParams(req.query) as Partial<GetManyQueryOptions>;
-    const limit = parseInt(_limit as string, 10) || 20;
-    const offset = parseInt(_offset as string, 10) || 0;
-    const response = await prisma.property
-      .withAuthorization({
-        roqUserId,
-        tenantId: user.tenantId,
-        roles: user.roles,
-      })
-      .findManyPaginated({
+    const user = await prisma.user.findMany({
+      where: { roq_user_id: roqUserId },
+      include: { company: true },
+    });
+    const company = await prisma.company.findFirst({where : {user_id : user[0].id}})
+    
+    const limit = parseInt(_limit as string, 10)  || 20;
+    const offset = parseInt(_offset as string, 10)  || 0;
+    const response = await prisma.property.findMany({
         ...convertQueryToPrismaUtil(query, 'property'),
+        where:{
+          company_id:company.id
+        },
         take: limit,
         skip: offset,
         ...(order?.length && {
           orderBy: getOrderByOptions(order),
         }),
+        include: { booking: true },
       });
     return res.status(200).json(response);
   }
 
   async function createProperty() {
-    await propertyValidationSchema.validate(req.body);
     const body = { ...req.body };
+    
     if (body?.booking?.length > 0) {
       const create_booking = body.booking;
       body.booking = {
@@ -55,13 +69,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     } else {
       delete body.booking;
     }
+    const user = await prisma.user.findMany({
+      where: { roq_user_id: roqUserId },
+      include: { company: true },
+    });
+    const company = await prisma.company.findFirst({where : {user_id : user[0].id}})
     const data = await prisma.property.create({
-      data: body,
+      data: { ...body, company_id: company.id},
     });
     return res.status(200).json(data);
   }
 }
 
 export default function apiHandler(req: NextApiRequest, res: NextApiResponse) {
-  return errorHandlerMiddleware(authorizationValidationMiddleware(handler))(req, res);
+  return errorHandlerMiddleware((handler))(
+    req,
+    res
+  );
 }
+

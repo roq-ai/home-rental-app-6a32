@@ -1,46 +1,42 @@
-import { Box, Center, Flex, Link, List, ListItem, Spinner, Stack, Text, Image, Button } from '@chakra-ui/react';
-import Breadcrumbs from 'components/breadcrumb';
-import { Error } from 'components/error';
-import { FormListItem } from 'components/form-list-item';
-import { FormWrapper } from 'components/form-wrapper';
-import AppLayout from 'layout/app-layout';
-import NextLink from 'next/link';
-import { useRouter } from 'next/router';
-import { FunctionComponent, useState } from 'react';
-import parseISO from 'date-fns/parseISO';
-import format from 'date-fns/format';
-import { routes } from 'routes';
-import useSWR from 'swr';
-import { compose } from 'lib/compose';
+import { Box, Flex, Spinner, Grid, GridItem } from "@chakra-ui/react";
+import Breadcrumbs from "components/breadcrumb";
+import AppLayout from "layout/app-layout";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+import { compose } from "lib/compose";
 import {
   AccessOperationEnum,
   AccessServiceEnum,
   requireNextAuth,
-  useAuthorizationApi,
+  useSession,
   withAuthorization,
-} from '@roq/nextjs';
-import { UserPageTable } from 'components/user-page-table';
-import { EntityImage } from 'components/entity-image';
-import { FiEdit2 } from 'react-icons/fi';
+} from "@roq/nextjs";
 
-import { getPropertyById } from 'apiSdk/properties';
-import { PropertyInterface } from 'interfaces/property';
-import { BookingListPage } from 'pages/bookings';
+import { getPropertyById } from "apiSdk/properties";
+import { PropertyInterface } from "interfaces/property";
+import { DetailContainer } from "components/detail-view/DetailContainer";
+import LocationMap from "components/mapbox/LocationMap";
 
 function PropertyViewPage() {
-  const { hasAccess } = useAuthorizationApi();
   const router = useRouter();
   const id = router.query.id as string;
+  const { session } = useSession();
+  const currentUser = session?.user?.roles?.[0];
   const { data, error, isLoading, mutate } = useSWR<PropertyInterface>(
     () => (id ? `/properties/${id}` : null),
-    () =>
-      getPropertyById(id, {
-        relations: ['company'],
-      }),
+    () => getPropertyById(id)
   );
+  if (isLoading) {
+    return (
+      <Flex align="center" justify="center" w="100%" h="100%">
+        <Spinner size="lg" color="black" />
+      </Flex>
+    );
+  }
 
-  const [deleteError, setDeleteError] = useState(null);
-  const [createError, setCreateError] = useState(null);
+  if (!data) {
+    return <></>;
+  }
 
   return (
     <AppLayout
@@ -48,115 +44,23 @@ function PropertyViewPage() {
         <Breadcrumbs
           items={[
             {
-              label: 'Properties',
-              link: '/properties',
+              label: "Properties",
+              link: currentUser === "host" ? "/my-properties" : "/properties",
             },
             {
-              label: 'Property Details',
+              label: "Property Details",
               isCurrent: true,
             },
           ]}
         />
       }
     >
-      <Box rounded="md">
-        {error && (
-          <Box mb={4}>
-            <Error error={error} />
-          </Box>
-        )}
-        {isLoading ? (
-          <Center>
-            <Spinner />
-          </Center>
-        ) : (
-          <>
-            <FormWrapper wrapperProps={{ border: 'none', gap: 3, p: 0 }}>
-              <Flex alignItems="center" w="full" justifyContent={'space-between'}>
-                <Box>
-                  <Text
-                    sx={{
-                      fontSize: '1.875rem',
-                      fontWeight: 700,
-                      color: 'base.content',
-                    }}
-                  >
-                    Property Details
-                  </Text>
-                </Box>
-                {hasAccess('property', AccessOperationEnum.UPDATE, AccessServiceEnum.PROJECT) && (
-                  <NextLink href={`/properties/edit/${id}`} passHref legacyBehavior>
-                    <Button
-                      onClick={(e) => e.stopPropagation()}
-                      mr={2}
-                      padding="0rem 0.5rem"
-                      height="24px"
-                      fontSize="0.75rem"
-                      variant="outline"
-                      color="state.info.main"
-                      borderRadius="6px"
-                      border="1px"
-                      borderColor="state.info.transparent"
-                      leftIcon={<FiEdit2 width="12px" height="12px" color="state.info.main" />}
-                    >
-                      Edit
-                    </Button>
-                  </NextLink>
-                )}
-              </Flex>
-
-              <List
-                w="100%"
-                css={{
-                  '> li:not(:last-child)': {
-                    borderBottom: '1px solid var(--chakra-colors-base-300)',
-                  },
-                }}
-              >
-                <FormListItem label="Name" text={data?.name} />
-
-                <FormListItem label="Description" text={data?.description} />
-
-                <FormListItem label="Location" text={data?.location} />
-
-                <FormListItem
-                  label="Created At"
-                  text={data?.created_at ? format(parseISO(data?.created_at as unknown as string), 'dd-MM-yyyy') : ''}
-                />
-
-                <FormListItem
-                  label="Updated At"
-                  text={data?.updated_at ? format(parseISO(data?.updated_at as unknown as string), 'dd-MM-yyyy') : ''}
-                />
-
-                {hasAccess('company', AccessOperationEnum.READ, AccessServiceEnum.PROJECT) && (
-                  <FormListItem
-                    label="Company"
-                    text={
-                      <Link as={NextLink} href={`/companies/view/${data?.company?.id}`}>
-                        {data?.company?.name}
-                      </Link>
-                    }
-                  />
-                )}
-              </List>
-            </FormWrapper>
-
-            <Box borderRadius="10px" border="1px" borderColor={'base.300'} mt={6}>
-              <BookingListPage
-                filters={{ property_id: id }}
-                hidePagination={true}
-                hideTableBorders={true}
-                showSearchFilter={false}
-                pageSize={5}
-                titleProps={{
-                  fontSize: '1.5rem',
-                  fontWeight: 600,
-                }}
-              />
-            </Box>
-          </>
-        )}
+      <DetailContainer data={data} />
+      <Box borderWidth="2px" minH="480px" rounded="xl" borderStyle="dashed">
+        <LocationMap
+          latitude={data?.latitude as unknown as number}
+          longitude={data?.longitude as unknown as number}
+        />
       </Box>
     </AppLayout>
   );
@@ -164,11 +68,11 @@ function PropertyViewPage() {
 
 export default compose(
   requireNextAuth({
-    redirectTo: '/',
+    redirectTo: "/",
   }),
   withAuthorization({
     service: AccessServiceEnum.PROJECT,
-    entity: 'property',
+    entity: "property",
     operation: AccessOperationEnum.READ,
-  }),
+  })
 )(PropertyViewPage);

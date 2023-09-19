@@ -1,121 +1,298 @@
-import { signIn, signUp, requireNextAuth } from '@roq/nextjs';
-import HomeLayout from 'layout/home-layout';
-import { Box, Heading, Text, Stack, Image, Link } from '@chakra-ui/react';
-import { FC } from 'react';
-import { CustomButton } from 'components/custom-button';
-import Head from 'next/head';
-import { PoweredBy } from 'components/powered-by';
-import { HelpBox } from 'components/help-box';
+import { useSession } from "@roq/nextjs";
+import { Button, Grid, Spinner } from "@chakra-ui/react";
+import { Box, Flex, Text, TextProps } from "@chakra-ui/react";
+import {
+  useDataTableParams,
+  ListDataFiltersType,
+} from "components/table/hook/use-data-table-params.hook";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
+import { getHomeProperties } from "apiSdk/properties";
+import { PropertyInterface } from "interfaces/property";
+import { useFilter } from "context/FilterContext";
+import { useRouter } from "next/router";
+import ListMap from "components/mapbox/ListMap";
+import { PropertyGrid } from "components/property-list/PropertyGrid";
+import PropertyCard from "components/property-list/PropertyList";
+import { BiMapPin } from "react-icons/bi";
+import React from "react";
+import AppLayout from "layout/app-layout";
 
-const Card: FC<{
-  userTypeName: string;
-  onSignup?: () => void;
-  onLogin?: () => void;
-  rootClass?: string;
-  type?: string;
-}> = ({ userTypeName, rootClass = '', type = '' }) => (
-  <Box
-    width={{ md: '310px' }}
-    bgColor="base.200"
-    p="18px"
-    border="1px solid"
-    borderColor="base.300"
-    borderRadius="8px"
-    className={rootClass}
-  >
-    <Text fontSize="xl" color="base.content" fontWeight={600} mb="24px">
-      {userTypeName}
-    </Text>
-    <Box display="flex">
-      <CustomButton flex={1} weight="primary" _hover={{ bg: 'primary.focus' }} onClick={() => signUp(type)}>
-        Signup
-      </CustomButton>
-      <CustomButton onClick={() => signIn(type)} flex={{ base: 1, lg: '0 0 131px' }} weight="secondary" ml="12px">
-        Login
-      </CustomButton>
-    </Box>
-  </Box>
-);
+interface PropertyListPageProps {
+  filters?: ListDataFiltersType;
+  pageSize?: number;
+  hidePagination?: boolean;
+  showSearchFilter?: boolean;
+  titleProps?: TextProps;
+  hideTableBorders?: boolean;
+  tableOnly?: boolean;
+  hideActions?: boolean;
+}
+export function PropertyListPage(props: PropertyListPageProps) {
+  const {
+    filters = {},
+    titleProps = {},
 
-function HomePage() {
+    pageSize,
+  } = props;
+  const { params } = useDataTableParams({
+    filters,
+    searchTerm: "",
+    pageSize,
+    order: [
+      {
+        desc: true,
+        id: "created_at",
+      },
+    ],
+  });
+  function Loader() {
+    return (
+      <Flex align="center" justify="center" w="100%" h="60vh">
+        <Spinner size="lg" color="black" />
+      </Flex>
+    );
+  }
+  // const fetcher = useCallback(async () => getHomeProperties(), []);
+  const { data, error, isLoading, mutate } = useSWR(
+    () => `/properties?params=${JSON.stringify(params)}`,
+    () => getHomeProperties()
+  );
+
+  const [showMap, setShowMap] = useState(true);
+  const {
+    filteredValue,
+    selectedAmenities,
+    selectedBeds,
+    selectedBaths,
+    selectedPropertyType,
+    minValue,
+    maxValue,
+    setFilterNumber,
+    searchResult,
+    isSearched,
+    longitude,
+    latitude,
+  } = useFilter();
+  const filterIsEmpty =
+    !filteredValue &&
+    selectedAmenities.length === 0 &&
+    !selectedBeds &&
+    !selectedBaths &&
+    !selectedPropertyType &&
+    !minValue &&
+    !maxValue;
+
+  useEffect(() => {
+    if (filterIsEmpty) {
+      mutate();
+    }
+  }, [filterIsEmpty, mutate]);
+
+  const filterMatches = (item: PropertyInterface) => {
+    if (
+      selectedAmenities.length > 0 &&
+      (!item.amenities || item.amenities.length === 0)
+    ) {
+      return false;
+    }
+
+    const amenitiesMatch =
+      selectedAmenities.length === 0 ||
+      (item.amenities &&
+        item.amenities.some((amenity) => selectedAmenities.includes(amenity)));
+
+    const bedsMatch = !selectedBeds || item.num_of_beds === selectedBeds;
+    const bathsMatch = !selectedBaths || item.num_of_baths === selectedBaths;
+    const propertyTypeMatch =
+      !selectedPropertyType || item.type === selectedPropertyType;
+
+    const priceMatch =
+      (Number(minValue) === 0 || item.price >= minValue) &&
+      (Number(maxValue) === 4000 || item.price <= maxValue);
+    return (
+      amenitiesMatch &&
+      bedsMatch &&
+      bathsMatch &&
+      propertyTypeMatch &&
+      priceMatch
+    );
+  };
+
+  const filteredData =
+    selectedAmenities.length > 0 ||
+    selectedBeds ||
+    selectedBaths ||
+    selectedPropertyType ||
+    minValue ||
+    maxValue
+      ? data?.filter(filterMatches)
+      : data;
+
+  useEffect(() => {
+    setFilterNumber(filteredData?.length as unknown as string);
+  }, [filteredData, setFilterNumber]);
+  let currentUser: any;
+
+  const { session, status } = useSession();
+  currentUser = session?.user?.roles?.[0];
+  const router = useRouter();
+
+  useEffect(() => {
+    if (currentUser === "host") {
+      router.push("/my-properties");
+    } else if (currentUser === "guest") {
+      router.push("/properties");
+    }
+  }, [currentUser, router]);
+
   return (
-    <>
-      <Head>
-        <title>{`Home Rental App`}</title>
-
-        <meta
-          name="description"
-          content="Experience seamless home rentals with Home Rental App - your ultimate platform for easy search, detailed listings, efficient booking, and effective communication for both guests and hosts."
-        />
-      </Head>
-      <HomeLayout>
-        <Box position="relative" display="flex" flex={{ lg: '0 0 485px' }} height={{ base: '180px', lg: 'auto' }}>
-          <Image
-            flex="1"
-            src={
-              'https://images.unsplash.com/photo-1522444195799-478538b28823?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NjA3NjB8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVudGFsfGVufDB8fHx8MTY5MTY2NDU1M3ww&ixlib=rb-4.0.3&q=80&w=1080'
-            }
-            alt="Dinner"
-            objectFit="cover"
-            objectPosition="center"
-          />
-          <Box position="absolute" top="0" backgroundColor="rgba(0,0,0,0.6)" width="100%" py="2">
-            <Text align="center" fontSize="sm" color="white">
-              Photo by{' '}
-              <Link
-                href="https://unsplash.com/@brina_blum?utm_source=roq-generator&utm_medium=referral"
-                isExternal
-                color="teal.200"
-              >{`Brina Blum`}</Link>{' '}
-              on{' '}
-              <Link
-                href="https://unsplash.com/?utm_source=roq-generator&utm_medium=referral"
-                isExternal
-                color="teal.200"
-              >
-                Unsplash
-              </Link>
-            </Text>
-          </Box>
-        </Box>
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="space-between"
-          padding={{ base: '32px 16px', lg: '32px 64px', xl: '64px 128px' }}
-          overflow="auto"
-        >
-          <Box>
-            <Heading mb={{ base: '12px', lg: '20px' }} size="2xl">
-              {`Home Rental App`}
-            </Heading>
-            <Text size="2xl" mb={{ base: '32px', lg: '48px' }} color="base.content" opacity="0.6">
-              {`Experience seamless home rentals with Home Rental App - your ultimate platform for easy search, detailed listings, efficient booking, and effective communication for both guests and hosts.`}
-            </Text>
+    <AppLayout>
+      <Box
+        maxW="7xl"
+        mx="auto"
+        px={{ base: "4", md: "6", lg: "6" }}
+        py={{ base: "6", md: "6", lg: "6" }}
+      >
+        <Flex justifyContent="space-between">
+          <Text
+            as="h2"
+            fontSize="1.875rem"
+            fontWeight="bold"
+            color="base.content"
+            pb={{ base: "2", md: "2", lg: "2" }}
+            {...titleProps}
+          >
+            Properties
+          </Text>
+        </Flex>
+        {status === "unauthenticated" ? (
+          <Grid
+            templateColumns={{ lg: showMap ? "1fr 1fr" : "1fr", md: "1fr" }}
+            gap={4}
+          >
             <Box
-              className="roles-container"
-              display={'flex'}
-              flexDirection={'column'}
-              w={{ base: '100%', md: 'fit-content' }}
+              height="auto"
+              overflowY={showMap ? "auto" : "hidden"}
+              css={{
+                maxHeight: "100vh",
+                overflowY: "auto",
+                scrollbarWidth: "thin",
+                scrollbarColor: "#FFF",
+                paddingRight: 10,
+                "&::-webkit-scrollbar": {
+                  width: "4px",
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  backgroundColor: "#FFF",
+                  borderRadius: "3px",
+                },
+                "&::-webkit-scrollbar-track": {
+                  backgroundColor: "#FFF",
+                },
+                overflowX: "hidden",
+              }}
             >
-              <Stack direction="column" spacing={6}>
-                <Card userTypeName="Host" type="host" />
-
-                <Card userTypeName="Guest" type="guest" />
-              </Stack>
+              {
+                <Box>
+                  <Flex flex={showMap ? 1 : "auto"} flexBasis={0}>
+                    {filteredData?.length !== 0 && !isSearched ? (
+                      <PropertyGrid
+                        medium={showMap ? 3 : 3}
+                        large={showMap ? 2 : 4}
+                        extra={showMap ? 2 : 4}
+                        small={2}
+                      >
+                        {filteredData?.map((item: PropertyInterface) => (
+                          <PropertyCard data={item} key={item.id} />
+                        ))}
+                      </PropertyGrid>
+                    ) : searchResult.length !== 0 ? (
+                      <PropertyGrid
+                        medium={showMap ? 3 : 3}
+                        large={showMap ? 2 : 4}
+                        extra={showMap ? 2 : 4}
+                        small={2}
+                      >
+                        {searchResult?.map((item) => {
+                          return <PropertyCard data={item} key={item.id} />;
+                        })}
+                      </PropertyGrid>
+                    ) : (
+                      <Text
+                        color="gray.500"
+                        textAlign="center"
+                        fontSize="lg"
+                        mt="8"
+                      >
+                        No properties found.
+                      </Text>
+                    )}
+                  </Flex>
+                </Box>
+              }
             </Box>
+
+            {data && showMap && (
+              <Box
+                flex={1}
+                flexBasis={0}
+                height={500}
+                rounded="md"
+                display={{
+                  lg: "block",
+                  extra: "block",
+                  md: "none",
+                  sm: "none",
+                  base: "none",
+                }}
+              >
+                {filteredData?.length !== 0 &&
+                searchResult.length === 0 &&
+                !isSearched ? (
+                  <ListMap locations={filteredData} />
+                ) : (
+                  <ListMap
+                    locations={searchResult}
+                    // searchedLat={latitude}
+                    // searchedLong={longitude}
+                  />
+                )}
+              </Box>
+            )}
+          </Grid>
+        ) : null}
+
+        <Flex direction="column" align="center" mt={4}>
+          <Box
+            position="fixed"
+            bottom="1rem"
+            left="50%"
+            transform="translateX(-50%)"
+          >
+            <Button
+              leftIcon={<BiMapPin />}
+              onClick={() => setShowMap(!showMap)}
+              zIndex={900002}
+              fontSize="1rem"
+              fontWeight="bold"
+              background="black"
+              color="white"
+              backgroundColor="black"
+              borderRadius="3xl"
+              _hover={{
+                backgroundColor: "black",
+              }}
+              _active={{
+                backgroundColor: "black",
+              }}
+            >
+              {showMap ? "Hide Map" : "Show Map"}
+            </Button>
           </Box>
-          <Box pt={4}>
-            <HelpBox />
-            <PoweredBy />
-          </Box>
-        </Box>
-      </HomeLayout>
-    </>
+        </Flex>
+      </Box>
+    </AppLayout>
   );
 }
-
-export default requireNextAuth({
-  redirectIfAuthenticated: true,
-  redirectTo: '/dashboard',
-})(HomePage);
+export default React.memo(PropertyListPage);

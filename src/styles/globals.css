@@ -6,7 +6,7 @@
   --font-mono: Menlo;
 
   --foreground-rgb: 0, 0, 0;
-  --primary-color-rgb: 32, 123, 229;
+  --primary-color-rgb: "#ff385c";
   --light-grey-rgb: 201, 197, 211;
 
   /* ROQ overrides */
@@ -192,6 +192,13 @@ a {
   height: 22px;
   min-width: 70px;
   border: none;
+}
+
+.roq-chat-window .roq-chat-window__content {
+  position: relative;
+  padding: var(--roq-chat-window-content-padding);
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .roq-user-invites-table__tab__table__status__pending {

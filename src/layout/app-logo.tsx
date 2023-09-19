@@ -1,6 +1,5 @@
-import { useSession } from '@roq/nextjs';
-import { useGraphqlQuery } from 'lib/hooks/use-graphql-query';
-import { Text, Box } from '@chakra-ui/react';
+import { Text, Box } from "@chakra-ui/react";
+import Image from "next/image";
 
 interface AppLogoProps {
   isMobile?: boolean;
@@ -8,29 +7,9 @@ interface AppLogoProps {
 export const AppLogo = (props: AppLogoProps) => {
   const { isMobile } = props;
 
-  const ownerRoles = ['host', 'guest'];
-  const appName = `Home Rental App`;
-
-  const { session } = useSession();
-  const { data } = useGraphqlQuery({
-    query: `
-      query Tenant($id: ID!){
-        tenant(id: $id) {
-          name
-        }
-    }
-    `,
-    variables: {
-      id: session?.user?.tenantId,
-    },
-  });
-  const isOwner = ownerRoles.some((role) => session?.user?.roles?.includes(role));
-  const tenantName = data?.tenant?.name;
   return (
-    <Box maxW={{ lg: 'lg', base: '90%' }}>
-      <Text isTruncated fontSize="lg" fontWeight="bold">
-        {isOwner ? tenantName : appName}
-      </Text>
+    <Box maxW={{ lg: "lg", base: "90%" }}>
+      <Image alt="ROQ Bnb" src="/roqbnb.png" width={120} height={50}></Image>
     </Box>
   );
 };
